@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Painel Admin — Central de Contratos</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" href="../assets/logo.png">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body class="admin-body">
+
+<!-- LOGIN SCREEN -->
+<div id="admin-login" class="admin-login" style="display:none">
+  <div class="admin-login-card">
+    <div style="display:flex;align-items:center;gap:.625rem;margin-bottom:1.75rem">
+      <img src="../assets/logo.png" alt="" style="height:36px;object-fit:contain" onerror="this.style.display='none'">
+      <div>
+        <h1>Painel Admin</h1>
+        <p style="margin-bottom:0">Central de Contratos</p>
+      </div>
+    </div>
+
+    <form id="login-form">
+      <div class="form-group">
+        <label class="form-label" for="login-password">Senha de acesso</label>
+        <input
+          type="password"
+          id="login-password"
+          class="form-input"
+          placeholder="Digite sua senha"
+          required
+          autocomplete="current-password"
+        >
+        <div id="login-error" style="display:none;margin-top:.5rem;font-size:.875rem;color:var(--error);font-weight:600"></div>
+      </div>
+      <button type="submit" class="btn btn-primary" style="width:100%">Entrar →</button>
+    </form>
+
+    <p style="margin-top:1.5rem;font-size:.8125rem;color:var(--text-muted);text-align:center">
+      Senha padrão: <strong>admin@2024</strong><br>
+      <span style="opacity:.7">Altere-a na aba "Configurações" após o primeiro acesso.</span>
+    </p>
+  </div>
+</div>
+
+
+<!-- ADMIN PANEL -->
+<div id="admin-main" style="display:none;flex-direction:column;min-height:100vh">
+
+  <!-- Top bar -->
+  <header class="admin-topbar" role="banner">
+    <span class="admin-topbar-logo">Central de Contratos</span>
+    <span class="admin-topbar-badge">ADMIN</span>
+    <div class="admin-topbar-spacer"></div>
+    <a href="../index.html" target="_blank" class="btn btn-sm" style="background:rgba(255,255,255,.1);color:white;font-size:.8125rem">
+      Ver site ↗
+    </a>
+    <button id="btn-logout" class="btn btn-sm" style="background:rgba(186,26,26,.2);color:#ffb4ab;font-size:.8125rem">
+      Sair
+    </button>
+  </header>
+
+  <div class="admin-panel">
+
+    <!-- Sidebar nav -->
+    <aside class="admin-sidebar" role="navigation" aria-label="Menu do painel">
+      <button class="admin-nav-item active" data-section="section-config">
+        <span>⚙️</span> Configurações
+      </button>
+      <button class="admin-nav-item" data-section="section-posts">
+        <span>📝</span> Blog &amp; Posts
+      </button>
+      <button class="admin-nav-item" data-section="section-backup">
+        <span>💾</span> Backup
+      </button>
+    </aside>
+
+    <!-- Main content -->
+    <main class="admin-content" role="main">
+
+      <!-- ── CONFIGURAÇÕES ── -->
+      <section id="section-config" class="admin-section active">
+        <h2>Configurações do Site</h2>
+        <p>Edite as configurações principais. As alterações são aplicadas imediatamente no site, sem necessidade de deploy.</p>
+
+        <form id="config-form">
+          <div class="admin-card">
+            <h3>🔗 CTA (Botão Principal)</h3>
+            <div class="form-group">
+              <label class="form-label" for="cfg-cta-url">URL do botão "Comece Agora"</label>
+              <input type="url" id="cfg-cta-url" class="form-input" placeholder="https://exemplo.com/checkout">
+              <div class="form-hint">Cole aqui o link de pagamento, cadastro ou qualquer URL externa. Deixe vazio para desativar o link.</div>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="cfg-cta-text">Texto do botão</label>
+              <input type="text" id="cfg-cta-text" class="form-input" placeholder="Comece Agora" maxlength="40">
+            </div>
+          </div>
+
+          <div class="admin-card">
+            <h3>💬 WhatsApp</h3>
+            <div class="form-group">
+              <label class="form-label" for="cfg-whatsapp">Número com DDI (apenas números)</label>
+              <input type="tel" id="cfg-whatsapp" class="form-input" placeholder="5511999999999">
+              <div class="form-hint">Ex: 5511999999999 (55 = Brasil, 11 = DDD, + número). Deixe vazio para ocultar o botão flutuante.</div>
+            </div>
+            <div class="form-group">
+              <label class="form-label" style="display:flex;align-items:center;gap:.625rem;cursor:pointer">
+                <input type="checkbox" id="cfg-wa-float" style="width:18px;height:18px;accent-color:var(--green)">
+                Mostrar botão flutuante do WhatsApp
+              </label>
+            </div>
+          </div>
+
+          <div class="admin-card">
+            <h3>📧 Contato</h3>
+            <div class="form-group">
+              <label class="form-label" for="cfg-email">E-mail exibido no footer</label>
+              <input type="email" id="cfg-email" class="form-input" placeholder="contato@seusite.com.br">
+            </div>
+          </div>
+
+          <div class="admin-card">
+            <h3>🔐 Segurança</h3>
+            <div class="form-group">
+              <label class="form-label" for="cfg-password">Nova senha do painel admin</label>
+              <input type="password" id="cfg-password" class="form-input" placeholder="Deixe em branco para manter a atual" autocomplete="new-password">
+              <div class="form-hint">⚠️ Se alterar e esquecer, precisará editar o arquivo <code>js/config.js</code> diretamente.</div>
+            </div>
+          </div>
+
+          <button type="submit" class="btn btn-primary btn-lg">💾 Salvar Configurações</button>
+        </form>
+      </section>
+
+
+      <!-- ── POSTS ── -->
+      <section id="section-posts" class="admin-section">
+        <h2>Blog &amp; Posts</h2>
+        <p>Crie, edite e remova posts do blog. As alterações são aplicadas imediatamente.</p>
+
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem;flex-wrap:wrap;gap:1rem">
+          <span id="posts-count" style="font-size:.9375rem;color:var(--text-muted)"></span>
+          <button id="btn-new-post" class="btn btn-primary">+ Novo Post</button>
+        </div>
+
+        <div id="posts-list" class="posts-list">
+          <!-- Renderizado via JS -->
+        </div>
+      </section>
+
+
+      <!-- ── BACKUP ── -->
+      <section id="section-backup" class="admin-section">
+        <h2>Backup</h2>
+        <p>Exporte todas as configurações e posts como um arquivo JSON. Ideal para fazer backup ou migrar para outro dispositivo/navegador.</p>
+
+        <div class="admin-card" style="margin-bottom:1.5rem">
+          <h3>📦 Exportar</h3>
+          <p style="color:var(--text-muted);font-size:.9375rem;margin-bottom:1.25rem">
+            Baixe um arquivo com todas as configurações atuais e posts do blog.
+          </p>
+          <button id="btn-export" class="btn btn-primary">⬇️ Baixar Backup</button>
+        </div>
+
+        <div class="admin-card">
+          <h3>📂 Importar</h3>
+          <p style="color:var(--text-muted);font-size:.9375rem;margin-bottom:1.25rem">
+            Restaure configurações a partir de um arquivo de backup previamente exportado.
+            <strong style="color:var(--error)"> Atenção: isso irá sobrescrever as configurações atuais.</strong>
+          </p>
+          <button id="btn-import" class="btn btn-outline">⬆️ Importar Backup</button>
+          <input type="file" id="import-file" accept=".json" style="display:none">
+        </div>
+
+        <div class="admin-card" style="background:rgba(26,158,112,.06);border-color:rgba(26,158,112,.2)">
+          <h3 style="color:var(--green)">💡 Dicas importantes</h3>
+          <ul style="color:var(--text-muted);font-size:.9rem;line-height:2;padding-left:1.25rem;list-style:disc">
+            <li>As configurações ficam salvas no <strong>localStorage</strong> do seu navegador. Se limpar o cache, elas serão perdidas.</li>
+            <li>Para configurações permanentes (sem risco de perda), edite o arquivo <code>js/config.js</code> e <code>js/posts.js</code> diretamente.</li>
+            <li>Para usar em outro dispositivo, exporte o backup e importe no outro navegador.</li>
+            <li>Faça backup regularmente dos posts do blog.</li>
+          </ul>
+        </div>
+      </section>
+
+    </main>
+  </div>
+</div>
+
+
+<!-- POST MODAL -->
+<div id="modal-overlay" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+  <div class="modal">
+    <div class="modal-header">
+      <h3 id="modal-title">Novo Post</h3>
+      <button id="btn-close-modal" class="btn btn-sm btn-outline" aria-label="Fechar">✕</button>
+    </div>
+
+    <form id="post-form">
+      <div class="form-group">
+        <label class="form-label" for="post-title-input">Título *</label>
+        <input type="text" name="post-title" id="post-title-input" class="form-input" placeholder="Título do artigo" required maxlength="120">
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="post-slug-input">Slug (URL) *</label>
+        <input type="text" name="post-slug" id="post-slug-input" class="form-input" placeholder="titulo-do-artigo" required>
+        <div class="form-hint">Gerado automaticamente. Não use espaços ou acentos.</div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem">
+        <div class="form-group">
+          <label class="form-label" for="post-category-input">Categoria *</label>
+          <input type="text" name="post-category" id="post-category-input" class="form-input" placeholder="Ex: Locação" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="post-cat-color-input">Cor da categoria</label>
+          <input type="color" name="post-cat-color" id="post-cat-color-input" class="form-input" style="height:46px;padding:.25rem">
+        </div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem">
+        <div class="form-group">
+          <label class="form-label" for="post-author-input">Autor</label>
+          <input type="text" name="post-author" id="post-author-input" class="form-input" placeholder="Nome do autor">
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="post-date-input">Data</label>
+          <input type="date" name="post-date" id="post-date-input" class="form-input">
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="post-read-input">Tempo de leitura</label>
+          <input type="text" name="post-read" id="post-read-input" class="form-input" placeholder="5 min">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="post-cover-input">URL da imagem de capa</label>
+        <input type="url" name="post-cover" id="post-cover-input" class="form-input" placeholder="https://... ou ../assets/blog/nome.png">
+        <div class="form-hint">Cole uma URL externa ou um caminho relativo para imagem no servidor.</div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="post-excerpt-input">Resumo (excerpt) *</label>
+        <textarea name="post-excerpt" id="post-excerpt-input" class="form-input" rows="3" placeholder="Breve descrição do artigo (aparece nos cards de listagem)" required></textarea>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="post-content-input">Conteúdo (HTML) *</label>
+        <textarea name="post-content" id="post-content-input" class="form-input form-textarea" rows="14" placeholder="&lt;p&gt;Conteúdo do post em HTML...&lt;/p&gt;" required></textarea>
+        <div class="form-hint">
+          Use tags HTML: &lt;h2&gt;, &lt;h3&gt;, &lt;p&gt;, &lt;ul&gt;, &lt;li&gt;, &lt;strong&gt;, &lt;blockquote&gt;
+        </div>
+      </div>
+
+      <div style="display:flex;gap:1rem;justify-content:flex-end">
+        <button type="button" id="btn-cancel-modal" class="btn btn-outline" onclick="document.getElementById('modal-overlay').classList.remove('open')">Cancelar</button>
+        <button type="submit" class="btn btn-primary">💾 Salvar Post</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+
+<script src="../js/config.js"></script>
+<script src="../js/posts.js"></script>
+<script src="../js/admin.js"></script>
+</body>
+</html>

@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Central de Contratos — Documentos Jurídicos em Minutos</title>
+  <meta name="description" content="Gere, personalize e revenda contratos profissionais com um clique. Locação, compra e venda, prestação de serviços e muito mais. Sem precisar de advogado.">
+  <meta name="keywords" content="contrato online, contrato de locação, compra e venda, prestação de serviços, documentos jurídicos, MEI">
+  <meta property="og:title" content="Central de Contratos — Documentos Jurídicos em Minutos">
+  <meta property="og:description" content="Gere contratos profissionais em minutos. Plataforma completa para criar e revender documentos jurídicos.">
+  <meta property="og:type" content="website">
+  <link rel="icon" href="assets/logo.png">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════
+     NAVBAR
+════════════════════════════════════════ -->
+<nav id="navbar" class="navbar" role="navigation" aria-label="Navegação principal">
+  <div class="container nav-inner">
+    <a href="/" class="nav-logo" aria-label="Central de Contratos - Início">
+      <img src="assets/logo.png" alt="Central de Contratos" onerror="this.style.display='none'">
+      <span>Central de Contratos</span>
+    </a>
+
+    <ul class="nav-links" role="list">
+      <li><a href="#como-funciona">Como Funciona</a></li>
+      <li><a href="#beneficios">Benefícios</a></li>
+      <li><a href="#documentos">Documentos</a></li>
+      <li><a href="#faq">FAQ</a></li>
+      <li><a href="blog/index.html">Blog</a></li>
+    </ul>
+
+    <div class="nav-actions">
+      <a href="#" id="nav-cta" data-cta class="btn btn-primary btn-sm">Acessar Sistema →</a>
+    </div>
+
+    <button id="hamburger" class="hamburger" aria-label="Menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- Mobile nav -->
+<nav id="mobile-nav" class="mobile-nav" aria-label="Menu mobile">
+  <a href="#como-funciona">Como Funciona</a>
+  <a href="#beneficios">Benefícios</a>
+  <a href="#documentos">Documentos</a>
+  <a href="#faq">FAQ</a>
+  <a href="blog/index.html">Blog</a>
+  <a href="#" data-cta class="btn btn-primary" style="margin-top:.5rem;justify-content:center">Acessar Sistema →</a>
+</nav>
+
+
+<!-- ═══════════════════════════════════════
+     HERO
+════════════════════════════════════════ -->
+<section class="hero" id="hero" aria-labelledby="hero-headline">
+  <div class="container hero-inner">
+
+    <!-- Left: Content -->
+    <div class="hero-content">
+      <div class="hero-badge" role="note">
+        <span>⚡</span> Contratos Profissionais Instantâneos
+      </div>
+
+      <h1 id="hero-headline" class="display-1">
+        Documentos jurídicos<br>
+        em <span>minutos</span>,<br>
+        não em semanas
+      </h1>
+
+      <p class="hero-sub">
+        Gere contratos de locação, compra e venda, prestação de serviços, união estável e muito mais — de forma simples, rápida e acessível. Sem advogado, sem burocracia.
+      </p>
+
+      <div class="hero-actions">
+        <a href="#" data-cta class="btn btn-accent btn-lg" id="hero-cta">
+          <span data-cta-text>Comece Agora</span> →
+        </a>
+        <a href="#como-funciona" class="btn btn-ghost btn-lg">Ver como funciona</a>
+      </div>
+
+      <div class="hero-stats">
+        <div>
+          <div class="hero-stat-value">
+            <span data-counter="5000" data-suffix="+">5.000+</span>
+          </div>
+          <div class="hero-stat-label">Documentos gerados</div>
+        </div>
+        <div>
+          <div class="hero-stat-value">
+            <span data-counter="50" data-suffix="+">50+</span>
+          </div>
+          <div class="hero-stat-label">Tipos de contrato</div>
+        </div>
+        <div>
+          <div class="hero-stat-value">
+            <span data-counter="98" data-suffix="%">98%</span>
+          </div>
+          <div class="hero-stat-label">Satisfação</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right: Dashboard Mockup -->
+    <div class="hero-visual" aria-hidden="true">
+      <div class="dashboard-mockup">
+        <div class="mockup-bar">
+          <div class="mockup-dot"></div>
+          <div class="mockup-dot"></div>
+          <div class="mockup-dot"></div>
+          <div class="mockup-url">
+            <span class="mockup-url-text">app.centraldecontratos.com.br</span>
+          </div>
+        </div>
+        <div class="mockup-body">
+          <div class="mockup-stats">
+            <div class="mockup-stat-card">
+              <div class="mockup-stat-label">Créditos</div>
+              <div class="mockup-stat-value">47</div>
+            </div>
+            <div class="mockup-stat-card">
+              <div class="mockup-stat-label">Documentos</div>
+              <div class="mockup-stat-value gold">128</div>
+            </div>
+            <div class="mockup-stat-card">
+              <div class="mockup-stat-label">Receita</div>
+              <div class="mockup-stat-value green" style="font-size:.95rem">R$5.760</div>
+            </div>
+          </div>
+          <div class="mockup-section-title">Emissões Recentes</div>
+          <div class="mockup-table">
+            <div class="mockup-row">
+              <div class="mockup-icon">📋</div>
+              <div class="mockup-doc-name">Contrato de Locação</div>
+              <div class="mockup-doc-date">hoje</div>
+              <div class="mockup-badge">Emitido</div>
+            </div>
+            <div class="mockup-row">
+              <div class="mockup-icon">🤝</div>
+              <div class="mockup-doc-name">Compra e Venda</div>
+              <div class="mockup-doc-date">ontem</div>
+              <div class="mockup-badge">Emitido</div>
+            </div>
+            <div class="mockup-row">
+              <div class="mockup-icon">💼</div>
+              <div class="mockup-doc-name">Prestação de Serviços</div>
+              <div class="mockup-doc-date">há 2d</div>
+              <div class="mockup-badge">Emitido</div>
+            </div>
+            <div class="mockup-row">
+              <div class="mockup-icon">💑</div>
+              <div class="mockup-doc-name">União Estável</div>
+              <div class="mockup-doc-date">há 3d</div>
+              <div class="mockup-badge">Emitido</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════
+     HOW IT WORKS
+════════════════════════════════════════ -->
+<section class="how-it-works" id="como-funciona" aria-labelledby="how-title">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-eyebrow">📖 Como Funciona</div>
+      <h2 id="how-title" class="display-3">Simples assim — 3 passos</h2>
+      <p>Qualquer pessoa consegue gerar um documento profissional. Sem conhecimento jurídico, sem complicação.</p>
+    </div>
+
+    <div class="steps-grid">
+      <div class="step-card reveal">
+        <div class="step-number">1</div>
+        <div class="step-icon">📂</div>
+        <h3>Escolha o modelo</h3>
+        <p>Mais de 50 tipos de contrato disponíveis. Locação, compra e venda, serviços, comodato, procuração e muito mais.</p>
+      </div>
+      <div class="step-card reveal reveal-delay-1">
+        <div class="step-number">2</div>
+        <div class="step-icon">✍️</div>
+        <h3>Preencha os dados</h3>
+        <p>Formulário simples e direto. Sem juridiquês. São só as informações essenciais das partes e do objeto do contrato.</p>
+      </div>
+      <div class="step-card reveal reveal-delay-2">
+        <div class="step-number">3</div>
+        <div class="step-icon">📄</div>
+        <h3>Baixe o PDF</h3>
+        <p>Documento profissional gerado em segundos. Pronto para imprimir, assinar e guardar. Reimpressão gratuita sempre que precisar.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════
+     BENEFITS
+════════════════════════════════════════ -->
+<section class="features" id="beneficios" aria-labelledby="benefits-title">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-eyebrow">✨ Por que escolher a gente</div>
+      <h2 id="benefits-title" class="display-3">Tudo que você precisa em um só lugar</h2>
+      <p>Da geração ao gerenciamento, a Central de Contratos cuida de toda a parte burocrática para você.</p>
+    </div>
+
+    <div class="features-grid">
+      <div class="feature-card reveal">
+        <div class="feature-icon-wrap" style="background:rgba(237,184,61,.15)">⚖️</div>
+        <h4>Documentos validados</h4>
+        <p>Modelos elaborados com base na legislação brasileira vigente. Você gera com segurança e confiança.</p>
+      </div>
+      <div class="feature-card reveal reveal-delay-1">
+        <div class="feature-icon-wrap" style="background:rgba(26,158,112,.15)">💳</div>
+        <h4>Créditos flexíveis</h4>
+        <p>Pague só pelo que usar. Compre pacotes de créditos e gere documentos conforme sua necessidade.</p>
+      </div>
+      <div class="feature-card reveal reveal-delay-2">
+        <div class="feature-icon-wrap" style="background:rgba(140,184,255,.15)">📈</div>
+        <h4>Revenda e lucre</h4>
+        <p>Parceiros revendem os documentos com markup. Você define o preço e fica com a diferença.</p>
+      </div>
+      <div class="feature-card reveal reveal-delay-3">
+        <div class="feature-icon-wrap" style="background:rgba(255,100,100,.1)">🔒</div>
+        <h4>100% seguro</h4>
+        <p>Dados criptografados, sessão protegida e documentos com marca d'água anti-cópia. Sua informação está segura.</p>
+      </div>
+      <div class="feature-card reveal">
+        <div class="feature-icon-wrap" style="background:rgba(237,184,61,.15)">📱</div>
+        <h4>Funciona no celular</h4>
+        <p>Acesse de qualquer dispositivo. Gere contratos pelo smartphone sem precisar instalar nada.</p>
+      </div>
+      <div class="feature-card reveal reveal-delay-1">
+        <div class="feature-icon-wrap" style="background:rgba(26,158,112,.15)">🎯</div>
+        <h4>Suporte dedicado</h4>
+        <p>Equipe pronta para ajudar em caso de dúvidas. Atendimento via WhatsApp e e-mail.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════
+     DOCUMENT TYPES
+════════════════════════════════════════ -->
+<section class="doc-types" id="documentos" aria-labelledby="docs-title">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-eyebrow">📁 Catálogo</div>
+      <h2 id="docs-title" class="display-3">Qual documento você precisa?</h2>
+      <p>Nosso catálogo cresce continuamente. Confira os principais modelos disponíveis.</p>
+    </div>
+
+    <div class="doc-types-grid">
+      <div class="doc-type-card reveal"><span class="doc-type-emoji">🏠</span><span>Contrato de Locação Residencial</span></div>
+      <div class="doc-type-card reveal reveal-delay-1"><span class="doc-type-emoji">🏢</span><span>Locação Comercial</span></div>
+      <div class="doc-type-card reveal reveal-delay-2"><span class="doc-type-emoji">🤝</span><span>Compra e Venda de Imóvel</span></div>
+      <div class="doc-type-card reveal"><span class="doc-type-emoji">🚗</span><span>Compra e Venda de Veículo</span></div>
+      <div class="doc-type-card reveal reveal-delay-1"><span class="doc-type-emoji">💼</span><span>Prestação de Serviços</span></div>
+      <div class="doc-type-card reveal reveal-delay-2"><span class="doc-type-emoji">💑</span><span>Declaração de União Estável</span></div>
+      <div class="doc-type-card reveal"><span class="doc-type-emoji">📜</span><span>Procuração</span></div>
+      <div class="doc-type-card reveal reveal-delay-1"><span class="doc-type-emoji">🏡</span><span>Contrato de Comodato</span></div>
+      <div class="doc-type-card reveal reveal-delay-2"><span class="doc-type-emoji">🛠️</span><span>Contrato de Reforma/Obra</span></div>
+      <div class="doc-type-card reveal"><span class="doc-type-emoji">👔</span><span>Contrato de Trabalho</span></div>
+      <div class="doc-type-card reveal reveal-delay-1"><span class="doc-type-emoji">🤲</span><span>Declaração de Doação</span></div>
+      <div class="doc-type-card reveal reveal-delay-2"><span class="doc-type-emoji">➕</span><span>E muito mais...</span></div>
+    </div>
+
+    <div style="text-align:center;margin-top:3rem">
+      <a href="#" data-cta class="btn btn-primary btn-lg">Ver catálogo completo →</a>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════
+     TESTIMONIALS
+════════════════════════════════════════ -->
+<section class="testimonials" id="depoimentos" aria-labelledby="testimonials-title">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-eyebrow">💬 Depoimentos</div>
+      <h2 id="testimonials-title" class="display-3">O que nossos parceiros dizem</h2>
+      <p>Profissionais de todo o Brasil já usam a Central de Contratos para agilizar o dia a dia.</p>
+    </div>
+
+    <div class="testimonials-grid">
+      <div class="testimonial-card reveal">
+        <div class="testimonial-stars" aria-label="5 estrelas">★★★★★</div>
+        <p class="testimonial-text">"Trabalho com locação de imóveis e antes perdia horas montando contratos. Hoje gero em 2 minutos e meus clientes ficam impressionados com o profissionalismo do documento."</p>
+        <div class="testimonial-author">
+          <div class="author-avatar" style="background:linear-gradient(135deg,#0a2540,#000f22)" aria-hidden="true">RS</div>
+          <div>
+            <div class="author-name">Rafael Santos</div>
+            <div class="author-role">Corretor de Imóveis • São Paulo, SP</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="testimonial-card reveal reveal-delay-1">
+        <div class="testimonial-stars" aria-label="5 estrelas">★★★★★</div>
+        <p class="testimonial-text">"Sou MEI e precisava de um contrato de prestação de serviços. Em 5 minutos tinha o documento pronto, passável de assinar. O sistema é muito simples de usar."</p>
+        <div class="testimonial-author">
+          <div class="author-avatar" style="background:linear-gradient(135deg,#1a9e70,#0d7a55)" aria-hidden="true">CM</div>
+          <div>
+            <div class="author-name">Camila Mendes</div>
+            <div class="author-role">Consultora de Marketing • Belo Horizonte, MG</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="testimonial-card reveal reveal-delay-2">
+        <div class="testimonial-stars" aria-label="5 estrelas">★★★★★</div>
+        <p class="testimonial-text">"Revendo os serviços da Central de Contratos para meus clientes de administração e tenho uma fonte de renda extra fantástica. O suporte é excelente e o sistema nunca falhou."</p>
+        <div class="testimonial-author">
+          <div class="author-avatar" style="background:linear-gradient(135deg,#c9a000,#EDB83D);color:#000f22" aria-hidden="true">JO</div>
+          <div>
+            <div class="author-name">João Oliveira</div>
+            <div class="author-role">Administrador de Condomínios • Curitiba, PR</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════
+     FAQ
+════════════════════════════════════════ -->
+<section class="faq" id="faq" aria-labelledby="faq-title">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-eyebrow">❓ Dúvidas Frequentes</div>
+      <h2 id="faq-title" class="display-3">Perguntas frequentes</h2>
+      <p>Não encontrou o que procura? Entre em contato conosco.</p>
+    </div>
+
+    <div class="faq-list" role="list">
+      <div class="faq-item" role="listitem">
+        <button class="faq-question" aria-expanded="false">
+          Os contratos têm validade jurídica?
+          <span class="faq-icon" aria-hidden="true">+</span>
+        </button>
+        <div class="faq-answer"><p>Sim. Os modelos da Central de Contratos são elaborados com base na legislação brasileira vigente — Código Civil, Lei do Inquilinato, CLT e outras normas aplicáveis. Um contrato entre partes tem validade plena quando assinado por ambos, com ou sem reconhecimento de firma. Para maior segurança jurídica em transações de alto valor, recomendamos registro em cartório.</p></div>
+      </div>
+
+      <div class="faq-item" role="listitem">
+        <button class="faq-question" aria-expanded="false">
+          O que são os créditos e como funcionam?
+          <span class="faq-icon" aria-hidden="true">+</span>
+        </button>
+        <div class="faq-answer"><p>Cada crédito equivale à geração de 1 documento. Você compra um pacote de créditos e os usa conforme precisar. A reimpressão de um documento já gerado é gratuita e não consome créditos adicionais. Créditos não têm prazo de validade.</p></div>
+      </div>
+
+      <div class="faq-item" role="listitem">
+        <button class="faq-question" aria-expanded="false">
+          Preciso de advogado para usar a plataforma?
+          <span class="faq-icon" aria-hidden="true">+</span>
+        </button>
+        <div class="faq-answer"><p>Não. A plataforma foi criada para ser usada por qualquer pessoa, sem necessidade de conhecimento jurídico. Os formulários são simples e objetivos. Para situações muito específicas ou de alto valor, sempre recomendamos consultar um profissional jurídico.</p></div>
+      </div>
+
+      <div class="faq-item" role="listitem">
+        <button class="faq-question" aria-expanded="false">
+          Como funciona a revenda de documentos?
+          <span class="faq-icon" aria-hidden="true">+</span>
+        </button>
+        <div class="faq-answer"><p>Parceiros podem definir um preço de revenda para cada documento gerado. Você compra créditos por um valor e revende os documentos por um preço maior, ficando com a diferença. O sistema calcula automaticamente o seu ROI e exibe no painel. É uma ótima oportunidade de renda extra para corretores, administradores, contadores e outros profissionais.</p></div>
+      </div>
+
+      <div class="faq-item" role="listitem">
+        <button class="faq-question" aria-expanded="false">
+          Posso acessar pelo celular?
+          <span class="faq-icon" aria-hidden="true">+</span>
+        </button>
+        <div class="faq-answer"><p>Sim, o sistema é 100% responsivo e funciona perfeitamente em smartphones e tablets. Não é necessário instalar nenhum aplicativo — basta acessar pelo navegador.</p></div>
+      </div>
+
+      <div class="faq-item" role="listitem">
+        <button class="faq-question" aria-expanded="false">
+          E se eu precisar de um modelo que não está disponível?
+          <span class="faq-icon" aria-hidden="true">+</span>
+        </button>
+        <div class="faq-answer"><p>Você pode solicitar novos modelos diretamente pela plataforma. Nossa equipe analisa as solicitações e adiciona os modelos mais pedidos ao catálogo. O nosso acervo está em constante crescimento!</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════
+     CTA FINAL
+════════════════════════════════════════ -->
+<section class="cta-final" aria-labelledby="cta-title">
+  <div class="container" style="position:relative;z-index:1">
+    <h2 id="cta-title" class="display-2">Pronto para começar?</h2>
+    <p>Junte-se a milhares de pessoas que já simplificaram a criação de contratos.</p>
+    <div class="cta-final-actions">
+      <a href="#" data-cta class="btn btn-accent btn-lg">
+        <span data-cta-text>Comece Agora</span> →
+      </a>
+      <a href="blog/index.html" class="btn btn-ghost btn-lg">Ler o Blog</a>
+    </div>
+
+    <div class="cta-trust">
+      <div class="cta-trust-item"><span>✅</span> Sem mensalidade obrigatória</div>
+      <div class="cta-trust-item"><span>✅</span> Cancele quando quiser</div>
+      <div class="cta-trust-item"><span>✅</span> Suporte em português</div>
+      <div class="cta-trust-item"><span>✅</span> Pagamento via PIX</div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════
+     FOOTER
+════════════════════════════════════════ -->
+<footer aria-label="Rodapé">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="footer-brand-logo">
+          <img src="assets/logo.png" alt="Central de Contratos" onerror="this.style.display='none'">
+          Central de Contratos
+        </div>
+        <p>A plataforma mais simples para gerar, personalizar e revender documentos jurídicos profissionais.</p>
+        <div class="footer-social" aria-label="Redes sociais">
+          <a href="#" aria-label="Instagram">📸</a>
+          <a href="#" aria-label="WhatsApp">💬</a>
+          <a href="#" aria-label="Facebook">👤</a>
+        </div>
+      </div>
+
+      <div class="footer-col">
+        <h5>Plataforma</h5>
+        <ul>
+          <li><a href="#como-funciona">Como Funciona</a></li>
+          <li><a href="#documentos">Documentos</a></li>
+          <li><a href="#beneficios">Benefícios</a></li>
+          <li><a href="#" data-cta>Acessar Sistema</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h5>Blog</h5>
+        <ul>
+          <li><a href="blog/index.html">Todos os posts</a></li>
+          <li><a href="blog/post.html?slug=contrato-de-locacao-guia-completo">Contrato de Locação</a></li>
+          <li><a href="blog/post.html?slug=contrato-compra-e-venda-quando-usar">Compra e Venda</a></li>
+          <li><a href="blog/post.html?slug=uniao-estavel-o-que-e-como-comprovar">União Estável</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h5>Suporte</h5>
+        <ul>
+          <li><a href="#faq">FAQ</a></li>
+          <li><a href="admin/index.html">Área Admin</a></li>
+          <li><a href="mailto:contato@centraldecontratos.com.br" id="footer-email">Contato</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p>© <span id="footer-year"></span> Central de Contratos. Todos os direitos reservados.</p>
+      <p style="font-size:.8125rem;color:rgba(255,255,255,.3)">Os documentos gerados não substituem assessoria jurídica profissional.</p>
+    </div>
+  </div>
+</footer>
+
+<!-- WhatsApp Float -->
+<a id="wa-float" class="wa-float hidden" href="#" target="_blank" rel="noopener noreferrer" aria-label="Falar pelo WhatsApp">💬</a>
+
+
+<script src="js/config.js"></script>
+<script src="js/main.js"></script>
+<script>
+  document.getElementById('footer-year').textContent = new Date().getFullYear();
+  // Apply footer email from config
+  const cfg = getConfig();
+  if (cfg.contactEmail) {
+    const emailEl = document.getElementById('footer-email');
+    emailEl.href = 'mailto:' + cfg.contactEmail;
+    emailEl.textContent = cfg.contactEmail;
+  }
+</script>
+</body>
+</html>

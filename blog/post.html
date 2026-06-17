@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Artigo — Blog Central de Contratos</title>
+  <meta name="description" content="">
+  <link rel="icon" href="../assets/logo.png">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav id="navbar" class="navbar" role="navigation">
+  <div class="container nav-inner">
+    <a href="../index.html" class="nav-logo">
+      <img src="../assets/logo.png" alt="Central de Contratos" onerror="this.style.display='none'">
+      <span>Central de Contratos</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="../index.html#como-funciona">Como Funciona</a></li>
+      <li><a href="../index.html#documentos">Documentos</a></li>
+      <li><a href="../index.html#faq">FAQ</a></li>
+      <li><a href="index.html">Blog</a></li>
+    </ul>
+    <div class="nav-actions">
+      <a href="#" data-cta class="btn btn-primary btn-sm">Acessar Sistema →</a>
+    </div>
+    <button id="hamburger" class="hamburger" aria-label="Menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+<nav id="mobile-nav" class="mobile-nav">
+  <a href="../index.html">Início</a>
+  <a href="index.html">Blog</a>
+  <a href="#" data-cta class="btn btn-primary" style="margin-top:.5rem;justify-content:center">Acessar Sistema →</a>
+</nav>
+
+
+<!-- POST HERO -->
+<section class="post-hero" aria-label="Cabeçalho do artigo">
+  <div class="container">
+    <nav class="post-breadcrumb" aria-label="Navegação breadcrumb">
+      <a href="../index.html">Início</a>
+      <span>›</span>
+      <a href="index.html">Blog</a>
+      <span>›</span>
+      <span id="post-category" class="post-category" style="background:var(--primary);color:white"></span>
+    </nav>
+
+    <h1 id="post-title" class="post-title">Carregando artigo...</h1>
+
+    <div class="post-meta-hero">
+      <div class="meta-item">📅 <span id="post-date"></span></div>
+      <div class="meta-item">⏱ <span id="post-read-time"></span></div>
+      <div class="meta-item">✍️ <span id="post-author"></span></div>
+    </div>
+  </div>
+</section>
+
+
+<!-- POST CONTENT -->
+<div id="post-container" class="post-content-area">
+  <div class="container">
+    <img id="post-cover" class="post-cover-img" src="" alt="" loading="lazy">
+
+    <div class="post-layout">
+      <!-- Main content -->
+      <article>
+        <div id="post-body" class="post-body">
+          <!-- Renderizado via JS -->
+        </div>
+
+        <!-- CTA inline -->
+        <div style="background:linear-gradient(135deg,var(--primary),#001840);border-radius:var(--radius-xl);padding:2.5rem;margin-top:3rem;text-align:center">
+          <h3 style="color:white;margin-bottom:.75rem;font-size:1.375rem">Pronto para gerar o seu contrato?</h3>
+          <p style="color:rgba(255,255,255,.65);font-size:.9375rem;margin-bottom:1.75rem">Use a Central de Contratos e tenha seu documento profissional em menos de 5 minutos.</p>
+          <a href="#" data-cta class="btn btn-accent btn-lg">Gerar meu contrato →</a>
+        </div>
+
+        <!-- Share -->
+        <div style="margin-top:2.5rem;padding-top:2rem;border-top:1px solid var(--surface-high)">
+          <p style="font-size:.875rem;color:var(--text-muted);margin-bottom:.875rem;font-weight:600">Gostou? Compartilhe:</p>
+          <div style="display:flex;gap:.75rem">
+            <button onclick="sharePost('whatsapp')" class="btn btn-sm" style="background:#25d366;color:white;border:none">💬 WhatsApp</button>
+            <button onclick="sharePost('copy')" class="btn btn-sm btn-outline" id="btn-copy-link">🔗 Copiar link</button>
+          </div>
+        </div>
+      </article>
+
+      <!-- Sidebar -->
+      <aside class="post-sidebar">
+        <!-- CTA Card -->
+        <div class="sidebar-card sidebar-cta">
+          <h4>Gere seu contrato agora</h4>
+          <p>Documentos profissionais em minutos. Sem precisar de advogado.</p>
+          <a href="#" data-cta class="btn btn-accent" style="width:100%;justify-content:center">Começar →</a>
+        </div>
+
+        <!-- Recent Posts -->
+        <div class="sidebar-card">
+          <h4>Outros artigos</h4>
+          <div id="recent-posts">
+            <!-- Renderizado via JS -->
+          </div>
+          <a href="index.html" style="display:inline-flex;align-items:center;gap:.375rem;font-size:.875rem;font-weight:700;color:var(--primary);margin-top:.875rem">
+            Ver todos →
+          </a>
+        </div>
+      </aside>
+    </div>
+  </div>
+</div>
+
+
+<!-- FOOTER -->
+<footer style="margin-top:5rem">
+  <div class="container">
+    <div class="footer-bottom" style="padding-top:0;border-top:none">
+      <a href="../index.html" class="footer-brand-logo" style="color:white;text-decoration:none">
+        <img src="../assets/logo.png" alt="" onerror="this.style.display='none'">
+        Central de Contratos
+      </a>
+      <p>© <span id="footer-year"></span> Central de Contratos. Todos os direitos reservados.</p>
+      <div style="display:flex;gap:1.5rem">
+        <a href="../index.html" style="color:rgba(255,255,255,.5);font-size:.875rem">Início</a>
+        <a href="index.html" style="color:rgba(255,255,255,.5);font-size:.875rem">Blog</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<a id="wa-float" class="wa-float hidden" href="#" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">💬</a>
+
+<script src="../js/config.js"></script>
+<script src="../js/posts.js"></script>
+<script src="../js/blog-post.js"></script>
+<script>
+  document.getElementById('footer-year').textContent = new Date().getFullYear();
+
+  function sharePost(type) {
+    const url = window.location.href;
+    const title = document.getElementById('post-title').textContent;
+    if (type === 'whatsapp') {
+      window.open(`https://wa.me/?text=${encodeURIComponent(title + '\n' + url)}`, '_blank');
+    } else {
+      navigator.clipboard.writeText(url).then(() => {
+        const btn = document.getElementById('btn-copy-link');
+        btn.textContent = '✅ Copiado!';
+        setTimeout(() => { btn.textContent = '🔗 Copiar link'; }, 2000);
+      });
+    }
+  }
+</script>
+</body>
+</html>
