@@ -166,6 +166,7 @@ async function initPanel() {
 
   console.log('[Admin] showLoading(false) em initPanel...');
   showLoading(false);
+  document.getElementById('admin-main').style.display = 'flex';
 }
 
 function setupNavItems() {
