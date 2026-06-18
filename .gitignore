@@ -1,0 +1,23 @@
+# ─────────────────────────────────────────────────────────────────
+# CENTRAL DE CONTRATOS — Landing Page
+# .gitignore
+# ─────────────────────────────────────────────────────────────────
+
+# ⚠️  Credenciais do Supabase — NUNCA commitar este arquivo
+js/supabase-config.js
+
+# Sistemas operacionais
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editores
+.vscode/settings.json
+.idea/
+*.swp
+*.swo
+*~
+
+# Node (caso use ferramentas de build futuramente)
+node_modules/
+npm-debug.log*

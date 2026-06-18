@@ -5,6 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Artigo — Blog Central de Contratos</title>
   <meta name="description" content="">
+  <meta property="og:title" content="">
+  <meta property="og:description" content="">
+  <meta property="og:image" content="">
+  <meta property="og:type" content="article">
   <link rel="icon" href="../assets/logo.png">
   <link rel="stylesheet" href="../css/style.css">
 </head>
@@ -15,11 +19,12 @@
   <div class="container nav-inner">
     <a href="../index.html" class="nav-logo">
       <img src="../assets/logo.png" alt="Central de Contratos" onerror="this.style.display='none'">
-      <span>Central de Contratos</span>
+      <span><span data-site-name>Central de Contratos</span></span>
     </a>
     <ul class="nav-links">
       <li><a href="../index.html#como-funciona">Como Funciona</a></li>
       <li><a href="../index.html#documentos">Documentos</a></li>
+      <li><a href="../index.html#planos">Planos</a></li>
       <li><a href="../index.html#faq">FAQ</a></li>
       <li><a href="index.html">Blog</a></li>
     </ul>
@@ -33,6 +38,10 @@
 </nav>
 <nav id="mobile-nav" class="mobile-nav">
   <a href="../index.html">Início</a>
+  <a href="../index.html#como-funciona">Como Funciona</a>
+  <a href="../index.html#documentos">Documentos</a>
+  <a href="../index.html#planos">Planos</a>
+  <a href="../index.html#faq">FAQ</a>
   <a href="index.html">Blog</a>
   <a href="#" data-cta class="btn btn-primary" style="margin-top:.5rem;justify-content:center">Acessar Sistema →</a>
 </nav>
@@ -74,9 +83,9 @@
 
         <!-- CTA inline -->
         <div style="background:linear-gradient(135deg,var(--primary),#001840);border-radius:var(--radius-xl);padding:2.5rem;margin-top:3rem;text-align:center">
-          <h3 style="color:white;margin-bottom:.75rem;font-size:1.375rem">Pronto para gerar o seu contrato?</h3>
-          <p style="color:rgba(255,255,255,.65);font-size:.9375rem;margin-bottom:1.75rem">Use a Central de Contratos e tenha seu documento profissional em menos de 5 minutos.</p>
-          <a href="#" data-cta class="btn btn-accent btn-lg">Gerar meu contrato →</a>
+          <h3 id="post-inline-cta-title" style="color:white;margin-bottom:.75rem;font-size:1.375rem">Pronto para gerar o seu contrato?</h3>
+          <p id="post-inline-cta-sub" style="color:rgba(255,255,255,.65);font-size:.9375rem;margin-bottom:1.75rem">Use a Central de Contratos e tenha seu documento profissional em menos de 5 minutos.</p>
+          <a href="#" data-cta id="post-inline-cta-btn" class="btn btn-accent btn-lg">Gerar meu contrato →</a>
         </div>
 
         <!-- Share -->
@@ -93,9 +102,9 @@
       <aside class="post-sidebar">
         <!-- CTA Card -->
         <div class="sidebar-card sidebar-cta">
-          <h4>Gere seu contrato agora</h4>
-          <p>Documentos profissionais em minutos. Sem precisar de advogado.</p>
-          <a href="#" data-cta class="btn btn-accent" style="width:100%;justify-content:center">Começar →</a>
+          <h4 id="post-sidebar-cta-title">Gere seu contrato agora</h4>
+          <p id="post-sidebar-cta-sub">Documentos profissionais em minutos. Sem precisar de advogado.</p>
+          <a href="#" data-cta id="post-sidebar-cta-btn" class="btn btn-accent" style="width:100%;justify-content:center">Começar →</a>
         </div>
 
         <!-- Recent Posts -->
@@ -120,12 +129,13 @@
     <div class="footer-bottom" style="padding-top:0;border-top:none">
       <a href="../index.html" class="footer-brand-logo" style="color:white;text-decoration:none">
         <img src="../assets/logo.png" alt="" onerror="this.style.display='none'">
-        Central de Contratos
+        <span data-site-name>Central de Contratos</span>
       </a>
-      <p>© <span id="footer-year"></span> Central de Contratos. Todos os direitos reservados.</p>
+      <p>© <span id="footer-year"></span> <span data-site-name>Central de Contratos</span>. Todos os direitos reservados.</p>
       <div style="display:flex;gap:1.5rem">
         <a href="../index.html" style="color:rgba(255,255,255,.5);font-size:.875rem">Início</a>
         <a href="index.html" style="color:rgba(255,255,255,.5);font-size:.875rem">Blog</a>
+        <a href="privacidade.html" style="color:rgba(255,255,255,.5);font-size:.875rem">Política de Privacidade</a>
       </div>
     </div>
   </div>
@@ -133,6 +143,10 @@
 
 <a id="wa-float" class="wa-float hidden" href="#" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">💬</a>
 
+<!-- Supabase CDN -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="../js/supabase-config.js"></script>
+<script src="../js/supabase.js"></script>
 <script src="../js/config.js"></script>
 <script src="../js/posts.js"></script>
 <script src="../js/blog-post.js"></script>

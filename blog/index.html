@@ -15,11 +15,12 @@
   <div class="container nav-inner">
     <a href="../index.html" class="nav-logo" aria-label="Central de Contratos - Início">
       <img src="../assets/logo.png" alt="Central de Contratos" onerror="this.style.display='none'">
-      <span>Central de Contratos</span>
+      <span><span data-site-name>Central de Contratos</span></span>
     </a>
     <ul class="nav-links">
       <li><a href="../index.html#como-funciona">Como Funciona</a></li>
       <li><a href="../index.html#documentos">Documentos</a></li>
+      <li><a href="../index.html#planos">Planos</a></li>
       <li><a href="../index.html#faq">FAQ</a></li>
       <li><a href="index.html" style="color:var(--primary);font-weight:700">Blog</a></li>
     </ul>
@@ -35,6 +36,7 @@
   <a href="../index.html">Início</a>
   <a href="../index.html#como-funciona">Como Funciona</a>
   <a href="../index.html#documentos">Documentos</a>
+  <a href="../index.html#planos">Planos</a>
   <a href="../index.html#faq">FAQ</a>
   <a href="index.html">Blog</a>
   <a href="#" data-cta class="btn btn-primary" style="margin-top:.5rem;justify-content:center">Acessar Sistema →</a>
@@ -44,13 +46,13 @@
 <!-- HERO -->
 <section class="blog-hero" aria-labelledby="blog-hero-title">
   <div class="container">
-    <div style="display:inline-flex;align-items:center;gap:.5rem;background:rgba(237,184,61,.15);border:1px solid rgba(237,184,61,.3);color:var(--accent);padding:.375rem 1rem;border-radius:9999px;font-size:.8125rem;font-weight:700;letter-spacing:.04em;margin-bottom:1.25rem">
+    <div id="blog-hero-eyebrow" style="display:inline-flex;align-items:center;gap:.5rem;background:rgba(237,184,61,.15);border:1px solid rgba(237,184,61,.3);color:var(--accent);padding:.375rem 1rem;border-radius:9999px;font-size:.8125rem;font-weight:700;letter-spacing:.04em;margin-bottom:1.25rem">
       📚 Blog
     </div>
     <h1 id="blog-hero-title" class="display-2" style="color:white;max-width:640px">
       Aprenda sobre contratos de um jeito simples
     </h1>
-    <p>Artigos práticos para quem quer entender seus direitos, formalizar relações e se proteger — sem precisar de um advogado para cada dúvida.</p>
+    <p id="blog-hero-sub">Artigos práticos para quem quer entender seus direitos, formalizar relações e se proteger — sem precisar de um advogado para cada dúvida.</p>
     <div id="filter-btns" class="blog-filters" role="group" aria-label="Filtrar por categoria"></div>
   </div>
 </section>
@@ -73,9 +75,9 @@
 <!-- CTA -->
 <section style="background:var(--primary);padding:5rem 0;text-align:center">
   <div class="container">
-    <h2 style="color:white;margin-bottom:1rem">Gere seu contrato agora</h2>
-    <p style="color:rgba(255,255,255,.65);font-size:1.0625rem;margin-bottom:2rem">Coloque em prática o que aprendeu aqui. Simples, rápido e seguro.</p>
-    <a href="#" data-cta class="btn btn-accent btn-lg">Começar agora →</a>
+    <h2 id="blog-cta-title" style="color:white;margin-bottom:1rem">Gere seu contrato agora</h2>
+    <p id="blog-cta-sub" style="color:rgba(255,255,255,.65);font-size:1.0625rem;margin-bottom:2rem">Coloque em prática o que aprendeu aqui. Simples, rápido e seguro.</p>
+    <a href="#" data-cta id="blog-cta-btn" class="btn btn-accent btn-lg">Começar agora →</a>
   </div>
 </section>
 
@@ -86,13 +88,14 @@
     <div class="footer-bottom" style="padding-top:0;border-top:none">
       <a href="../index.html" class="footer-brand-logo" style="color:white;text-decoration:none">
         <img src="../assets/logo.png" alt="" onerror="this.style.display='none'">
-        Central de Contratos
+        <span data-site-name>Central de Contratos</span>
       </a>
-      <p>© <span id="footer-year"></span> Central de Contratos. Todos os direitos reservados.</p>
+      <p>© <span id="footer-year"></span> <span data-site-name>Central de Contratos</span>. Todos os direitos reservados.</p>
       <div style="display:flex;gap:1.5rem">
         <a href="../index.html" style="color:rgba(255,255,255,.5);font-size:.875rem">Início</a>
         <a href="index.html" style="color:rgba(255,255,255,.5);font-size:.875rem">Blog</a>
         <a href="../admin/index.html" style="color:rgba(255,255,255,.5);font-size:.875rem">Admin</a>
+        <a href="privacidade.html" style="color:rgba(255,255,255,.5);font-size:.875rem">Política de Privacidade</a>
       </div>
     </div>
   </div>
@@ -100,6 +103,10 @@
 
 <a id="wa-float" class="wa-float hidden" href="#" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">💬</a>
 
+<!-- Supabase CDN -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="../js/supabase-config.js"></script>
+<script src="../js/supabase.js"></script>
 <script src="../js/config.js"></script>
 <script src="../js/posts.js"></script>
 <script src="../js/blog-list.js"></script>

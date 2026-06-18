@@ -7,8 +7,107 @@
   <meta name="robots" content="noindex, nofollow">
   <link rel="icon" href="../assets/logo.png">
   <link rel="stylesheet" href="../css/style.css">
+  <style>
+    /* Spinner de loading */
+    .spinner {
+      width: 36px; height: 36px;
+      border: 3px solid rgba(255,255,255,.15);
+      border-top-color: var(--primary);
+      border-radius: 50%;
+      animation: spin .75s linear infinite;
+      margin: 0 auto .75rem;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    #admin-loading {
+      position: fixed; inset: 0;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      background: var(--bg);
+      gap: .5rem;
+      z-index: 9999;
+    }
+    #admin-loading p { color: var(--text-muted); font-size: .9375rem; }
+
+    .posts-loading {
+      display: flex; flex-direction: column;
+      align-items: center; padding: 3rem;
+      color: var(--text-muted);
+    }
+    .posts-loading .spinner {
+      border-top-color: var(--green);
+    }
+    .posts-loading p { margin: 0; font-size: .9375rem; }
+
+    /* Estilos extras para o CMS e editores de listas */
+    .cms-list-container {
+      margin-top: 1rem;
+      border: 1px solid var(--surface-high);
+      border-radius: var(--radius-lg);
+      padding: 1.25rem;
+      background: rgba(255,255,255,0.01);
+    }
+    .cms-list-title {
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: var(--text);
+    }
+    .cms-list-items {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    .cms-item-card {
+      background: var(--surface-low);
+      border: 1px solid var(--surface-high);
+      border-radius: var(--radius-md);
+      padding: 1rem;
+      position: relative;
+      display: grid;
+      gap: 0.75rem;
+    }
+    .cms-item-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      padding-bottom: 0.5rem;
+      font-size: 0.8125rem;
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+    .cms-item-remove {
+      color: var(--error);
+      background: none;
+      border: none;
+      font-weight: 700;
+      cursor: pointer;
+      font-size: 0.875rem;
+    }
+    .cms-grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.75rem;
+    }
+    .cms-grid-3 {
+      display: grid;
+      grid-template-columns: 80px 1fr 80px;
+      gap: 0.75rem;
+    }
+  </style>
 </head>
 <body class="admin-body">
+
+<!-- LOADING SCREEN -->
+<div id="admin-loading" style="display:none">
+  <div class="spinner"></div>
+  <p>Verificando sessão...</p>
+</div>
+
 
 <!-- LOGIN SCREEN -->
 <div id="admin-login" class="admin-login" style="display:none">
@@ -23,23 +122,34 @@
 
     <form id="login-form">
       <div class="form-group">
-        <label class="form-label" for="login-password">Senha de acesso</label>
+        <label class="form-label" for="login-email">E-mail</label>
+        <input
+          type="email"
+          id="login-email"
+          class="form-input"
+          placeholder="seu@email.com"
+          required
+          autocomplete="email"
+        >
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="login-password">Senha</label>
         <input
           type="password"
           id="login-password"
           class="form-input"
-          placeholder="Digite sua senha"
+          placeholder="Sua senha"
           required
           autocomplete="current-password"
         >
         <div id="login-error" style="display:none;margin-top:.5rem;font-size:.875rem;color:var(--error);font-weight:600"></div>
       </div>
-      <button type="submit" class="btn btn-primary" style="width:100%">Entrar →</button>
+      <button type="submit" id="btn-login" class="btn btn-primary" style="width:100%">Entrar →</button>
     </form>
 
     <p style="margin-top:1.5rem;font-size:.8125rem;color:var(--text-muted);text-align:center">
-      Senha padrão: <strong>admin@2024</strong><br>
-      <span style="opacity:.7">Altere-a na aba "Configurações" após o primeiro acesso.</span>
+      Acesso via <strong>Supabase Auth</strong>.<br>
+      <span style="opacity:.7">Crie o usuário admin em: Supabase → Authentication → Users.</span>
     </p>
   </div>
 </div>
@@ -66,44 +176,65 @@
     <!-- Sidebar nav -->
     <aside class="admin-sidebar" role="navigation" aria-label="Menu do painel">
       <button class="admin-nav-item active" data-section="section-config">
-        <span>⚙️</span> Configurações
+        <span>⚙️</span> Geral
+      </button>
+      <button class="admin-nav-item" data-section="section-cms-home">
+        <span>🏠</span> Seções da Home
+      </button>
+      <button class="admin-nav-item" data-section="section-plans">
+        <span>🏷️</span> Planos &amp; Preços
+      </button>
+      <button class="admin-nav-item" data-section="section-cms-blog">
+        <span>📚</span> Seções do Blog
       </button>
       <button class="admin-nav-item" data-section="section-posts">
-        <span>📝</span> Blog &amp; Posts
-      </button>
-      <button class="admin-nav-item" data-section="section-backup">
-        <span>💾</span> Backup
+        <span>📝</span> Gerenciar Posts
       </button>
     </aside>
 
     <!-- Main content -->
     <main class="admin-content" role="main">
 
-      <!-- ── CONFIGURAÇÕES ── -->
+      <!-- ── 1. CONFIGURAÇÕES GERAIS ── -->
       <section id="section-config" class="admin-section active">
-        <h2>Configurações do Site</h2>
-        <p>Edite as configurações principais. As alterações são aplicadas imediatamente no site, sem necessidade de deploy.</p>
+        <h2>Configurações Gerais</h2>
+        <p>Ajuste os dados de cabeçalho, rodapé e as chaves de integração do site.</p>
 
-        <form id="config-form">
+        <form id="general-form">
           <div class="admin-card">
-            <h3>🔗 CTA (Botão Principal)</h3>
+            <h3>🏷️ Logotipo e Identidade</h3>
             <div class="form-group">
-              <label class="form-label" for="cfg-cta-url">URL do botão "Comece Agora"</label>
-              <input type="url" id="cfg-cta-url" class="form-input" placeholder="https://exemplo.com/checkout">
-              <div class="form-hint">Cole aqui o link de pagamento, cadastro ou qualquer URL externa. Deixe vazio para desativar o link.</div>
+              <label class="form-label" for="cfg-site-name">Nome do Site</label>
+              <input type="text" id="cfg-site-name" class="form-input" required>
             </div>
             <div class="form-group">
-              <label class="form-label" for="cfg-cta-text">Texto do botão</label>
-              <input type="text" id="cfg-cta-text" class="form-input" placeholder="Comece Agora" maxlength="40">
+              <label class="form-label" for="cfg-tagline">Slogan Principal (Tagline)</label>
+              <input type="text" id="cfg-tagline" class="form-input" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="cfg-logo-url">URL da Logomarca (Imagem)</label>
+              <input type="url" id="cfg-logo-url" class="form-input" placeholder="https://... ou ../assets/logo.png">
+              <div class="form-hint">Deixe em branco para usar a logo padrão da Central de Contratos.</div>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="cfg-site-description">Descrição SEO (Meta Description)</label>
+              <textarea id="cfg-site-description" class="form-input" style="font-family:inherit;min-height:70px;resize:vertical"></textarea>
             </div>
           </div>
 
           <div class="admin-card">
-            <h3>💬 WhatsApp</h3>
+            <h3>🔗 CTA & Integrações</h3>
             <div class="form-group">
-              <label class="form-label" for="cfg-whatsapp">Número com DDI (apenas números)</label>
+              <label class="form-label" for="cfg-cta-url">Link do Botão "Comece Agora" (Header/Hero)</label>
+              <input type="url" id="cfg-cta-url" class="form-input">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="cfg-cta-text">Texto do Botão</label>
+              <input type="text" id="cfg-cta-text" class="form-input" maxlength="40">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="cfg-whatsapp">WhatsApp (com DDI, apenas números)</label>
               <input type="tel" id="cfg-whatsapp" class="form-input" placeholder="5511999999999">
-              <div class="form-hint">Ex: 5511999999999 (55 = Brasil, 11 = DDD, + número). Deixe vazio para ocultar o botão flutuante.</div>
             </div>
             <div class="form-group">
               <label class="form-label" style="display:flex;align-items:center;gap:.625rem;cursor:pointer">
@@ -114,74 +245,340 @@
           </div>
 
           <div class="admin-card">
-            <h3>📧 Contato</h3>
+            <h3>📧 Contato & Legal</h3>
             <div class="form-group">
-              <label class="form-label" for="cfg-email">E-mail exibido no footer</label>
-              <input type="email" id="cfg-email" class="form-input" placeholder="contato@seusite.com.br">
+              <label class="form-label" for="cfg-email">E-mail Institucional</label>
+              <input type="email" id="cfg-email" class="form-input">
+            </div>
+            <div class="form-group" style="margin-top:1.5rem">
+              <label class="form-label" for="cfg-privacy-policy">Política de Privacidade (HTML)</label>
+              <textarea id="cfg-privacy-policy" class="form-input" style="font-family:inherit;min-height:200px;resize:vertical"></textarea>
+              <div class="form-hint">Deixe em branco para usar o texto legal padrão da LGPD. Suporta tags HTML básicas e placeholders (<code>{{siteName}}</code>, <code>{{contactEmail}}</code>, <code>{{siteUrl}}</code>).</div>
             </div>
           </div>
 
           <div class="admin-card">
-            <h3>🔐 Segurança</h3>
+            <h3>🔍 Sitemap & SEO</h3>
+            <p style="font-size:0.875rem;color:var(--text-muted);margin-bottom:1.25rem">
+              O sitemap é essencial para que o Google indexe seus posts do blog e páginas secundárias.
+            </p>
+            <div style="margin-bottom:1.5rem">
+              <button type="button" id="btn-download-sitemap" class="btn btn-outline btn-sm">📥 Gerar e Baixar sitemap.xml</button>
+            </div>
             <div class="form-group">
-              <label class="form-label" for="cfg-password">Nova senha do painel admin</label>
-              <input type="password" id="cfg-password" class="form-input" placeholder="Deixe em branco para manter a atual" autocomplete="new-password">
-              <div class="form-hint">⚠️ Se alterar e esquecer, precisará editar o arquivo <code>js/config.js</code> diretamente.</div>
+              <label class="form-label" for="cfg-deploy-webhook">Webhook de Deploy (Vercel / Netlify)</label>
+              <input type="url" id="cfg-deploy-webhook" class="form-input" placeholder="https://api.netlify.com/build_hooks/...">
+              <div class="form-hint">Opcional. Se configurado, o painel irá disparar esse webhook a cada alteração salva para atualizar o site e regenerar o sitemap em produção.</div>
+            </div>
+            <div style="margin-top:1.25rem;border-top:1px solid var(--surface-high);padding-top:1rem;font-size:0.8125rem;color:var(--text-muted)">
+              <strong style="color:var(--text)">💡 Como configurar a atualização automática:</strong>
+              <ul style="list-style:disc;padding-left:1.25rem;margin-top:0.5rem;display:flex;flex-direction:column;gap:0.375rem">
+                <li><strong>No Netlify:</strong> Vá em <em>Site settings</em> → <em>Build & deploy</em> → <em>Build hooks</em> → clique em <em>Add build hook</em> (nomeie como "CMS") e copie a URL gerada.</li>
+                <li><strong>Na Vercel:</strong> Vá em <em>Project Settings</em> → <em>Git</em> → role até <em>Deploy Hooks</em> → digite um nome e crie, depois copie a URL gerada.</li>
+                <li>Cole a URL no campo acima e clique em <strong>Salvar Configurações Gerais</strong> abaixo.</li>
+              </ul>
             </div>
           </div>
 
-          <button type="submit" class="btn btn-primary btn-lg">💾 Salvar Configurações</button>
+          <button type="submit" class="btn btn-primary btn-lg">💾 Salvar Configurações Gerais</button>
         </form>
       </section>
 
 
-      <!-- ── POSTS ── -->
-      <section id="section-posts" class="admin-section">
-        <h2>Blog &amp; Posts</h2>
-        <p>Crie, edite e remova posts do blog. As alterações são aplicadas imediatamente.</p>
+      <!-- ── 2. SEÇÕES DA HOME ── -->
+      <section id="section-cms-home" class="admin-section">
+        <h2>Seções da Home Page</h2>
+        <p>Altere os textos de todas as dobras da página inicial sem precisar mexer no código.</p>
+
+        <form id="cms-home-form">
+          <!-- DOBRA HERO -->
+          <div class="admin-card">
+            <h3>✨ Dobra Hero (Apresentação)</h3>
+            <div class="form-group">
+              <label class="form-label" for="cfg-hero-badge">Tag do Hero (Badge)</label>
+              <input type="text" id="cfg-hero-badge" class="form-input">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="cfg-hero-headline">Título Principal (Headline)</label>
+              <input type="text" id="cfg-hero-headline" class="form-input">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="cfg-hero-sub">Subtítulo (Abaixo do Título)</label>
+              <textarea id="cfg-hero-sub" class="form-input" style="font-family:inherit;min-height:80px;resize:vertical"></textarea>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="cfg-hero-sec-cta-text">Texto do Botão Secundário</label>
+              <input type="text" id="cfg-hero-sec-cta-text" class="form-input">
+            </div>
+
+            <!-- Stats (Contadores) -->
+            <div class="cms-list-container">
+              <div class="cms-list-title">
+                <span>📊 Contadores do Hero</span>
+              </div>
+              <div id="stats-editor" class="cms-list-items">
+                <!-- Injetado dinamicamente via JS -->
+              </div>
+            </div>
+          </div>
+
+          <!-- DOBRA COMO FUNCIONA -->
+          <div class="admin-card">
+            <h3>📖 Dobra: Como Funciona</h3>
+            <div class="form-group">
+              <label class="form-label" for="cfg-how-eyebrow">Etiqueta (Eyebrow)</label>
+              <input type="text" id="cfg-how-eyebrow" class="form-input">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="cfg-how-title">Título da Dobra</label>
+              <input type="text" id="cfg-how-title" class="form-input">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="cfg-how-desc">Descrição</label>
+              <textarea id="cfg-how-desc" class="form-input" style="font-family:inherit;min-height:60px"></textarea>
+            </div>
+
+            <!-- Steps (Passos) -->
+            <div class="cms-list-container">
+              <div class="cms-list-title">
+                <span>👣 Cards de Passos (3 etapas)</span>
+              </div>
+              <div id="steps-editor" class="cms-list-items">
+                <!-- Injetado dinamicamente via JS -->
+              </div>
+            </div>
+          </div>
+
+          <!-- DOBRA BENEFÍCIOS -->
+          <div class="admin-card">
+            <h3>✨ Dobra: Benefícios</h3>
+            <div class="form-group">
+              <label class="form-label" for="cfg-benefits-eyebrow">Etiqueta (Eyebrow)</label>
+              <input type="text" id="cfg-benefits-eyebrow" class="form-input">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="cfg-benefits-title">Título da Dobra</label>
+              <input type="text" id="cfg-benefits-title" class="form-input">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="cfg-benefits-desc">Descrição</label>
+              <textarea id="cfg-benefits-desc" class="form-input" style="font-family:inherit;min-height:60px"></textarea>
+            </div>
+
+            <!-- Benefits List -->
+            <div class="cms-list-container">
+              <div class="cms-list-title">
+                <span>💎 Cards de Diferenciais (6 itens)</span>
+              </div>
+              <div id="benefits-editor" class="cms-list-items">
+                <!-- Injetado dinamicamente via JS -->
+              </div>
+            </div>
+          </div>
+
+          <!-- DOBRA CATÁLOGO -->
+          <div class="admin-card">
+            <h3>📁 Dobra: Catálogo de Documentos</h3>
+            <div class="form-group">
+              <label class="form-label" for="cfg-docs-eyebrow">Etiqueta (Eyebrow)</label>
+              <input type="text" id="cfg-docs-eyebrow" class="form-input">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="cfg-docs-title">Título da Dobra</label>
+              <input type="text" id="cfg-docs-title" class="form-input">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="cfg-docs-desc">Descrição</label>
+              <textarea id="cfg-docs-desc" class="form-input" style="font-family:inherit;min-height:60px"></textarea>
+            </div>
+
+            <!-- Docs list -->
+            <div class="cms-list-container">
+              <div class="cms-list-title">
+                <span>📄 Modelos de Documentos</span>
+                <button type="button" class="btn btn-sm" onclick="addDocRow()">+ Adicionar Modelo</button>
+              </div>
+              <div id="docs-editor" class="cms-list-items">
+                <!-- Injetado dinamicamente via JS -->
+              </div>
+            </div>
+          </div>
+
+          <!-- DOBRA DEPOIMENTOS -->
+          <div class="admin-card">
+            <h3>💬 Dobra: Depoimentos</h3>
+            <div class="form-group">
+              <label class="form-label" for="cfg-test-eyebrow">Etiqueta (Eyebrow)</label>
+              <input type="text" id="cfg-test-eyebrow" class="form-input">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="cfg-test-title">Título da Dobra</label>
+              <input type="text" id="cfg-test-title" class="form-input">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="cfg-test-desc">Descrição</label>
+              <textarea id="cfg-test-desc" class="form-input" style="font-family:inherit;min-height:60px"></textarea>
+            </div>
+
+            <!-- Testimonials list -->
+            <div class="cms-list-container">
+              <div class="cms-list-title">
+                <span>🗣️ Cards de Depoimentos (3 itens)</span>
+              </div>
+              <div id="testimonials-editor" class="cms-list-items">
+                <!-- Injetado dinamicamente via JS -->
+              </div>
+            </div>
+          </div>
+
+          <!-- DOBRA FAQ -->
+          <div class="admin-card">
+            <h3>❓ Dobra: FAQ (Perguntas Frequentes)</h3>
+            <div class="form-group">
+              <label class="form-label" for="cfg-faq-eyebrow">Etiqueta (Eyebrow)</label>
+              <input type="text" id="cfg-faq-eyebrow" class="form-input">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="cfg-faq-title">Título da Dobra</label>
+              <input type="text" id="cfg-faq-title" class="form-input">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="cfg-faq-desc">Descrição</label>
+              <textarea id="cfg-faq-desc" class="form-input" style="font-family:inherit;min-height:60px"></textarea>
+            </div>
+
+            <!-- FAQ list -->
+            <div class="cms-list-container">
+              <div class="cms-list-title">
+                <span>📋 Perguntas e Respostas</span>
+                <button type="button" class="btn btn-sm" onclick="addFaqRow()">+ Adicionar Pergunta</button>
+              </div>
+              <div id="faq-editor" class="cms-list-items">
+                <!-- Injetado dinamicamente via JS -->
+              </div>
+            </div>
+          </div>
+
+          <!-- FOOTER TEXTS -->
+          <div class="admin-card">
+            <h3>👣 Rodapé e Copyright</h3>
+            <div class="form-group">
+              <label class="form-label" for="cfg-footer-desc">Texto de Apresentação (Footer)</label>
+              <textarea id="cfg-footer-desc" class="form-input" style="font-family:inherit;min-height:60px"></textarea>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="cfg-copyright-text">Texto de Copyright</label>
+              <input type="text" id="cfg-copyright-text" class="form-input">
+            </div>
+          </div>
+
+          <button type="submit" class="btn btn-primary btn-lg">💾 Salvar Alterações da Home</button>
+        </form>
+      </section>
+
+
+      <!-- ── 3. PLANOS & PREÇOS ── -->
+      <section id="section-plans" class="admin-section">
+        <h2>Planos &amp; Preços</h2>
+        <p>Crie e organize os cartões de pacotes que serão mostrados na landing page.</p>
 
         <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem;flex-wrap:wrap;gap:1rem">
-          <span id="posts-count" style="font-size:.9375rem;color:var(--text-muted)"></span>
-          <button id="btn-new-post" class="btn btn-primary">+ Novo Post</button>
+          <span id="plans-count" style="font-size:.9375rem;color:var(--text-muted)"></span>
+          <button id="btn-new-plan" class="btn btn-primary" type="button">+ Novo Plano</button>
         </div>
 
-        <div id="posts-list" class="posts-list">
+        <div id="plans-list" class="posts-list">
           <!-- Renderizado via JS -->
         </div>
       </section>
 
 
-      <!-- ── BACKUP ── -->
-      <section id="section-backup" class="admin-section">
-        <h2>Backup</h2>
-        <p>Exporte todas as configurações e posts como um arquivo JSON. Ideal para fazer backup ou migrar para outro dispositivo/navegador.</p>
+      <!-- ── 4. SEÇÕES DO BLOG ── -->
+      <section id="section-cms-blog" class="admin-section">
+        <h2>Seções do Blog &amp; Posts</h2>
+        <p>Gerencie todos os cabeçalhos, textos promocionais e banners do blog e artigos.</p>
 
-        <div class="admin-card" style="margin-bottom:1.5rem">
-          <h3>📦 Exportar</h3>
-          <p style="color:var(--text-muted);font-size:.9375rem;margin-bottom:1.25rem">
-            Baixe um arquivo com todas as configurações atuais e posts do blog.
-          </p>
-          <button id="btn-export" class="btn btn-primary">⬇️ Baixar Backup</button>
+        <form id="cms-blog-form">
+          <div class="admin-card">
+            <h3>📚 Página de Listagem do Blog</h3>
+            <div class="form-group">
+              <label class="form-label" for="cfg-blog-eyebrow">Etiqueta (Eyebrow)</label>
+              <input type="text" id="cfg-blog-eyebrow" class="form-input">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="cfg-blog-title">Título Principal (Hero)</label>
+              <input type="text" id="cfg-blog-title" class="form-input">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="cfg-blog-sub">Subtítulo do Blog</label>
+              <textarea id="cfg-blog-sub" class="form-input" style="font-family:inherit;min-height:60px"></textarea>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="cfg-blog-cta-title">Título do Banner Inferior</label>
+              <input type="text" id="cfg-blog-cta-title" class="form-input">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="cfg-blog-cta-sub">Subtítulo do Banner</label>
+              <input type="text" id="cfg-blog-cta-sub" class="form-input">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="cfg-blog-cta-btn">Texto do Botão do Banner</label>
+              <input type="text" id="cfg-blog-cta-btn" class="form-input">
+            </div>
+          </div>
+
+          <div class="admin-card">
+            <h3>📄 Página de Leitura do Artigo (Post)</h3>
+            <div class="form-group" style="border-bottom:1px solid rgba(255,255,255,0.05);padding-bottom:1.5rem;margin-bottom:1.5rem">
+              <h4>Card Promocional Lateral (Sidebar)</h4>
+              <div class="form-group" style="margin-top:0.75rem">
+                <label class="form-label" for="cfg-post-side-title">Título</label>
+                <input type="text" id="cfg-post-side-title" class="form-input">
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="cfg-post-side-sub">Descrição</label>
+                <input type="text" id="cfg-post-side-sub" class="form-input">
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="cfg-post-side-btn">Texto do Botão</label>
+                <input type="text" id="cfg-post-side-btn" class="form-input">
+              </div>
+            </div>
+
+            <div>
+              <h4>Card Promocional no Meio do Texto (Inline)</h4>
+              <div class="form-group" style="margin-top:0.75rem">
+                <label class="form-label" for="cfg-post-inline-title">Título</label>
+                <input type="text" id="cfg-post-inline-title" class="form-input">
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="cfg-post-inline-sub">Descrição</label>
+                <input type="text" id="cfg-post-inline-sub" class="form-input">
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="cfg-post-inline-btn">Texto do Botão</label>
+                <input type="text" id="cfg-post-inline-btn" class="form-input">
+              </div>
+            </div>
+          </div>
+
+          <button type="submit" class="btn btn-primary btn-lg">💾 Salvar Alterações do Blog</button>
+        </form>
+      </section>
+
+
+      <!-- ── 5. GERENCIAR POSTS ── -->
+      <section id="section-posts" class="admin-section">
+        <h2>Blog &amp; Posts</h2>
+        <p>Crie, edite e remova posts do blog. As alterações são salvas no Supabase e ficam visíveis para todos os visitantes imediatamente.</p>
+
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem;flex-wrap:wrap;gap:1rem">
+          <span id="posts-count" style="font-size:.9375rem;color:var(--text-muted)"></span>
+          <button id="btn-new-post" class="btn btn-primary">+ Novo Artigo</button>
         </div>
 
-        <div class="admin-card">
-          <h3>📂 Importar</h3>
-          <p style="color:var(--text-muted);font-size:.9375rem;margin-bottom:1.25rem">
-            Restaure configurações a partir de um arquivo de backup previamente exportado.
-            <strong style="color:var(--error)"> Atenção: isso irá sobrescrever as configurações atuais.</strong>
-          </p>
-          <button id="btn-import" class="btn btn-outline">⬆️ Importar Backup</button>
-          <input type="file" id="import-file" accept=".json" style="display:none">
-        </div>
-
-        <div class="admin-card" style="background:rgba(26,158,112,.06);border-color:rgba(26,158,112,.2)">
-          <h3 style="color:var(--green)">💡 Dicas importantes</h3>
-          <ul style="color:var(--text-muted);font-size:.9rem;line-height:2;padding-left:1.25rem;list-style:disc">
-            <li>As configurações ficam salvas no <strong>localStorage</strong> do seu navegador. Se limpar o cache, elas serão perdidas.</li>
-            <li>Para configurações permanentes (sem risco de perda), edite o arquivo <code>js/config.js</code> e <code>js/posts.js</code> diretamente.</li>
-            <li>Para usar em outro dispositivo, exporte o backup e importe no outro navegador.</li>
-            <li>Faça backup regularmente dos posts do blog.</li>
-          </ul>
+        <div id="posts-list" class="posts-list">
+          <!-- Renderizado via JS -->
         </div>
       </section>
 
@@ -239,7 +636,7 @@
       <div class="form-group">
         <label class="form-label" for="post-cover-input">URL da imagem de capa</label>
         <input type="url" name="post-cover" id="post-cover-input" class="form-input" placeholder="https://... ou ../assets/blog/nome.png">
-        <div class="form-hint">Cole uma URL externa ou um caminho relativo para imagem no servidor.</div>
+        <div class="form-hint">Cole uma URL externa (Supabase Storage, Cloudinary, etc.) ou um caminho relativo.</div>
       </div>
 
       <div class="form-group">
@@ -255,8 +652,15 @@
         </div>
       </div>
 
+      <div class="form-group">
+        <label class="form-label" style="display:flex;align-items:center;gap:.625rem;cursor:pointer">
+          <input type="checkbox" name="post-published" id="post-published-input" style="width:18px;height:18px;accent-color:var(--green)">
+          Post publicado (visível para visitantes)
+        </label>
+      </div>
+
       <div style="display:flex;gap:1rem;justify-content:flex-end">
-        <button type="button" id="btn-cancel-modal" class="btn btn-outline" onclick="document.getElementById('modal-overlay').classList.remove('open')">Cancelar</button>
+        <button type="button" class="btn btn-outline" onclick="document.getElementById('modal-overlay').classList.remove('open')">Cancelar</button>
         <button type="submit" class="btn btn-primary">💾 Salvar Post</button>
       </div>
     </form>
@@ -264,6 +668,78 @@
 </div>
 
 
+<!-- PLAN MODAL -->
+<div id="plan-modal-overlay" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="plan-modal-title">
+  <div class="modal">
+    <div class="modal-header">
+      <h3 id="plan-modal-title">Novo Plano</h3>
+      <button id="btn-close-plan-modal" class="btn btn-sm btn-outline" aria-label="Fechar" type="button">✕</button>
+    </div>
+
+    <form id="plan-form">
+      <div class="form-group">
+        <label class="form-label" for="plan-name-input">Nome do Plano *</label>
+        <input type="text" id="plan-name-input" class="form-input" placeholder="Ex: Prata" required>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem">
+        <div class="form-group">
+          <label class="form-label" for="plan-price-input">Preço (sem R$) *</label>
+          <input type="text" id="plan-price-input" class="form-input" placeholder="Ex: 149" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="plan-period-input">Período / Subtexto</label>
+          <input type="text" id="plan-period-input" class="form-input" placeholder="Ex: Pague uma vez">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="plan-desc-input">Descrição Curta *</label>
+        <input type="text" id="plan-desc-input" class="form-input" placeholder="O melhor custo-benefício para..." required>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="plan-features-input">Benefícios (Um por linha) *</label>
+        <textarea id="plan-features-input" class="form-input" rows="6" placeholder="50 Créditos de Emissão&#10;Mais de 50 Modelos&#10;Reimpressão Gratuita" required></textarea>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1.5fr;gap:1rem">
+        <div class="form-group">
+          <label class="form-label" for="plan-cta-text-input">Texto do Botão</label>
+          <input type="text" id="plan-cta-text-input" class="form-input" placeholder="Comprar Prata">
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="plan-cta-url-input">Link de Compra / Checkout</label>
+          <input type="url" id="plan-cta-url-input" class="form-input" placeholder="https://checkout.exemplo.com/...">
+        </div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;align-items:center">
+        <div class="form-group">
+          <label class="form-label" for="plan-sort-order-input">Ordem de Exibição</label>
+          <input type="number" id="plan-sort-order-input" class="form-input" value="1" min="1">
+        </div>
+        <div class="form-group">
+          <label class="form-label" style="display:flex;align-items:center;gap:.625rem;cursor:pointer;margin-top:1.5rem">
+            <input type="checkbox" id="plan-popular-input" style="width:18px;height:18px;accent-color:var(--accent)">
+            Destacar (Mais Popular)
+          </label>
+        </div>
+      </div>
+
+      <div style="display:flex;gap:1rem;justify-content:flex-end;margin-top:1.5rem">
+        <button type="button" class="btn btn-outline" id="btn-cancel-plan-modal">Cancelar</button>
+        <button type="submit" class="btn btn-primary">💾 Salvar Plano</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+
+<!-- Supabase CDN -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="../js/supabase-config.js"></script>
+<script src="../js/supabase.js"></script>
 <script src="../js/config.js"></script>
 <script src="../js/posts.js"></script>
 <script src="../js/admin.js"></script>
