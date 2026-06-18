@@ -2,9 +2,24 @@
    ADMIN.JS — Painel Administrativo Completo com Supabase Auth & CMS
    ================================================================ */
 
-document.addEventListener('DOMContentLoaded', () => {
-  initAuth();
-});
+console.log('[Admin] admin.js carregado com sucesso!');
+
+if (document.readyState === 'loading') {
+  console.log('[Admin] DOM ainda carregando, registrando listener...');
+  document.addEventListener('DOMContentLoaded', () => {
+    console.log('[Admin] DOMContentLoaded disparado. Iniciando initAuth...');
+    initAuth().catch(err => {
+      console.error('[Admin Init Error]:', err);
+      alert('Erro ao inicializar o painel: ' + err.message);
+    });
+  });
+} else {
+  console.log('[Admin] DOM já está pronto. Iniciando initAuth imediatamente...');
+  initAuth().catch(err => {
+    console.error('[Admin Init Error]:', err);
+    alert('Erro ao inicializar o painel: ' + err.message);
+  });
+}
 
 let _plansList = []; // Array em memória para gerenciamento de planos
 let _editingPlanId = null; // ID do plano em edição (null = novo)
@@ -12,13 +27,21 @@ let _editingPlanId = null; // ID do plano em edição (null = novo)
 /* ── Auth ──────────────────────────────────────────────────────── */
 
 async function initAuth() {
+  console.log('[Admin] showLoading(true) sendo chamado...');
   showLoading(true);
+  
+  console.log('[Admin] Buscando sessão no Supabase (sbGetSession)...');
   const session = await sbGetSession();
+  console.log('[Admin] Retorno de sbGetSession:', session);
+  
+  console.log('[Admin] showLoading(false) sendo chamado...');
   showLoading(false);
 
   if (session) {
+    console.log('[Admin] Sessão ativa encontrada! Exibindo painel...');
     showPanel();
   } else {
+    console.log('[Admin] Nenhuma sessão ativa. Exibindo tela de login...');
     showLogin();
   }
 }
@@ -86,6 +109,7 @@ function showLoading(show) {
 /* ── Panel Init ────────────────────────────────────────────────── */
 
 async function initPanel() {
+  console.log('[Admin] initPanel() iniciando...');
   setupNavItems();
   document.getElementById('btn-logout').addEventListener('click', handleLogout);
   document.getElementById('btn-download-sitemap').addEventListener('click', downloadSitemap);
@@ -112,15 +136,35 @@ async function initPanel() {
   });
   document.getElementById('post-form').addEventListener('submit', savePost);
 
-  // Carga inicial dos dados de forma assíncrona
+  console.log('[Admin] showLoading(true) em initPanel...');
   showLoading(true);
-  await Promise.all([
-    loadGeneralForm(),
-    loadCmsHomeForm(),
-    loadPlans(),
-    loadCmsBlogForm(),
-    loadPosts()
-  ]);
+  
+  try {
+    console.log('[Admin] Carregando loadGeneralForm()...');
+    await loadGeneralForm();
+    console.log('[Admin] loadGeneralForm() OK');
+
+    console.log('[Admin] Carregando loadCmsHomeForm()...');
+    await loadCmsHomeForm();
+    console.log('[Admin] loadCmsHomeForm() OK');
+
+    console.log('[Admin] Carregando loadPlans()...');
+    await loadPlans();
+    console.log('[Admin] loadPlans() OK');
+
+    console.log('[Admin] Carregando loadCmsBlogForm()...');
+    await loadCmsBlogForm();
+    console.log('[Admin] loadCmsBlogForm() OK');
+
+    console.log('[Admin] Carregando loadPosts()...');
+    await loadPosts();
+    console.log('[Admin] loadPosts() OK');
+  } catch (err) {
+    console.error('[Admin] Erro ao carregar dados do painel:', err);
+    alert('Erro ao carregar os dados: ' + err.message);
+  }
+
+  console.log('[Admin] showLoading(false) em initPanel...');
   showLoading(false);
 }
 

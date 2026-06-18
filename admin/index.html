@@ -7,6 +7,27 @@
   <meta name="robots" content="noindex, nofollow">
   <link rel="icon" href="../assets/logo.png">
   <link rel="stylesheet" href="../css/style.css">
+  <script>
+    function renderError(title, msg, stack) {
+      const div = document.createElement('div');
+      div.style.position = 'fixed';
+      div.style.inset = '0';
+      div.style.background = '#ba1a1a';
+      div.style.color = '#ffffff';
+      div.style.padding = '2rem';
+      div.style.zIndex = '99999';
+      div.style.overflow = 'auto';
+      div.style.fontFamily = 'monospace';
+      div.innerHTML = '<h2>🚨 ' + title + ':</h2><p style="font-size:1.125rem"><strong>' + msg + '</strong></p><pre style="background:rgba(0,0,0,0.25);padding:1rem;border-radius:4px;margin-top:1rem">' + (stack || '') + '</pre>';
+      document.body.appendChild(div);
+    }
+    window.addEventListener('error', function(e) {
+      renderError('Erro de JavaScript', e.message, e.error ? e.error.stack : '');
+    });
+    window.addEventListener('unhandledrejection', function(e) {
+      renderError('Rejeição de Promessa', e.reason ? e.reason.message || e.reason : 'Erro desconhecido em Promise', e.reason && e.reason.stack ? e.reason.stack : '');
+    });
+  </script>
   <style>
     /* Spinner de loading */
     .spinner {
