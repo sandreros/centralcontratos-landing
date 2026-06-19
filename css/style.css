@@ -163,7 +163,7 @@ section { padding: var(--section-py) 0; }
   font-family: var(--font-display);
   font-weight: 800;
   font-size: 1.125rem;
-  color: var(--primary);
+  transition: color 0.3s;
 }
 
 .nav-logo img {
@@ -183,13 +183,50 @@ section { padding: var(--section-py) 0; }
   border-radius: var(--radius-sm);
   font-size: 0.9375rem;
   font-weight: 500;
-  color: var(--text-muted);
-  transition: color 0.2s, background 0.2s;
+  transition: color 0.3s, background 0.3s;
 }
 
-.nav-links a:hover {
+/* Estado padrão: Navbar transparente (no topo) sobre fundo escuro */
+.navbar:not(.scrolled) .nav-logo {
+  color: white;
+}
+.navbar:not(.scrolled) .nav-links a {
+  color: rgba(255, 255, 255, 0.8);
+}
+.navbar:not(.scrolled) .nav-links a:hover {
+  color: white;
+  background: rgba(255, 255, 255, 0.08);
+}
+.navbar:not(.scrolled) .hamburger span {
+  background: white;
+}
+.navbar:not(.scrolled) .btn-primary {
+  background: var(--accent) !important;
+  color: var(--primary) !important;
+  box-shadow: 0 4px 14px rgba(237, 184, 61, 0.25) !important;
+}
+.navbar:not(.scrolled) .btn-primary:hover {
+  background: #f5c94a !important;
+  transform: translateY(-2px);
+}
+
+/* Estado de rolagem: Navbar branca (com a classe scrolled) */
+.navbar.scrolled .nav-logo {
+  color: var(--primary);
+}
+.navbar.scrolled .nav-links a {
+  color: var(--text-muted);
+}
+.navbar.scrolled .nav-links a:hover {
   color: var(--primary);
   background: var(--primary-muted);
+}
+.navbar.scrolled .hamburger span {
+  background: var(--primary);
+}
+.navbar.scrolled .btn-primary {
+  background: var(--primary);
+  color: white;
 }
 
 .nav-actions {
@@ -212,7 +249,6 @@ section { padding: var(--section-py) 0; }
   display: block;
   width: 22px;
   height: 2px;
-  background: var(--primary);
   border-radius: 2px;
   transition: all 0.3s;
 }

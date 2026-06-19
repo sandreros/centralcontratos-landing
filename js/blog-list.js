@@ -2,12 +2,49 @@
    BLOG-LIST.JS — Listagem do Blog (async + Supabase)
    ================================================================ */
 
+let _cfg = null;
+
+/* ── Helpers AdSense ──────────────────────────────────────────── */
+
+/**
+ * Carrega o script do AdSense de forma segura e idempotente.
+ */
+function loadAdSenseScript(clientId) {
+  if (document.querySelector('script[src*="adsbygoogle.js"]')) return;
+  const script = document.createElement('script');
+  script.async = true;
+  script.src = `https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${clientId}`;
+  script.crossOrigin = 'anonymous';
+  document.head.appendChild(script);
+}
+
+/**
+ * Dispara .push({}) para N blocos do AdSense.
+ * Aguarda o script carregar (até 5s) se ainda não estiver disponível.
+ */
+function pushAdSense(count, context) {
+  const doPush = () => {
+    for (let i = 0; i < count; i++) {
+      try { (window.adsbygoogle = window.adsbygoogle || []).push({}); }
+      catch (e) { console.warn(`[AdSense] ${context} push erro:`, e.message); }
+    }
+  };
+  if (window.adsbygoogle) { doPush(); return; }
+  let waited = 0;
+  const poll = setInterval(() => {
+    waited += 100;
+    if (window.adsbygoogle) { clearInterval(poll); doPush(); }
+    else if (waited >= 5000) clearInterval(poll);
+  }, 100);
+}
+
 document.addEventListener('DOMContentLoaded', async () => {
   // Mostra skeleton enquanto carrega
   showGridSkeleton();
 
   // Busca dados em paralelo
   const [cfg, posts] = await Promise.all([getConfig(), getPosts()]);
+  _cfg = cfg;
 
   applyConfig(cfg);
   renderPosts(posts, 'all');
@@ -34,11 +71,37 @@ function showGridSkeleton() {
 }
 
 function applyConfig(cfg) {
+  // Obtém lista de campanhas e verifica se há Google Ads ativo
+  let campaigns = [];
+  try {
+    campaigns = typeof cfg.blogAdCampaigns === 'string' ? JSON.parse(cfg.blogAdCampaigns) : (cfg.blogAdCampaigns || []);
+  } catch {
+    campaigns = [];
+  }
+
+  const d = new Date();
+  const offset = d.getTimezoneOffset();
+  const localDate = new Date(d.getTime() - (offset * 60 * 1000));
+  const todayStr = localDate.toISOString().split('T')[0];
+
+  const activeValidCampaigns = campaigns.filter(ad => {
+    if (!ad.active) return false;
+    if (ad.startDate && todayStr < ad.startDate) return false;
+    if (ad.endDate && todayStr > ad.endDate) return false;
+    return true;
+  });
+
+  const hasGoogleAds = activeValidCampaigns.some(ad => ad.type === 'google');
+  if (hasGoogleAds && _cfg.googleAdClient) {
+    loadAdSenseScript(_cfg.googleAdClient);
+  }
+
   document.querySelectorAll('[data-cta]').forEach(el => {
     if (cfg.ctaUrl && cfg.ctaUrl !== '#') {
       el.href = cfg.ctaUrl;
       el.target = '_blank';
     }
+    applyCtaStyle(el, cfg.ctaBgColor, cfg.ctaTextColor, cfg.ctaFormat);
   });
 
   if (cfg.siteName) {
@@ -71,7 +134,13 @@ function applyConfig(cfg) {
   }
   if (cfg.blogCtaBtnText) {
     const ctaBtn = document.getElementById('blog-cta-btn');
-    if (ctaBtn) ctaBtn.innerHTML = cfg.blogCtaBtnText;
+    if (ctaBtn) {
+      ctaBtn.innerHTML = cfg.blogCtaBtnText;
+      const targetUrl = cfg.blogCtaUrl || cfg.ctaUrl || '#';
+      ctaBtn.href = targetUrl;
+      if (targetUrl !== '#') ctaBtn.target = '_blank';
+      applyCtaStyle(ctaBtn, cfg.blogCtaBgColor, cfg.blogCtaTextColor, cfg.blogCtaFormat);
+    }
   }
 }
 
@@ -134,7 +203,75 @@ function renderPosts(posts, category) {
     return;
   }
 
-  grid.innerHTML = filtered.map(post => postCardHTML(post)).join('');
+  const cardsHtml = filtered.map(post => postCardHTML(post));
+
+  // Inserção programática dos anúncios no grid
+  let gridCampaigns = [];
+  if (_cfg && _cfg.blogAdCampaigns) {
+    try {
+      const campaigns = typeof _cfg.blogAdCampaigns === 'string' ? JSON.parse(_cfg.blogAdCampaigns) : (_cfg.blogAdCampaigns || []);
+      const d = new Date();
+      const offset = d.getTimezoneOffset();
+      const localDate = new Date(d.getTime() - (offset * 60 * 1000));
+      const todayStr = localDate.toISOString().split('T')[0];
+
+      gridCampaigns = campaigns.filter(ad => {
+        if (ad.slot !== 'grid') return false;
+        if (!ad.active) return false;
+        // Grid da listagem só exibe anúncios direcionados a "todos" (não a artigos específicos)
+        if (ad.targetPost && ad.targetPost !== 'all') return false;
+        if (ad.startDate && todayStr < ad.startDate) return false;
+        if (ad.endDate && todayStr > ad.endDate) return false;
+        return true;
+      });
+      gridCampaigns.sort((a, b) => (a.sortOrder || 99) - (b.sortOrder || 99));
+    } catch (e) {
+      console.error('[Ads] Erro ao filtrar anúncios do grid:', e);
+    }
+  }
+
+  if (gridCampaigns.length > 0) {
+    gridCampaigns.forEach((ad, index) => {
+      let adHtml = '';
+      if (ad.type === 'custom' && ad.customImg) {
+        adHtml = `
+          <a href="${ad.customLink || '#'}" target="_blank" rel="noopener noreferrer" class="blog-ad-card reveal">
+            <div class="ad-badge">Anúncio</div>
+            <img src="${ad.customImg}" alt="${ad.name}" class="ad-img" onerror="this.parentElement.style.display='none'">
+          </a>
+        `;
+      } else if (ad.type === 'google' && _cfg.googleAdClient && ad.googleSlot) {
+        adHtml = `
+          <div class="google-ad-container reveal" style="text-align:center;overflow:hidden;border:1px solid var(--outline);border-radius:var(--radius-lg);padding:1rem;background:var(--surface-low)">
+            <div style="font-size:10px;color:var(--text-muted);margin-bottom:8px;text-transform:uppercase;letter-spacing:0.05em">Patrocinado</div>
+            <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-client="${_cfg.googleAdClient}"
+                 data-ad-slot="${ad.googleSlot}"
+                 data-ad-format="auto"
+                 data-full-width-responsive="true"></ins>
+          </div>
+        `;
+      }
+
+      if (adHtml) {
+        const insertPosition = 2 + (index * 3);
+        if (cardsHtml.length >= insertPosition) {
+          cardsHtml.splice(insertPosition, 0, adHtml);
+        } else if (index === 0) {
+          cardsHtml.push(adHtml);
+        }
+      }
+    });
+  }
+
+  grid.innerHTML = cardsHtml.join('');
+
+  // Dispara inserção do AdSense para cada bloco ins inserido (após script carregar)
+  const googleAdCount = gridCampaigns.filter(ad => ad.type === 'google').length;
+  if (googleAdCount > 0) {
+    pushAdSense(googleAdCount, '[Ads Grid]');
+  }
 
   // Trigger reveal animation
   if (window.IntersectionObserver) {

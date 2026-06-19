@@ -83,6 +83,13 @@ function renderHero(cfg) {
   const secCtaEl = document.getElementById('hero-sec-cta');
   if (secCtaEl && cfg.heroSecCtaText) {
     secCtaEl.textContent = cfg.heroSecCtaText;
+    if (cfg.heroSecCtaUrl) {
+      secCtaEl.href = cfg.heroSecCtaUrl;
+      if (cfg.heroSecCtaUrl.startsWith('http')) {
+        secCtaEl.target = '_blank';
+      }
+    }
+    applyCtaStyle(secCtaEl, cfg.heroSecCtaBgColor, cfg.heroSecCtaTextColor, cfg.heroSecCtaFormat);
   }
   
   const statsContainer = document.getElementById('hero-stats-container');
@@ -219,6 +226,23 @@ function renderPricing(cfg) {
     
     const featuresHtml = (plan.features || []).map(feat => `<li>${feat}</li>`).join('');
 
+    // Estilos customizados inline do CTA do plano
+    let inlineStyles = '';
+    if (plan.ctaBgColor) {
+      inlineStyles += `background: ${plan.ctaBgColor} !important; background-color: ${plan.ctaBgColor} !important; background-image: none !important; `;
+    }
+    if (plan.ctaTextColor) {
+      inlineStyles += `color: ${plan.ctaTextColor} !important; `;
+    }
+    if (plan.ctaFormat && plan.ctaFormat !== 'default') {
+      let radius = '1rem';
+      if (plan.ctaFormat === 'square') radius = '0px';
+      else if (plan.ctaFormat === 'rounded') radius = '8px';
+      else if (plan.ctaFormat === 'pill') radius = '9999px';
+      inlineStyles += `border-radius: ${radius} !important; `;
+    }
+    const styleAttr = inlineStyles ? `style="${inlineStyles}"` : '';
+
     return `
       <div class="${cardClass}">
         ${badgeHtml}
@@ -232,7 +256,7 @@ function renderPricing(cfg) {
         <ul class="pricing-features">
           ${featuresHtml}
         </ul>
-        <a href="${plan.ctaUrl || '#'}" class="${btnClass}">${plan.ctaText || 'Assinar'}</a>
+        <a href="${plan.ctaUrl || '#'}" class="${btnClass}" ${styleAttr}>${plan.ctaText || 'Assinar'}</a>
       </div>
     `;
   }).join('');
@@ -338,6 +362,7 @@ function applyCTAs(cfg) {
       el.href = url;
       if (url !== '#') el.target = '_blank';
     }
+    applyCtaStyle(el, cfg.ctaBgColor, cfg.ctaTextColor, cfg.ctaFormat);
   });
   document.querySelectorAll('[data-cta-text]').forEach(el => {
     if (cfg.ctaText) el.textContent = cfg.ctaText;

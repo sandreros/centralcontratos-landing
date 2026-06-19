@@ -33,7 +33,7 @@
     .spinner {
       width: 36px; height: 36px;
       border: 3px solid rgba(255,255,255,.15);
-      border-top-color: var(--primary);
+      border-top-color: var(--accent);
       border-radius: 50%;
       animation: spin .75s linear infinite;
       margin: 0 auto .75rem;
@@ -44,16 +44,16 @@
       position: fixed; inset: 0;
       display: flex; flex-direction: column;
       align-items: center; justify-content: center;
-      background: var(--bg);
+      background: #040d1a;
       gap: .5rem;
       z-index: 9999;
     }
-    #admin-loading p { color: var(--text-muted); font-size: .9375rem; }
+    #admin-loading p { color: #8fa0b5; font-size: .9375rem; }
 
     .posts-loading {
       display: flex; flex-direction: column;
       align-items: center; padding: 3rem;
-      color: var(--text-muted);
+      color: #8fa0b5;
     }
     .posts-loading .spinner {
       border-top-color: var(--green);
@@ -118,6 +118,196 @@
       display: grid;
       grid-template-columns: 80px 1fr 80px;
       gap: 0.75rem;
+    }
+
+    /* TEMA DARK DO PAINEL ADMIN */
+    body.admin-body {
+      --bg:             #02060f;
+      --surface:        #050d18;
+      --surface-low:    #081424;
+      --surface-high:   #132742;
+      --text:           #f7f9fb;
+      --text-muted:     #8fa0b5;
+      --outline:        #132742;
+      --primary-muted:  rgba(237,184,61,0.06);
+      background-color: var(--bg) !important;
+      color: var(--text) !important;
+    }
+    .admin-topbar {
+      background: var(--surface) !important;
+      border-bottom: 1px solid var(--surface-high);
+    }
+    .admin-sidebar {
+      background: var(--surface) !important;
+      border-right: 1px solid var(--surface-high) !important;
+    }
+    .admin-nav-item {
+      color: var(--text-muted) !important;
+    }
+    .admin-nav-item:hover {
+      background: var(--surface-low) !important;
+      color: var(--text) !important;
+    }
+    .admin-nav-item.active {
+      background: var(--primary-muted) !important;
+      color: var(--accent) !important;
+      font-weight: 700;
+    }
+    .admin-card {
+      background: var(--surface) !important;
+      border-color: var(--surface-high) !important;
+      color: var(--text) !important;
+    }
+    .admin-card h3, .admin-card h4 {
+      color: var(--text) !important;
+    }
+    .form-input {
+      background: var(--surface-low) !important;
+      border-color: var(--outline) !important;
+      color: var(--text) !important;
+    }
+    .form-input:focus {
+      border-color: var(--accent) !important;
+      box-shadow: 0 0 0 3px rgba(237,184,61,0.15) !important;
+    }
+    .form-label {
+      color: var(--text-muted) !important;
+    }
+    .post-admin-item {
+      background: var(--surface) !important;
+      border-color: var(--surface-high) !important;
+    }
+    .post-admin-cover {
+      background: var(--surface-low) !important;
+    }
+    .post-admin-title {
+      color: var(--text) !important;
+    }
+    .modal {
+      background: var(--surface) !important;
+      color: var(--text) !important;
+      border: 1px solid var(--surface-high);
+    }
+    .modal h3 {
+      color: var(--text);
+    }
+    .admin-login-card {
+      background: var(--surface) !important;
+      border: 1px solid var(--surface-high);
+      color: var(--text);
+    }
+    .admin-login-card h1 {
+      color: var(--text);
+    }
+
+    /* Sub-tabs styles */
+    .admin-subtabs {
+      display: flex;
+      gap: 1.5rem;
+      border-bottom: 1px solid var(--surface-high);
+      margin-bottom: 2rem;
+      padding-bottom: 0.5rem;
+      flex-wrap: wrap;
+    }
+    
+    .admin-subtab-btn {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      font-family: inherit;
+      font-size: 0.9375rem;
+      font-weight: 500;
+      cursor: pointer;
+      padding: 0.5rem 0;
+      position: relative;
+      transition: color 0.2s;
+    }
+    .admin-subtab-btn:hover {
+      color: var(--text);
+    }
+    .admin-subtab-btn.active {
+      color: var(--accent);
+      font-weight: 700;
+    }
+    .admin-subtab-btn.active::after {
+      content: '';
+      position: absolute;
+      bottom: -0.625rem;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: var(--accent);
+      border-radius: 2px;
+    }
+    .admin-subcard {
+      display: none;
+    }
+    .admin-subcard.active {
+      display: block;
+    }
+
+    /* Correções de Contraste e Legibilidade do Tema Dark */
+    body.admin-body h1,
+    body.admin-body h2,
+    body.admin-body h3,
+    body.admin-body h4,
+    body.admin-body h5,
+    body.admin-body h6 {
+      color: var(--text) !important;
+    }
+    body.admin-body .form-hint {
+      color: var(--text-muted) !important;
+    }
+    body.admin-body code {
+      background: rgba(255, 255, 255, 0.08) !important;
+      color: var(--accent) !important;
+      padding: 0.125rem 0.25rem !important;
+      border-radius: 4px !important;
+      font-family: monospace !important;
+      font-size: 0.875rem !important;
+    }
+    body.admin-body .btn-outline {
+      color: var(--text) !important;
+      border: 2px solid var(--surface-high) !important;
+      background: transparent !important;
+    }
+    body.admin-body .btn-outline:hover {
+      background: var(--surface-high) !important;
+      border-color: var(--text-muted) !important;
+      color: var(--text) !important;
+    }
+
+
+    /* Popover do Seletor de Emojis */
+    .emoji-picker-popover {
+      position: absolute;
+      z-index: 10000;
+      background: var(--surface-low);
+      border: 1px solid var(--surface-high);
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-lg);
+      padding: 0.75rem;
+      display: grid;
+      grid-template-columns: repeat(8, 1fr);
+      gap: 0.375rem;
+      max-width: 280px;
+      max-height: 220px;
+      overflow-y: auto;
+    }
+    .emoji-picker-btn {
+      background: none;
+      border: none;
+      font-size: 1.25rem;
+      cursor: pointer;
+      padding: 0.25rem;
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.15s;
+    }
+    .emoji-picker-btn:hover {
+      background: var(--surface-high);
     }
   </style>
 </head>
@@ -221,87 +411,339 @@
         <h2>Configurações Gerais</h2>
         <p>Ajuste os dados de cabeçalho, rodapé e as chaves de integração do site.</p>
 
+        <div class="admin-subtabs" id="config-subtabs">
+          <button type="button" class="admin-subtab-btn active" data-subtab="sub-identity">⚙️ Identidade</button>
+          <button type="button" class="admin-subtab-btn" data-subtab="sub-ctas">🔗 CTAs &amp; WhatsApp</button>
+          <button type="button" class="admin-subtab-btn" data-subtab="sub-contact">📧 Contato &amp; Legal</button>
+          <button type="button" class="admin-subtab-btn" data-subtab="sub-seo">🔍 Sitemap &amp; SEO</button>
+          <button type="button" class="admin-subtab-btn" data-subtab="sub-theme">🎨 Tema &amp; Cores</button>
+        </div>
+
         <form id="general-form">
-          <div class="admin-card">
-            <h3>🏷️ Logotipo e Identidade</h3>
-            <div class="form-group">
-              <label class="form-label" for="cfg-site-name">Nome do Site</label>
-              <input type="text" id="cfg-site-name" class="form-input" required>
-            </div>
-            <div class="form-group">
-              <label class="form-label" for="cfg-tagline">Slogan Principal (Tagline)</label>
-              <input type="text" id="cfg-tagline" class="form-input" required>
-            </div>
-            <div class="form-group">
-              <label class="form-label" for="cfg-logo-url">URL da Logomarca (Imagem)</label>
-              <input type="url" id="cfg-logo-url" class="form-input" placeholder="https://... ou ../assets/logo.png">
-              <div class="form-hint">Deixe em branco para usar a logo padrão da Central de Contratos.</div>
-            </div>
-            <div class="form-group">
-              <label class="form-label" for="cfg-site-description">Descrição SEO (Meta Description)</label>
-              <textarea id="cfg-site-description" class="form-input" style="font-family:inherit;min-height:70px;resize:vertical"></textarea>
-            </div>
-          </div>
-
-          <div class="admin-card">
-            <h3>🔗 CTA & Integrações</h3>
-            <div class="form-group">
-              <label class="form-label" for="cfg-cta-url">Link do Botão "Comece Agora" (Header/Hero)</label>
-              <input type="url" id="cfg-cta-url" class="form-input">
-            </div>
-            <div class="form-group">
-              <label class="form-label" for="cfg-cta-text">Texto do Botão</label>
-              <input type="text" id="cfg-cta-text" class="form-input" maxlength="40">
-            </div>
-            <div class="form-group">
-              <label class="form-label" for="cfg-whatsapp">WhatsApp (com DDI, apenas números)</label>
-              <input type="tel" id="cfg-whatsapp" class="form-input" placeholder="5511999999999">
-            </div>
-            <div class="form-group">
-              <label class="form-label" style="display:flex;align-items:center;gap:.625rem;cursor:pointer">
-                <input type="checkbox" id="cfg-wa-float" style="width:18px;height:18px;accent-color:var(--green)">
-                Mostrar botão flutuante do WhatsApp
-              </label>
+          <!-- SUB-ABA 1: IDENTIDADE -->
+          <div id="sub-identity" class="admin-subcard active">
+            <div class="admin-card">
+              <h3>🏷️ Logotipo e Identidade</h3>
+              <div class="form-group">
+                <label class="form-label" for="cfg-site-name">Nome do Site</label>
+                <input type="text" id="cfg-site-name" class="form-input" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="cfg-tagline">Slogan Principal (Tagline)</label>
+                <input type="text" id="cfg-tagline" class="form-input" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="cfg-logo-url">URL da Logomarca (Imagem)</label>
+                <input type="url" id="cfg-logo-url" class="form-input" placeholder="https://... ou ../assets/logo.png">
+                <div class="form-hint">Deixe em branco para usar a logo padrão da Central de Contratos.</div>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="cfg-site-description">Descrição SEO (Meta Description)</label>
+                <textarea id="cfg-site-description" class="form-input" style="font-family:inherit;min-height:70px;resize:vertical"></textarea>
+              </div>
             </div>
           </div>
 
-          <div class="admin-card">
-            <h3>📧 Contato & Legal</h3>
-            <div class="form-group">
-              <label class="form-label" for="cfg-email">E-mail Institucional</label>
-              <input type="email" id="cfg-email" class="form-input">
+          <!-- SUB-ABA 2: CTAS & WHATSAPP -->
+          <div id="sub-ctas" class="admin-subcard">
+            <div class="admin-card">
+              <h3>🔗 CTA Principal / Geral</h3>
+              <div class="form-group">
+                <label class="form-label" for="cfg-cta-url">Link do Botão "Comece Agora" (Header/Hero)</label>
+                <input type="url" id="cfg-cta-url" class="form-input">
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="cfg-cta-text">Texto do Botão</label>
+                <input type="text" id="cfg-cta-text" class="form-input" maxlength="40">
+              </div>
+              
+              <div style="margin-top:1.25rem;border-top:1px solid rgba(255,255,255,0.05);padding-top:1.25rem">
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.25rem">
+                  <div class="form-group">
+                    <label class="form-label" style="display:flex;align-items:center;gap:.375rem;cursor:pointer">
+                      <input type="checkbox" id="cfg-cta-use-custom" style="width:15px;height:15px">
+                      Usar Cores Customizadas no CTA
+                    </label>
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:.5rem;margin-top:.5rem">
+                      <div>
+                        <span style="font-size:0.75rem;color:var(--text-muted)">Cor do Fundo</span>
+                        <input type="color" id="cfg-cta-bg-color" class="form-input" style="height:36px;padding:.125rem">
+                      </div>
+                      <div>
+                        <span style="font-size:0.75rem;color:var(--text-muted)">Cor do Texto</span>
+                        <input type="color" id="cfg-cta-text-color" class="form-input" style="height:36px;padding:.125rem">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label" for="cfg-cta-format">Formato (Bordas)</label>
+                    <select id="cfg-cta-format" class="form-input" style="height:46px;margin-top:0.375rem">
+                      <option value="default">Padrão do Tema</option>
+                      <option value="square">Quadrado (Pontiagudo)</option>
+                      <option value="rounded">Arredondado (Suave)</option>
+                      <option value="pill">Pílula (Totalmente Oval)</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
             </div>
-            <div class="form-group" style="margin-top:1.5rem">
-              <label class="form-label" for="cfg-privacy-policy">Política de Privacidade (HTML)</label>
-              <textarea id="cfg-privacy-policy" class="form-input" style="font-family:inherit;min-height:200px;resize:vertical"></textarea>
-              <div class="form-hint">Deixe em branco para usar o texto legal padrão da LGPD. Suporta tags HTML básicas e placeholders (<code>{{siteName}}</code>, <code>{{contactEmail}}</code>, <code>{{siteUrl}}</code>).</div>
+
+            <div class="admin-card">
+              <h3>💬 WhatsApp</h3>
+              <div class="form-group">
+                <label class="form-label" for="cfg-whatsapp">WhatsApp (com DDI, apenas números)</label>
+                <input type="tel" id="cfg-whatsapp" class="form-input" placeholder="5511999999999">
+              </div>
+              <div class="form-group">
+                <label class="form-label" style="display:flex;align-items:center;gap:.625rem;cursor:pointer">
+                  <input type="checkbox" id="cfg-wa-float" style="width:18px;height:18px;accent-color:var(--green)">
+                  Mostrar botão flutuante do WhatsApp
+                </label>
+              </div>
             </div>
           </div>
 
-          <div class="admin-card">
-            <h3>🔍 Sitemap & SEO</h3>
-            <p style="font-size:0.875rem;color:var(--text-muted);margin-bottom:1.25rem">
-              O sitemap é essencial para que o Google indexe seus posts do blog e páginas secundárias.
-            </p>
-            <div style="margin-bottom:1.5rem">
-              <button type="button" id="btn-download-sitemap" class="btn btn-outline btn-sm">📥 Gerar e Baixar sitemap.xml</button>
-            </div>
-            <div class="form-group">
-              <label class="form-label" for="cfg-deploy-webhook">Webhook de Deploy (Vercel / Netlify)</label>
-              <input type="url" id="cfg-deploy-webhook" class="form-input" placeholder="https://api.netlify.com/build_hooks/...">
-              <div class="form-hint">Opcional. Se configurado, o painel irá disparar esse webhook a cada alteração salva para atualizar o site e regenerar o sitemap em produção.</div>
-            </div>
-            <div style="margin-top:1.25rem;border-top:1px solid var(--surface-high);padding-top:1rem;font-size:0.8125rem;color:var(--text-muted)">
-              <strong style="color:var(--text)">💡 Como configurar a atualização automática:</strong>
-              <ul style="list-style:disc;padding-left:1.25rem;margin-top:0.5rem;display:flex;flex-direction:column;gap:0.375rem">
-                <li><strong>No Netlify:</strong> Vá em <em>Site settings</em> → <em>Build & deploy</em> → <em>Build hooks</em> → clique em <em>Add build hook</em> (nomeie como "CMS") e copie a URL gerada.</li>
-                <li><strong>Na Vercel:</strong> Vá em <em>Project Settings</em> → <em>Git</em> → role até <em>Deploy Hooks</em> → digite um nome e crie, depois copie a URL gerada.</li>
-                <li>Cole a URL no campo acima e clique em <strong>Salvar Configurações Gerais</strong> abaixo.</li>
-              </ul>
+          <!-- SUB-ABA 3: CONTATO & LEGAL -->
+          <div id="sub-contact" class="admin-subcard">
+            <div class="admin-card">
+              <h3>📧 Contato &amp; Legal</h3>
+              <div class="form-group">
+                <label class="form-label" for="cfg-email">E-mail Institucional</label>
+                <input type="email" id="cfg-email" class="form-input">
+              </div>
+              <div class="form-group" style="margin-top:1.5rem">
+                <label class="form-label" for="cfg-privacy-policy">Política de Privacidade (HTML)</label>
+                <textarea id="cfg-privacy-policy" class="form-input" style="font-family:inherit;min-height:200px;resize:vertical"></textarea>
+                <div class="form-hint">Deixe em branco para usar o texto legal padrão da LGPD. Suporta tags HTML básicas e placeholders (<code>{{siteName}}</code>, <code>{{contactEmail}}</code>, <code>{{siteUrl}}</code>).</div>
+              </div>
             </div>
           </div>
 
-          <button type="submit" class="btn btn-primary btn-lg">💾 Salvar Configurações Gerais</button>
+          <!-- SUB-ABA 4: SITEMAP & SEO -->
+          <div id="sub-seo" class="admin-subcard">
+            <div class="admin-card">
+              <h3>🔍 Sitemap &amp; SEO</h3>
+              <p style="font-size:0.875rem;color:var(--text-muted);margin-bottom:1.25rem">
+                O sitemap é essencial para que o Google indexe seus posts do blog e páginas secundárias.
+              </p>
+              <div style="margin-bottom:1.5rem">
+                <button type="button" id="btn-download-sitemap" class="btn btn-outline btn-sm">📥 Gerar e Baixar sitemap.xml</button>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="cfg-deploy-webhook">Webhook de Deploy (Vercel / Netlify)</label>
+                <input type="url" id="cfg-deploy-webhook" class="form-input" placeholder="https://api.netlify.com/build_hooks/...">
+                <div class="form-hint">Opcional. Se configurado, o painel irá disparar esse webhook a cada alteração salva para atualizar o site e regenerar o sitemap em produção.</div>
+              </div>
+              <div style="margin-top:1.25rem;border-top:1px solid var(--surface-high);padding-top:1rem;font-size:0.8125rem;color:var(--text-muted)">
+                <strong style="color:var(--text)">💡 Como configurar a atualização automática:</strong>
+                <ul style="list-style:disc;padding-left:1.25rem;margin-top:0.5rem;display:flex;flex-direction:column;gap:0.375rem">
+                  <li><strong>No Netlify:</strong> Vá em <em>Site settings</em> → <em>Build &amp; deploy</em> → <em>Build hooks</em> → clique em <em>Add build hook</em> (nomeie como "CMS") e copie a URL gerada.</li>
+                  <li><strong>Na Vercel:</strong> Vá em <em>Project Settings</em> → <em>Git</em> → role até <em>Deploy Hooks</em> → digite um nome e crie, depois copie a URL gerada.</li>
+                  <li>Cole a URL no campo acima e clique em <strong>Salvar Configurações Gerais</strong> abaixo.</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <!-- SUB-ABA 5: TEMA & CORES -->
+          <div id="sub-theme" class="admin-subcard">
+            <div class="admin-card">
+              <h3>🎨 Paleta de Cores do Tema</h3>
+
+              <!-- Widget Visual de Temas Rápidos -->
+              <div style="margin-bottom:2rem">
+                <div style="display:flex;align-items:center;gap:.75rem;margin-bottom:1rem">
+                  <div style="font-size:1.25rem">✨</div>
+                  <div>
+                    <div style="font-weight:700;color:var(--accent)">Escolha Rápida de Tema</div>
+                    <div style="font-size:.8125rem;color:var(--text-muted)">Clique em "Aplicar" para preencher todos os campos e salvar o tema de uma vez.</div>
+                  </div>
+                </div>
+                <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:.875rem">
+
+                  <!-- Clássico -->
+                  <div style="border:1px solid var(--outline);border-radius:var(--radius-lg);overflow:hidden;background:var(--surface-low);transition:transform .15s,box-shadow .15s" onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 8px 24px rgba(0,0,0,.2)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
+                    <div style="display:flex;height:52px">
+                      <div style="flex:1;background:#000f22"></div>
+                      <div style="flex:1;background:#EDB83D"></div>
+                      <div style="flex:1;background:#f7f9fb"></div>
+                    </div>
+                    <div style="padding:.625rem .75rem">
+                      <div style="font-size:.8125rem;font-weight:700;margin-bottom:.5rem">⚖️ Clássico</div>
+                      <button id="preset-btn-classic" type="button" class="btn btn-sm btn-primary" style="width:100%;font-size:.75rem" onclick="applyThemePresetAndSave('classic')">Aplicar</button>
+                    </div>
+                  </div>
+
+                  <!-- Cyberpunk -->
+                  <div style="border:1px solid var(--outline);border-radius:var(--radius-lg);overflow:hidden;background:var(--surface-low);transition:transform .15s,box-shadow .15s" onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 8px 24px rgba(0,0,0,.2)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
+                    <div style="display:flex;height:52px">
+                      <div style="flex:1;background:#0d0e15"></div>
+                      <div style="flex:1;background:#ff0055"></div>
+                      <div style="flex:1;background:#0a0b10"></div>
+                    </div>
+                    <div style="padding:.625rem .75rem">
+                      <div style="font-size:.8125rem;font-weight:700;margin-bottom:.5rem">⚡ Cyberpunk</div>
+                      <button id="preset-btn-cyberpunk" type="button" class="btn btn-sm btn-primary" style="width:100%;font-size:.75rem" onclick="applyThemePresetAndSave('cyberpunk')">Aplicar</button>
+                    </div>
+                  </div>
+
+                  <!-- Esmeralda -->
+                  <div style="border:1px solid var(--outline);border-radius:var(--radius-lg);overflow:hidden;background:var(--surface-low);transition:transform .15s,box-shadow .15s" onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 8px 24px rgba(0,0,0,.2)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
+                    <div style="display:flex;height:52px">
+                      <div style="flex:1;background:#0b2e24"></div>
+                      <div style="flex:1;background:#10b981"></div>
+                      <div style="flex:1;background:#f4f7f6"></div>
+                    </div>
+                    <div style="padding:.625rem .75rem">
+                      <div style="font-size:.8125rem;font-weight:700;margin-bottom:.5rem">🌿 Esmeralda</div>
+                      <button id="preset-btn-emerald" type="button" class="btn btn-sm btn-primary" style="width:100%;font-size:.75rem" onclick="applyThemePresetAndSave('emerald')">Aplicar</button>
+                    </div>
+                  </div>
+
+                  <!-- Pôr do Sol -->
+                  <div style="border:1px solid var(--outline);border-radius:var(--radius-lg);overflow:hidden;background:var(--surface-low);transition:transform .15s,box-shadow .15s" onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 8px 24px rgba(0,0,0,.2)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
+                    <div style="display:flex;height:52px">
+                      <div style="flex:1;background:#2d1b4e"></div>
+                      <div style="flex:1;background:#f97316"></div>
+                      <div style="flex:1;background:#fafaf9"></div>
+                    </div>
+                    <div style="padding:.625rem .75rem">
+                      <div style="font-size:.8125rem;font-weight:700;margin-bottom:.5rem">🌅 Pôr do Sol</div>
+                      <button id="preset-btn-sunset" type="button" class="btn btn-sm btn-primary" style="width:100%;font-size:.75rem" onclick="applyThemePresetAndSave('sunset')">Aplicar</button>
+                    </div>
+                  </div>
+
+                  <!-- Oceano -->
+                  <div style="border:1px solid var(--outline);border-radius:var(--radius-lg);overflow:hidden;background:var(--surface-low);transition:transform .15s,box-shadow .15s" onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 8px 24px rgba(0,0,0,.2)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
+                    <div style="display:flex;height:52px">
+                      <div style="flex:1;background:#0f172a"></div>
+                      <div style="flex:1;background:#3b82f6"></div>
+                      <div style="flex:1;background:#f8fafc"></div>
+                    </div>
+                    <div style="padding:.625rem .75rem">
+                      <div style="font-size:.8125rem;font-weight:700;margin-bottom:.5rem">🌊 Oceano</div>
+                      <button id="preset-btn-ocean" type="button" class="btn btn-sm btn-primary" style="width:100%;font-size:.75rem" onclick="applyThemePresetAndSave('ocean')">Aplicar</button>
+                    </div>
+                  </div>
+
+                  <!-- Minimalista -->
+                  <div style="border:1px solid var(--outline);border-radius:var(--radius-lg);overflow:hidden;background:var(--surface-low);transition:transform .15s,box-shadow .15s" onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 8px 24px rgba(0,0,0,.2)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
+                    <div style="display:flex;height:52px">
+                      <div style="flex:1;background:#18181b"></div>
+                      <div style="flex:1;background:#a855f7"></div>
+                      <div style="flex:1;background:#fafafa"></div>
+                    </div>
+                    <div style="padding:.625rem .75rem">
+                      <div style="font-size:.8125rem;font-weight:700;margin-bottom:.5rem">⬜ Minimalista</div>
+                      <button id="preset-btn-minimal" type="button" class="btn btn-sm btn-primary" style="width:100%;font-size:.75rem" onclick="applyThemePresetAndSave('minimal')">Aplicar</button>
+                    </div>
+                  </div>
+
+                  <!-- Rosa -->
+                  <div style="border:1px solid var(--outline);border-radius:var(--radius-lg);overflow:hidden;background:var(--surface-low);transition:transform .15s,box-shadow .15s" onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 8px 24px rgba(0,0,0,.2)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
+                    <div style="display:flex;height:52px">
+                      <div style="flex:1;background:#881337"></div>
+                      <div style="flex:1;background:#f43f5e"></div>
+                      <div style="flex:1;background:#fff1f2"></div>
+                    </div>
+                    <div style="padding:.625rem .75rem">
+                      <div style="font-size:.8125rem;font-weight:700;margin-bottom:.5rem">🌹 Rosa</div>
+                      <button id="preset-btn-rose" type="button" class="btn btn-sm btn-primary" style="width:100%;font-size:.75rem" onclick="applyThemePresetAndSave('rose')">Aplicar</button>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+
+              <!-- Select legacy (oculto, mantido para compatibilidade de JS) -->
+              <select id="cfg-theme-preset" style="display:none">
+                <option value="">-- Selecione um tema pronto --</option>
+                <option value="classic">Clássico</option>
+                <option value="cyberpunk">Cyberpunk</option>
+                <option value="emerald">Esmeralda</option>
+                <option value="sunset">Pôr do Sol</option>
+                <option value="ocean">Oceano</option>
+                <option value="minimal">Minimalista</option>
+                <option value="rose">Rosa</option>
+              </select>
+
+              <p style="font-size:0.875rem;color:var(--text-muted);margin-bottom:1.5rem">
+                Ou ajuste as cores manualmente abaixo. As cores das dobras da Home são configuradas na aba <strong>Seções da Home</strong>.
+              </p>
+
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;margin-bottom:1.5rem">
+                <div class="form-group">
+                  <label class="form-label" for="cfg-theme-primary">Cor Primária (Botões, Títulos principais)</label>
+                  <input type="color" id="cfg-theme-primary" class="form-input" style="height:46px;padding:.25rem">
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="cfg-theme-accent">Cor de Destaque (Badges, Destaques)</label>
+                  <input type="color" id="cfg-theme-accent" class="form-input" style="height:46px;padding:.25rem">
+                </div>
+              </div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.25rem">
+                <div class="form-group">
+                  <label class="form-label" for="cfg-theme-bg">Cor de Fundo do Site (Geral)</label>
+                  <input type="color" id="cfg-theme-bg" class="form-input" style="height:46px;padding:.25rem">
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="cfg-theme-text">Cor do Texto do Site (Geral)</label>
+                  <input type="color" id="cfg-theme-text" class="form-input" style="height:46px;padding:.25rem">
+                </div>
+              </div>
+            </div>
+
+            <div class="admin-card">
+              <h3>🌐 Cores da Barra de Navegação (Navbar)</h3>
+              <p style="font-size:0.875rem;color:var(--text-muted);margin-bottom:1.5rem">
+                Configure as cores específicas para a barra de cabeçalho no topo da página.
+              </p>
+              <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:1.25rem">
+                <div class="form-group">
+                  <label class="form-label" for="cfg-theme-nav-bg">Fundo da Navbar (ao rolar)</label>
+                  <input type="color" id="cfg-theme-nav-bg" class="form-input" style="height:46px;padding:.25rem">
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="cfg-theme-nav-text">Texto da Navbar (ao rolar)</label>
+                  <input type="color" id="cfg-theme-nav-text" class="form-input" style="height:46px;padding:.25rem">
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="cfg-theme-nav-text-trans">Texto da Navbar (no topo transparente)</label>
+                  <input type="color" id="cfg-theme-nav-text-trans" class="form-input" style="height:46px;padding:.25rem">
+                </div>
+              </div>
+            </div>
+
+            <div class="admin-card">
+              <h3>🏷️ Cores da Seção de Planos</h3>
+              <p style="font-size:0.875rem;color:var(--text-muted);margin-bottom:1.5rem">
+                Configure as cores específicas para a seção de planos de preços na landing page.
+              </p>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.25rem">
+                <div class="form-group">
+                  <label class="form-label" for="cfg-theme-pricing-bg">Cor de Fundo da Dobra de Planos</label>
+                  <input type="color" id="cfg-theme-pricing-bg" class="form-input" style="height:46px;padding:.25rem">
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="cfg-theme-pricing-text">Cor do Texto da Dobra de Planos</label>
+                  <input type="color" id="cfg-theme-pricing-text" class="form-input" style="height:46px;padding:.25rem">
+                </div>
+                <div class="form-group" style="margin-bottom:0">
+                  <label class="form-label" for="cfg-theme-pricing-bg-image">Imagem de Fundo (URL)</label>
+                  <input type="text" id="cfg-theme-pricing-bg-image" class="form-input" placeholder="https://... ou ../assets/imagem.jpg">
+                </div>
+                <div class="form-group" style="margin-bottom:0">
+                  <label class="form-label" for="cfg-theme-pricing-bg-video">Vídeo de Fundo (URL)</label>
+                  <input type="text" id="cfg-theme-pricing-bg-video" class="form-input" placeholder="https://... ou ../assets/video.mp4">
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+          <div style="margin-top: 1.5rem;">
+            <button type="submit" class="btn btn-primary btn-lg">💾 Salvar Configurações Gerais</button>
+          </div>
         </form>
       </section>
 
@@ -311,189 +753,371 @@
         <h2>Seções da Home Page</h2>
         <p>Altere os textos de todas as dobras da página inicial sem precisar mexer no código.</p>
 
+        <div class="admin-subtabs">
+          <button type="button" class="admin-subtab-btn active" data-subtab="sub-home-hero">✨ Apresentação</button>
+          <button type="button" class="admin-subtab-btn" data-subtab="sub-home-how">📖 Como Funciona</button>
+          <button type="button" class="admin-subtab-btn" data-subtab="sub-home-benefits">💎 Diferenciais</button>
+          <button type="button" class="admin-subtab-btn" data-subtab="sub-home-catalog">📁 Catálogo &amp; FAQ</button>
+          <button type="button" class="admin-subtab-btn" data-subtab="sub-home-testimonials">💬 Depoimentos &amp; Rodapé</button>
+        </div>
+
         <form id="cms-home-form">
-          <!-- DOBRA HERO -->
-          <div class="admin-card">
-            <h3>✨ Dobra Hero (Apresentação)</h3>
-            <div class="form-group">
-              <label class="form-label" for="cfg-hero-badge">Tag do Hero (Badge)</label>
-              <input type="text" id="cfg-hero-badge" class="form-input">
-            </div>
-            <div class="form-group">
-              <label class="form-label" for="cfg-hero-headline">Título Principal (Headline)</label>
-              <input type="text" id="cfg-hero-headline" class="form-input">
-            </div>
-            <div class="form-group">
-              <label class="form-label" for="cfg-hero-sub">Subtítulo (Abaixo do Título)</label>
-              <textarea id="cfg-hero-sub" class="form-input" style="font-family:inherit;min-height:80px;resize:vertical"></textarea>
-            </div>
-            <div class="form-group">
-              <label class="form-label" for="cfg-hero-sec-cta-text">Texto do Botão Secundário</label>
-              <input type="text" id="cfg-hero-sec-cta-text" class="form-input">
-            </div>
-
-            <!-- Stats (Contadores) -->
-            <div class="cms-list-container">
-              <div class="cms-list-title">
-                <span>📊 Contadores do Hero</span>
+          <!-- SUB-ABA 1: APRESENTAÇÃO (HERO) -->
+          <div id="sub-home-hero" class="admin-subcard active">
+            <!-- DOBRA HERO -->
+            <div class="admin-card">
+              <h3>✨ Dobra Hero (Apresentação)</h3>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;border-bottom:1px solid rgba(255,255,255,0.05);padding-bottom:1.25rem;margin-bottom:1.25rem">
+                <div class="form-group" style="margin-bottom:0">
+                  <label class="form-label" for="cfg-home-hero-bg">Cor de Fundo da Dobra</label>
+                  <input type="color" id="cfg-home-hero-bg" class="form-input" style="height:46px;padding:.25rem">
+                </div>
+                <div class="form-group" style="margin-bottom:0">
+                  <label class="form-label" for="cfg-home-hero-text">Cor do Texto da Dobra</label>
+                  <input type="color" id="cfg-home-hero-text" class="form-input" style="height:46px;padding:.25rem">
+                </div>
+                <div class="form-group" style="margin-bottom:0">
+                  <label class="form-label" for="cfg-home-hero-bg-image">Imagem de Fundo (URL)</label>
+                  <input type="text" id="cfg-home-hero-bg-image" class="form-input" placeholder="https://... ou ../assets/imagem.jpg">
+                </div>
+                <div class="form-group" style="margin-bottom:0">
+                  <label class="form-label" for="cfg-home-hero-bg-video">Vídeo de Fundo (URL)</label>
+                  <input type="text" id="cfg-home-hero-bg-video" class="form-input" placeholder="https://... ou ../assets/video.mp4">
+                </div>
               </div>
-              <div id="stats-editor" class="cms-list-items">
-                <!-- Injetado dinamicamente via JS -->
+              <div class="form-group">
+                <label class="form-label" for="cfg-hero-badge">Tag do Hero (Badge)</label>
+                <input type="text" id="cfg-hero-badge" class="form-input">
               </div>
-            </div>
-          </div>
-
-          <!-- DOBRA COMO FUNCIONA -->
-          <div class="admin-card">
-            <h3>📖 Dobra: Como Funciona</h3>
-            <div class="form-group">
-              <label class="form-label" for="cfg-how-eyebrow">Etiqueta (Eyebrow)</label>
-              <input type="text" id="cfg-how-eyebrow" class="form-input">
-            </div>
-            <div class="form-group">
-              <label class="form-label" for="cfg-how-title">Título da Dobra</label>
-              <input type="text" id="cfg-how-title" class="form-input">
-            </div>
-            <div class="form-group">
-              <label class="form-label" for="cfg-how-desc">Descrição</label>
-              <textarea id="cfg-how-desc" class="form-input" style="font-family:inherit;min-height:60px"></textarea>
-            </div>
-
-            <!-- Steps (Passos) -->
-            <div class="cms-list-container">
-              <div class="cms-list-title">
-                <span>👣 Cards de Passos (3 etapas)</span>
+              <div class="form-group">
+                <label class="form-label" for="cfg-hero-headline">Título Principal (Headline)</label>
+                <input type="text" id="cfg-hero-headline" class="form-input">
               </div>
-              <div id="steps-editor" class="cms-list-items">
-                <!-- Injetado dinamicamente via JS -->
+              <div class="form-group">
+                <label class="form-label" for="cfg-hero-sub">Subtítulo (Abaixo do Título)</label>
+                <textarea id="cfg-hero-sub" class="form-input" style="font-family:inherit;min-height:80px;resize:vertical"></textarea>
               </div>
-            </div>
-          </div>
-
-          <!-- DOBRA BENEFÍCIOS -->
-          <div class="admin-card">
-            <h3>✨ Dobra: Benefícios</h3>
-            <div class="form-group">
-              <label class="form-label" for="cfg-benefits-eyebrow">Etiqueta (Eyebrow)</label>
-              <input type="text" id="cfg-benefits-eyebrow" class="form-input">
-            </div>
-            <div class="form-group">
-              <label class="form-label" for="cfg-benefits-title">Título da Dobra</label>
-              <input type="text" id="cfg-benefits-title" class="form-input">
-            </div>
-            <div class="form-group">
-              <label class="form-label" for="cfg-benefits-desc">Descrição</label>
-              <textarea id="cfg-benefits-desc" class="form-input" style="font-family:inherit;min-height:60px"></textarea>
-            </div>
-
-            <!-- Benefits List -->
-            <div class="cms-list-container">
-              <div class="cms-list-title">
-                <span>💎 Cards de Diferenciais (6 itens)</span>
+              <div class="form-group">
+                <label class="form-label" for="cfg-hero-sec-cta-text">Texto do Botão Secundário</label>
+                <input type="text" id="cfg-hero-sec-cta-text" class="form-input">
               </div>
-              <div id="benefits-editor" class="cms-list-items">
-                <!-- Injetado dinamicamente via JS -->
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;margin-top:1rem">
+                <div class="form-group">
+                  <label class="form-label" for="cfg-hero-sec-cta-url">Link do Botão Secundário</label>
+                  <input type="text" id="cfg-hero-sec-cta-url" class="form-input" placeholder="Ex: #como-funciona ou https://...">
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="cfg-hero-sec-cta-format">Formato do Botão Secundário</label>
+                  <select id="cfg-hero-sec-cta-format" class="form-input" style="height:46px">
+                    <option value="default">Padrão do Tema</option>
+                    <option value="square">Quadrado</option>
+                    <option value="rounded">Arredondado</option>
+                    <option value="pill">Pílula</option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-group" style="margin-top:0.5rem">
+                <label class="form-label" style="display:flex;align-items:center;gap:.375rem;cursor:pointer">
+                  <input type="checkbox" id="cfg-hero-sec-cta-use-custom" style="width:15px;height:15px">
+                  Usar Cores Customizadas no Botão Secundário
+                </label>
+                <div style="display:grid;grid-template-columns:150px 150px;gap:.5rem;margin-top:.5rem">
+                  <div>
+                    <span style="font-size:0.75rem;color:var(--text-muted)">Cor do Fundo</span>
+                    <input type="color" id="cfg-hero-sec-cta-bg-color" class="form-input" style="height:36px;padding:.125rem">
+                  </div>
+                  <div>
+                    <span style="font-size:0.75rem;color:var(--text-muted)">Cor do Texto</span>
+                    <input type="color" id="cfg-hero-sec-cta-text-color" class="form-input" style="height:36px;padding:.125rem">
+                  </div>
+                </div>
+              </div>
+
+              <!-- Stats (Contadores) -->
+              <div class="cms-list-container">
+                <div class="cms-list-title">
+                  <span>📊 Contadores do Hero</span>
+                </div>
+                <div id="stats-editor" class="cms-list-items">
+                  <!-- Injetado dinamicamente via JS -->
+                </div>
               </div>
             </div>
           </div>
 
-          <!-- DOBRA CATÁLOGO -->
-          <div class="admin-card">
-            <h3>📁 Dobra: Catálogo de Documentos</h3>
-            <div class="form-group">
-              <label class="form-label" for="cfg-docs-eyebrow">Etiqueta (Eyebrow)</label>
-              <input type="text" id="cfg-docs-eyebrow" class="form-input">
-            </div>
-            <div class="form-group">
-              <label class="form-label" for="cfg-docs-title">Título da Dobra</label>
-              <input type="text" id="cfg-docs-title" class="form-input">
-            </div>
-            <div class="form-group">
-              <label class="form-label" for="cfg-docs-desc">Descrição</label>
-              <textarea id="cfg-docs-desc" class="form-input" style="font-family:inherit;min-height:60px"></textarea>
-            </div>
-
-            <!-- Docs list -->
-            <div class="cms-list-container">
-              <div class="cms-list-title">
-                <span>📄 Modelos de Documentos</span>
-                <button type="button" class="btn btn-sm" onclick="addDocRow()">+ Adicionar Modelo</button>
+          <!-- SUB-ABA 2: COMO FUNCIONA -->
+          <div id="sub-home-how" class="admin-subcard">
+            <!-- DOBRA COMO FUNCIONA -->
+            <div class="admin-card">
+              <h3>📖 Dobra: Como Funciona</h3>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;border-bottom:1px solid rgba(255,255,255,0.05);padding-bottom:1.25rem;margin-bottom:1.25rem">
+                <div class="form-group" style="margin-bottom:0">
+                  <label class="form-label" for="cfg-home-how-bg">Cor de Fundo da Dobra</label>
+                  <input type="color" id="cfg-home-how-bg" class="form-input" style="height:46px;padding:.25rem">
+                </div>
+                <div class="form-group" style="margin-bottom:0">
+                  <label class="form-label" for="cfg-home-how-text">Cor do Texto da Dobra</label>
+                  <input type="color" id="cfg-home-how-text" class="form-input" style="height:46px;padding:.25rem">
+                </div>
+                <div class="form-group" style="margin-bottom:0">
+                  <label class="form-label" for="cfg-home-how-bg-image">Imagem de Fundo (URL)</label>
+                  <input type="text" id="cfg-home-how-bg-image" class="form-input" placeholder="https://... ou ../assets/imagem.jpg">
+                </div>
+                <div class="form-group" style="margin-bottom:0">
+                  <label class="form-label" for="cfg-home-how-bg-video">Vídeo de Fundo (URL)</label>
+                  <input type="text" id="cfg-home-how-bg-video" class="form-input" placeholder="https://... ou ../assets/video.mp4">
+                </div>
               </div>
-              <div id="docs-editor" class="cms-list-items">
-                <!-- Injetado dinamicamente via JS -->
+              <div class="form-group">
+                <label class="form-label" for="cfg-how-eyebrow">Etiqueta (Eyebrow)</label>
+                <input type="text" id="cfg-how-eyebrow" class="form-input">
               </div>
-            </div>
-          </div>
-
-          <!-- DOBRA DEPOIMENTOS -->
-          <div class="admin-card">
-            <h3>💬 Dobra: Depoimentos</h3>
-            <div class="form-group">
-              <label class="form-label" for="cfg-test-eyebrow">Etiqueta (Eyebrow)</label>
-              <input type="text" id="cfg-test-eyebrow" class="form-input">
-            </div>
-            <div class="form-group">
-              <label class="form-label" for="cfg-test-title">Título da Dobra</label>
-              <input type="text" id="cfg-test-title" class="form-input">
-            </div>
-            <div class="form-group">
-              <label class="form-label" for="cfg-test-desc">Descrição</label>
-              <textarea id="cfg-test-desc" class="form-input" style="font-family:inherit;min-height:60px"></textarea>
-            </div>
-
-            <!-- Testimonials list -->
-            <div class="cms-list-container">
-              <div class="cms-list-title">
-                <span>🗣️ Cards de Depoimentos (3 itens)</span>
+              <div class="form-group">
+                <label class="form-label" for="cfg-how-title">Título da Dobra</label>
+                <input type="text" id="cfg-how-title" class="form-input">
               </div>
-              <div id="testimonials-editor" class="cms-list-items">
-                <!-- Injetado dinamicamente via JS -->
+              <div class="form-group">
+                <label class="form-label" for="cfg-how-desc">Descrição</label>
+                <textarea id="cfg-how-desc" class="form-input" style="font-family:inherit;min-height:60px"></textarea>
+              </div>
+
+              <!-- Steps (Passos) -->
+              <div class="cms-list-container">
+                <div class="cms-list-title">
+                  <span>👣 Cards de Passos (3 etapas)</span>
+                </div>
+                <div id="steps-editor" class="cms-list-items">
+                  <!-- Injetado dinamicamente via JS -->
+                </div>
               </div>
             </div>
           </div>
 
-          <!-- DOBRA FAQ -->
-          <div class="admin-card">
-            <h3>❓ Dobra: FAQ (Perguntas Frequentes)</h3>
-            <div class="form-group">
-              <label class="form-label" for="cfg-faq-eyebrow">Etiqueta (Eyebrow)</label>
-              <input type="text" id="cfg-faq-eyebrow" class="form-input">
-            </div>
-            <div class="form-group">
-              <label class="form-label" for="cfg-faq-title">Título da Dobra</label>
-              <input type="text" id="cfg-faq-title" class="form-input">
-            </div>
-            <div class="form-group">
-              <label class="form-label" for="cfg-faq-desc">Descrição</label>
-              <textarea id="cfg-faq-desc" class="form-input" style="font-family:inherit;min-height:60px"></textarea>
-            </div>
-
-            <!-- FAQ list -->
-            <div class="cms-list-container">
-              <div class="cms-list-title">
-                <span>📋 Perguntas e Respostas</span>
-                <button type="button" class="btn btn-sm" onclick="addFaqRow()">+ Adicionar Pergunta</button>
+          <!-- SUB-ABA 3: DIFERENCIAIS -->
+          <div id="sub-home-benefits" class="admin-subcard">
+            <!-- DOBRA BENEFÍCIOS -->
+            <div class="admin-card">
+              <h3>✨ Dobra: Benefícios</h3>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;border-bottom:1px solid rgba(255,255,255,0.05);padding-bottom:1.25rem;margin-bottom:1.25rem">
+                <div class="form-group" style="margin-bottom:0">
+                  <label class="form-label" for="cfg-home-benefits-bg">Cor de Fundo da Dobra</label>
+                  <input type="color" id="cfg-home-benefits-bg" class="form-input" style="height:46px;padding:.25rem">
+                </div>
+                <div class="form-group" style="margin-bottom:0">
+                  <label class="form-label" for="cfg-home-benefits-text">Cor do Texto da Dobra</label>
+                  <input type="color" id="cfg-home-benefits-text" class="form-input" style="height:46px;padding:.25rem">
+                </div>
+                <div class="form-group" style="margin-bottom:0">
+                  <label class="form-label" for="cfg-home-benefits-bg-image">Imagem de Fundo (URL)</label>
+                  <input type="text" id="cfg-home-benefits-bg-image" class="form-input" placeholder="https://... ou ../assets/imagem.jpg">
+                </div>
+                <div class="form-group" style="margin-bottom:0">
+                  <label class="form-label" for="cfg-home-benefits-bg-video">Vídeo de Fundo (URL)</label>
+                  <input type="text" id="cfg-home-benefits-bg-video" class="form-input" placeholder="https://... ou ../assets/video.mp4">
+                </div>
               </div>
-              <div id="faq-editor" class="cms-list-items">
-                <!-- Injetado dinamicamente via JS -->
+              <div class="form-group">
+                <label class="form-label" for="cfg-benefits-eyebrow">Etiqueta (Eyebrow)</label>
+                <input type="text" id="cfg-benefits-eyebrow" class="form-input">
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="cfg-benefits-title">Título da Dobra</label>
+                <input type="text" id="cfg-benefits-title" class="form-input">
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="cfg-benefits-desc">Descrição</label>
+                <textarea id="cfg-benefits-desc" class="form-input" style="font-family:inherit;min-height:60px"></textarea>
+              </div>
+
+              <!-- Benefits List -->
+              <div class="cms-list-container">
+                <div class="cms-list-title">
+                  <span>💎 Cards de Diferenciais (6 itens)</span>
+                </div>
+                <div id="benefits-editor" class="cms-list-items">
+                  <!-- Injetado dinamicamente via JS -->
+                </div>
               </div>
             </div>
           </div>
 
-          <!-- FOOTER TEXTS -->
-          <div class="admin-card">
-            <h3>👣 Rodapé e Copyright</h3>
-            <div class="form-group">
-              <label class="form-label" for="cfg-footer-desc">Texto de Apresentação (Footer)</label>
-              <textarea id="cfg-footer-desc" class="form-input" style="font-family:inherit;min-height:60px"></textarea>
+          <!-- SUB-ABA 4: CATÁLOGO & FAQ -->
+          <div id="sub-home-catalog" class="admin-subcard">
+            <!-- DOBRA CATÁLOGO -->
+            <div class="admin-card">
+              <h3>📁 Dobra: Catálogo de Documentos</h3>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;border-bottom:1px solid rgba(255,255,255,0.05);padding-bottom:1.25rem;margin-bottom:1.25rem">
+                <div class="form-group" style="margin-bottom:0">
+                  <label class="form-label" for="cfg-home-catalog-bg">Cor de Fundo da Dobra</label>
+                  <input type="color" id="cfg-home-catalog-bg" class="form-input" style="height:46px;padding:.25rem">
+                </div>
+                <div class="form-group" style="margin-bottom:0">
+                  <label class="form-label" for="cfg-home-catalog-text">Cor do Texto da Dobra</label>
+                  <input type="color" id="cfg-home-catalog-text" class="form-input" style="height:46px;padding:.25rem">
+                </div>
+                <div class="form-group" style="margin-bottom:0">
+                  <label class="form-label" for="cfg-home-catalog-bg-image">Imagem de Fundo (URL)</label>
+                  <input type="text" id="cfg-home-catalog-bg-image" class="form-input" placeholder="https://... ou ../assets/imagem.jpg">
+                </div>
+                <div class="form-group" style="margin-bottom:0">
+                  <label class="form-label" for="cfg-home-catalog-bg-video">Vídeo de Fundo (URL)</label>
+                  <input type="text" id="cfg-home-catalog-bg-video" class="form-input" placeholder="https://... ou ../assets/video.mp4">
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="cfg-docs-eyebrow">Etiqueta (Eyebrow)</label>
+                <input type="text" id="cfg-docs-eyebrow" class="form-input">
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="cfg-docs-title">Título da Dobra</label>
+                <input type="text" id="cfg-docs-title" class="form-input">
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="cfg-docs-desc">Descrição</label>
+                <textarea id="cfg-docs-desc" class="form-input" style="font-family:inherit;min-height:60px"></textarea>
+              </div>
+
+              <!-- Docs list -->
+              <div class="cms-list-container">
+                <div class="cms-list-title">
+                  <span>📄 Modelos de Documentos</span>
+                  <button type="button" class="btn btn-sm" onclick="addDocRow()">+ Adicionar Modelo</button>
+                </div>
+                <div id="docs-editor" class="cms-list-items">
+                  <!-- Injetado dinamicamente via JS -->
+                </div>
+              </div>
             </div>
-            <div class="form-group">
-              <label class="form-label" for="cfg-copyright-text">Texto de Copyright</label>
-              <input type="text" id="cfg-copyright-text" class="form-input">
+
+            <!-- DOBRA FAQ -->
+            <div class="admin-card">
+              <h3>❓ Dobra: FAQ (Perguntas Frequentes)</h3>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;border-bottom:1px solid rgba(255,255,255,0.05);padding-bottom:1.25rem;margin-bottom:1.25rem">
+                <div class="form-group" style="margin-bottom:0">
+                  <label class="form-label" for="cfg-home-faq-bg">Cor de Fundo da Dobra</label>
+                  <input type="color" id="cfg-home-faq-bg" class="form-input" style="height:46px;padding:.25rem">
+                </div>
+                <div class="form-group" style="margin-bottom:0">
+                  <label class="form-label" for="cfg-home-faq-text">Cor do Texto da Dobra</label>
+                  <input type="color" id="cfg-home-faq-text" class="form-input" style="height:46px;padding:.25rem">
+                </div>
+                <div class="form-group" style="margin-bottom:0">
+                  <label class="form-label" for="cfg-home-faq-bg-image">Imagem de Fundo (URL)</label>
+                  <input type="text" id="cfg-home-faq-bg-image" class="form-input" placeholder="https://... ou ../assets/imagem.jpg">
+                </div>
+                <div class="form-group" style="margin-bottom:0">
+                  <label class="form-label" for="cfg-home-faq-bg-video">Vídeo de Fundo (URL)</label>
+                  <input type="text" id="cfg-home-faq-bg-video" class="form-input" placeholder="https://... ou ../assets/video.mp4">
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="cfg-faq-eyebrow">Etiqueta (Eyebrow)</label>
+                <input type="text" id="cfg-faq-eyebrow" class="form-input">
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="cfg-faq-title">Título da Dobra</label>
+                <input type="text" id="cfg-faq-title" class="form-input">
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="cfg-faq-desc">Descrição</label>
+                <textarea id="cfg-faq-desc" class="form-input" style="font-family:inherit;min-height:60px"></textarea>
+              </div>
+
+              <!-- FAQ list -->
+              <div class="cms-list-container">
+                <div class="cms-list-title">
+                  <span>📋 Perguntas e Respostas</span>
+                  <button type="button" class="btn btn-sm" onclick="addFaqRow()">+ Adicionar Pergunta</button>
+                </div>
+                <div id="faq-editor" class="cms-list-items">
+                  <!-- Injetado dinamicamente via JS -->
+                </div>
+              </div>
             </div>
           </div>
 
-          <button type="submit" class="btn btn-primary btn-lg">💾 Salvar Alterações da Home</button>
+          <!-- SUB-ABA 5: DEPOIMENTOS & RODAPÉ -->
+          <div id="sub-home-testimonials" class="admin-subcard">
+            <!-- DOBRA DEPOIMENTOS -->
+            <div class="admin-card">
+              <h3>💬 Dobra: Depoimentos</h3>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;border-bottom:1px solid rgba(255,255,255,0.05);padding-bottom:1.25rem;margin-bottom:1.25rem">
+                <div class="form-group" style="margin-bottom:0">
+                  <label class="form-label" for="cfg-home-testimonials-bg">Cor de Fundo da Dobra</label>
+                  <input type="color" id="cfg-home-testimonials-bg" class="form-input" style="height:46px;padding:.25rem">
+                </div>
+                <div class="form-group" style="margin-bottom:0">
+                  <label class="form-label" for="cfg-home-testimonials-text">Cor do Texto da Dobra</label>
+                  <input type="color" id="cfg-home-testimonials-text" class="form-input" style="height:46px;padding:.25rem">
+                </div>
+                <div class="form-group" style="margin-bottom:0">
+                  <label class="form-label" for="cfg-home-testimonials-bg-image">Imagem de Fundo (URL)</label>
+                  <input type="text" id="cfg-home-testimonials-bg-image" class="form-input" placeholder="https://... ou ../assets/imagem.jpg">
+                </div>
+                <div class="form-group" style="margin-bottom:0">
+                  <label class="form-label" for="cfg-home-testimonials-bg-video">Vídeo de Fundo (URL)</label>
+                  <input type="text" id="cfg-home-testimonials-bg-video" class="form-input" placeholder="https://... ou ../assets/video.mp4">
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="cfg-test-eyebrow">Etiqueta (Eyebrow)</label>
+                <input type="text" id="cfg-test-eyebrow" class="form-input">
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="cfg-test-title">Título da Dobra</label>
+                <input type="text" id="cfg-test-title" class="form-input">
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="cfg-test-desc">Descrição</label>
+                <textarea id="cfg-test-desc" class="form-input" style="font-family:inherit;min-height:60px"></textarea>
+              </div>
+
+              <!-- Testimonials list -->
+              <div class="cms-list-container">
+                <div class="cms-list-title">
+                  <span>🗣️ Cards de Depoimentos (3 itens)</span>
+                </div>
+                <div id="testimonials-editor" class="cms-list-items">
+                  <!-- Injetado dinamicamente via JS -->
+                </div>
+              </div>
+            </div>
+
+            <!-- FOOTER TEXTS -->
+            <div class="admin-card">
+              <h3>👣 Rodapé e Copyright</h3>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;border-bottom:1px solid rgba(255,255,255,0.05);padding-bottom:1.25rem;margin-bottom:1.25rem">
+                <div class="form-group" style="margin-bottom:0">
+                  <label class="form-label" for="cfg-home-footer-bg">Cor de Fundo do Rodapé</label>
+                  <input type="color" id="cfg-home-footer-bg" class="form-input" style="height:46px;padding:.25rem">
+                </div>
+                <div class="form-group" style="margin-bottom:0">
+                  <label class="form-label" for="cfg-home-footer-text">Cor do Texto do Rodapé</label>
+                  <input type="color" id="cfg-home-footer-text" class="form-input" style="height:46px;padding:.25rem">
+                </div>
+                <div class="form-group" style="margin-bottom:0">
+                  <label class="form-label" for="cfg-home-footer-bg-image">Imagem de Fundo (URL)</label>
+                  <input type="text" id="cfg-home-footer-bg-image" class="form-input" placeholder="https://... ou ../assets/imagem.jpg">
+                </div>
+                <div class="form-group" style="margin-bottom:0">
+                  <label class="form-label" for="cfg-home-footer-bg-video">Vídeo de Fundo (URL)</label>
+                  <input type="text" id="cfg-home-footer-bg-video" class="form-input" placeholder="https://... ou ../assets/video.mp4">
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="cfg-footer-desc">Texto de Apresentação (Footer)</label>
+                <textarea id="cfg-footer-desc" class="form-input" style="font-family:inherit;min-height:60px"></textarea>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="cfg-copyright-text">Texto de Copyright</label>
+                <input type="text" id="cfg-copyright-text" class="form-input">
+              </div>
+            </div>
+          </div>
+
+          <div style="margin-top: 1.5rem;">
+            <button type="submit" class="btn btn-primary btn-lg">💾 Salvar Alterações da Home</button>
+          </div>
         </form>
       </section>
 
@@ -519,71 +1143,208 @@
         <h2>Seções do Blog &amp; Posts</h2>
         <p>Gerencie todos os cabeçalhos, textos promocionais e banners do blog e artigos.</p>
 
+        <div class="admin-subtabs">
+          <button type="button" class="admin-subtab-btn active" data-subtab="sub-blog-list">📚 Listagem do Blog</button>
+          <button type="button" class="admin-subtab-btn" data-subtab="sub-blog-post">📄 Leitura do Artigo</button>
+          <button type="button" class="admin-subtab-btn" data-subtab="sub-blog-ads">🎯 Monetização &amp; Ads</button>
+        </div>
+
         <form id="cms-blog-form">
-          <div class="admin-card">
-            <h3>📚 Página de Listagem do Blog</h3>
-            <div class="form-group">
-              <label class="form-label" for="cfg-blog-eyebrow">Etiqueta (Eyebrow)</label>
-              <input type="text" id="cfg-blog-eyebrow" class="form-input">
-            </div>
-            <div class="form-group">
-              <label class="form-label" for="cfg-blog-title">Título Principal (Hero)</label>
-              <input type="text" id="cfg-blog-title" class="form-input">
-            </div>
-            <div class="form-group">
-              <label class="form-label" for="cfg-blog-sub">Subtítulo do Blog</label>
-              <textarea id="cfg-blog-sub" class="form-input" style="font-family:inherit;min-height:60px"></textarea>
-            </div>
-            <div class="form-group">
-              <label class="form-label" for="cfg-blog-cta-title">Título do Banner Inferior</label>
-              <input type="text" id="cfg-blog-cta-title" class="form-input">
-            </div>
-            <div class="form-group">
-              <label class="form-label" for="cfg-blog-cta-sub">Subtítulo do Banner</label>
-              <input type="text" id="cfg-blog-cta-sub" class="form-input">
-            </div>
-            <div class="form-group">
-              <label class="form-label" for="cfg-blog-cta-btn">Texto do Botão do Banner</label>
-              <input type="text" id="cfg-blog-cta-btn" class="form-input">
+          <!-- SUB-ABA 1: LISTAGEM DO BLOG -->
+          <div id="sub-blog-list" class="admin-subcard active">
+            <div class="admin-card">
+              <h3>📚 Página de Listagem do Blog</h3>
+              <div class="form-group">
+                <label class="form-label" for="cfg-blog-eyebrow">Etiqueta (Eyebrow)</label>
+                <input type="text" id="cfg-blog-eyebrow" class="form-input">
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="cfg-blog-title">Título Principal (Hero)</label>
+                <input type="text" id="cfg-blog-title" class="form-input">
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="cfg-blog-sub">Subtítulo do Blog</label>
+                <textarea id="cfg-blog-sub" class="form-input" style="font-family:inherit;min-height:60px"></textarea>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="cfg-blog-cta-title">Título do Banner Inferior</label>
+                <input type="text" id="cfg-blog-cta-title" class="form-input">
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="cfg-blog-cta-sub">Subtítulo do Banner</label>
+                <input type="text" id="cfg-blog-cta-sub" class="form-input">
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="cfg-blog-cta-btn">Texto do Botão do Banner</label>
+                <input type="text" id="cfg-blog-cta-btn" class="form-input">
+              </div>
+              
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;margin-top:1rem;border-top:1px solid rgba(255,255,255,0.05);padding-top:1rem">
+                <div class="form-group">
+                  <label class="form-label" for="cfg-blog-cta-url">Link do Botão do Banner</label>
+                  <input type="text" id="cfg-blog-cta-url" class="form-input" placeholder="Ex: https://...">
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="cfg-blog-cta-format">Formato do Botão do Banner</label>
+                  <select id="cfg-blog-cta-format" class="form-input" style="height:46px">
+                    <option value="default">Padrão do Tema</option>
+                    <option value="square">Quadrado</option>
+                    <option value="rounded">Arredondado</option>
+                    <option value="pill">Pílula</option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-group" style="margin-top:0.5rem">
+                <label class="form-label" style="display:flex;align-items:center;gap:.375rem;cursor:pointer">
+                  <input type="checkbox" id="cfg-blog-cta-use-custom" style="width:15px;height:15px">
+                  Usar Cores Customizadas no Botão do Banner
+                </label>
+                <div style="display:grid;grid-template-columns:150px 150px;gap:.5rem;margin-top:.5rem">
+                  <div>
+                    <span style="font-size:0.75rem;color:var(--text-muted)">Cor do Fundo</span>
+                    <input type="color" id="cfg-blog-cta-bg-color" class="form-input" style="height:36px;padding:.125rem">
+                  </div>
+                  <div>
+                    <span style="font-size:0.75rem;color:var(--text-muted)">Cor do Texto</span>
+                    <input type="color" id="cfg-blog-cta-text-color" class="form-input" style="height:36px;padding:.125rem">
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
 
-          <div class="admin-card">
-            <h3>📄 Página de Leitura do Artigo (Post)</h3>
-            <div class="form-group" style="border-bottom:1px solid rgba(255,255,255,0.05);padding-bottom:1.5rem;margin-bottom:1.5rem">
-              <h4>Card Promocional Lateral (Sidebar)</h4>
-              <div class="form-group" style="margin-top:0.75rem">
-                <label class="form-label" for="cfg-post-side-title">Título</label>
-                <input type="text" id="cfg-post-side-title" class="form-input">
+          <!-- SUB-ABA 2: LEITURA DO ARTIGO -->
+          <div id="sub-blog-post" class="admin-subcard">
+            <div class="admin-card">
+              <h3>📄 Página de Leitura do Artigo (Post)</h3>
+              <div class="form-group" style="border-bottom:1px solid rgba(255,255,255,0.05);padding-bottom:1.5rem;margin-bottom:1.5rem">
+                <h4>Card Promocional Lateral (Sidebar)</h4>
+                <div class="form-group" style="margin-top:0.75rem">
+                  <label class="form-label" for="cfg-post-side-title">Título</label>
+                  <input type="text" id="cfg-post-side-title" class="form-input">
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="cfg-post-side-sub">Descrição</label>
+                  <input type="text" id="cfg-post-side-sub" class="form-input">
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="cfg-post-side-btn">Texto do Botão</label>
+                  <input type="text" id="cfg-post-side-btn" class="form-input">
+                </div>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;margin-top:1rem;border-top:1px solid rgba(255,255,255,0.05);padding-top:1rem">
+                  <div class="form-group">
+                    <label class="form-label" for="cfg-post-side-url">Link do Botão</label>
+                    <input type="text" id="cfg-post-side-url" class="form-input" placeholder="Ex: https://...">
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label" for="cfg-post-side-format">Formato do Botão</label>
+                    <select id="cfg-post-side-format" class="form-input" style="height:46px">
+                      <option value="default">Padrão do Tema</option>
+                      <option value="square">Quadrado</option>
+                      <option value="rounded">Arredondado</option>
+                      <option value="pill">Pílula</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-group" style="margin-top:0.5rem">
+                  <label class="form-label" style="display:flex;align-items:center;gap:.375rem;cursor:pointer">
+                    <input type="checkbox" id="cfg-post-side-use-custom" style="width:15px;height:15px">
+                    Usar Cores Customizadas no Botão
+                  </label>
+                  <div style="display:grid;grid-template-columns:150px 150px;gap:.5rem;margin-top:.5rem">
+                    <div>
+                      <span style="font-size:0.75rem;color:var(--text-muted)">Cor do Fundo</span>
+                      <input type="color" id="cfg-post-side-bg-color" class="form-input" style="height:36px;padding:.125rem">
+                    </div>
+                    <div>
+                      <span style="font-size:0.75rem;color:var(--text-muted)">Cor do Texto</span>
+                      <input type="color" id="cfg-post-side-text-color" class="form-input" style="height:36px;padding:.125rem">
+                    </div>
+                  </div>
+                </div>
               </div>
-              <div class="form-group">
-                <label class="form-label" for="cfg-post-side-sub">Descrição</label>
-                <input type="text" id="cfg-post-side-sub" class="form-input">
-              </div>
-              <div class="form-group">
-                <label class="form-label" for="cfg-post-side-btn">Texto do Botão</label>
-                <input type="text" id="cfg-post-side-btn" class="form-input">
-              </div>
-            </div>
 
-            <div>
-              <h4>Card Promocional no Meio do Texto (Inline)</h4>
-              <div class="form-group" style="margin-top:0.75rem">
-                <label class="form-label" for="cfg-post-inline-title">Título</label>
-                <input type="text" id="cfg-post-inline-title" class="form-input">
-              </div>
-              <div class="form-group">
-                <label class="form-label" for="cfg-post-inline-sub">Descrição</label>
-                <input type="text" id="cfg-post-inline-sub" class="form-input">
-              </div>
-              <div class="form-group">
-                <label class="form-label" for="cfg-post-inline-btn">Texto do Botão</label>
-                <input type="text" id="cfg-post-inline-btn" class="form-input">
+              <div>
+                <h4>Card Promocional no Meio do Texto (Inline)</h4>
+                <div class="form-group" style="margin-top:0.75rem">
+                  <label class="form-label" for="cfg-post-inline-title">Título</label>
+                  <input type="text" id="cfg-post-inline-title" class="form-input">
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="cfg-post-inline-sub">Descrição</label>
+                  <input type="text" id="cfg-post-inline-sub" class="form-input">
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="cfg-post-inline-btn">Texto do Botão</label>
+                  <input type="text" id="cfg-post-inline-btn" class="form-input">
+                </div>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;margin-top:1rem;border-top:1px solid rgba(255,255,255,0.05);padding-top:1rem">
+                  <div class="form-group">
+                    <label class="form-label" for="cfg-post-inline-url">Link do Botão</label>
+                    <input type="text" id="cfg-post-inline-url" class="form-input" placeholder="Ex: https://...">
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label" for="cfg-post-inline-format">Formato do Botão</label>
+                    <select id="cfg-post-inline-format" class="form-input" style="height:46px">
+                      <option value="default">Padrão do Tema</option>
+                      <option value="square">Quadrado</option>
+                      <option value="rounded">Arredondado</option>
+                      <option value="pill">Pílula</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-group" style="margin-top:0.5rem">
+                  <label class="form-label" style="display:flex;align-items:center;gap:.375rem;cursor:pointer">
+                    <input type="checkbox" id="cfg-post-inline-use-custom" style="width:15px;height:15px">
+                    Usar Cores Customizadas no Botão
+                  </label>
+                  <div style="display:grid;grid-template-columns:150px 150px;gap:.5rem;margin-top:.5rem">
+                    <div>
+                      <span style="font-size:0.75rem;color:var(--text-muted)">Cor do Fundo</span>
+                      <input type="color" id="cfg-post-inline-bg-color" class="form-input" style="height:36px;padding:.125rem">
+                    </div>
+                    <div>
+                      <span style="font-size:0.75rem;color:var(--text-muted)">Cor do Texto</span>
+                      <input type="color" id="cfg-post-inline-text-color" class="form-input" style="height:36px;padding:.125rem">
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
 
-          <button type="submit" class="btn btn-primary btn-lg">💾 Salvar Alterações do Blog</button>
+          <!-- SUB-ABA 3: MONETIZAÇÃO & ADS -->
+          <div id="sub-blog-ads" class="admin-subcard">
+            <div class="admin-card">
+              <h3>⚙️ Configuração Geral do Google AdSense</h3>
+              <div class="form-group">
+                <label class="form-label" for="cfg-google-ad-client">ID de Cliente do Google AdSense (publisher ID)</label>
+                <input type="text" id="cfg-google-ad-client" class="form-input" placeholder="Ex: ca-pub-XXXXXXXXXXXXXXXX">
+                <div class="form-hint">Necessário apenas se você for usar anúncios do Google. Começa com <code>ca-pub-</code>.</div>
+              </div>
+            </div>
+
+            <div class="admin-card">
+              <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem;flex-wrap:wrap;gap:1rem">
+                <div>
+                  <h3 style="margin:0">🎯 Gerenciador de Campanhas de Anúncios</h3>
+                  <p style="font-size:0.875rem;color:var(--text-muted);margin:0.25rem 0 0 0">
+                    Cadastre e gerencie múltiplos anúncios para o blog com controle de validade e rotação.
+                  </p>
+                </div>
+                <button type="button" id="btn-new-campaign" class="btn btn-primary">+ Novo Anúncio</button>
+              </div>
+
+              <!-- Listagem de Campanhas -->
+              <div id="campaigns-list" class="posts-list" style="margin-top:1rem">
+                <!-- Renderizado via JS -->
+              </div>
+            </div>
+          </div>
+
+          <div style="margin-top: 1.5rem;">
+            <button type="submit" class="btn btn-primary btn-lg">💾 Salvar Alterações do Blog</button>
+          </div>
         </form>
       </section>
 
@@ -735,6 +1496,34 @@
         </div>
       </div>
 
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:0.75rem">
+        <div class="form-group">
+          <label class="form-label" for="plan-cta-format-input">Formato do Botão</label>
+          <select id="plan-cta-format-input" class="form-input" style="height:46px">
+            <option value="default">Padrão do Tema</option>
+            <option value="square">Quadrado</option>
+            <option value="rounded">Arredondado</option>
+            <option value="pill">Pílula</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label" style="display:flex;align-items:center;gap:.375rem;cursor:pointer">
+            <input type="checkbox" id="plan-cta-use-custom-input" style="width:15px;height:15px">
+            Cores Customizadas
+          </label>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:.375rem;margin-top:.25rem">
+            <div>
+              <span style="font-size:0.6875rem;color:var(--text-muted)">Fundo</span>
+              <input type="color" id="plan-cta-bg-color-input" class="form-input" style="height:32px;padding:.125rem">
+            </div>
+            <div>
+              <span style="font-size:0.6875rem;color:var(--text-muted)">Texto</span>
+              <input type="color" id="plan-cta-text-color-input" class="form-input" style="height:32px;padding:.125rem">
+            </div>
+          </div>
+        </div>
+      </div>
+
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;align-items:center">
         <div class="form-group">
           <label class="form-label" for="plan-sort-order-input">Ordem de Exibição</label>
@@ -757,12 +1546,103 @@
 </div>
 
 
+<!-- CAMPAIGN MODAL -->
+<div id="campaign-modal-overlay" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="campaign-modal-title">
+  <div class="modal">
+    <div class="modal-header">
+      <h3 id="campaign-modal-title">Novo Anúncio</h3>
+      <button id="btn-close-campaign-modal" class="btn btn-sm btn-outline" aria-label="Fechar" type="button">✕</button>
+    </div>
+
+    <form id="campaign-form">
+      <div class="form-group">
+        <label class="form-label" for="campaign-name-input">Nome da Campanha *</label>
+        <input type="text" id="campaign-name-input" class="form-input" placeholder="Ex: Campanha HostGator 2026" required>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem">
+        <div class="form-group">
+          <label class="form-label" for="campaign-slot-input">Espaço de Exibição *</label>
+          <select id="campaign-slot-input" class="form-input" style="height:46px" required>
+            <option value="grid">Grid do Blog (Entre Posts)</option>
+            <option value="sidebar">Barra Lateral (Artigo)</option>
+            <option value="inline">Meio do Texto (Artigo)</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="campaign-type-input">Tipo de Anúncio *</label>
+          <select id="campaign-type-input" class="form-input" style="height:46px" required>
+            <option value="custom">Banner Customizado (Link)</option>
+            <option value="google">Google AdSense</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Google AdSense fields -->
+      <div id="campaign-google-fields" style="display:none" class="form-group">
+        <label class="form-label" for="campaign-slot-id-input">ID do Slot de Anúncio (Ad Slot) *</label>
+        <input type="text" id="campaign-slot-id-input" class="form-input" placeholder="Ex: 1234567890">
+      </div>
+
+      <!-- Custom Banner fields -->
+      <div id="campaign-custom-fields">
+        <div class="form-group">
+          <label class="form-label" for="campaign-img-input">URL da Imagem do Banner *</label>
+          <input type="text" id="campaign-img-input" class="form-input" placeholder="https://... ou ../assets/banners/hostgator.png" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="campaign-link-input">URL de Destino / Link de Afiliado *</label>
+          <input type="url" id="campaign-link-input" class="form-input" placeholder="https://..." required>
+        </div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 2fr;gap:1rem">
+        <div class="form-group">
+          <label class="form-label" for="campaign-sort-order-input">Ordem de Exibição *</label>
+          <input type="number" id="campaign-sort-order-input" class="form-input" value="1" min="1" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="campaign-target-post-input">Artigo de Exibição (Filtro)</label>
+          <select id="campaign-target-post-input" class="form-input" style="height:46px">
+            <option value="all">Exibir em Todos os Artigos</option>
+            <!-- Injetado dinamicamente via JS -->
+          </select>
+        </div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem">
+        <div class="form-group">
+          <label class="form-label" for="campaign-start-date-input">Data de Início (Opcional)</label>
+          <input type="date" id="campaign-start-date-input" class="form-input">
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="campaign-end-date-input">Data de Expiração (Opcional)</label>
+          <input type="date" id="campaign-end-date-input" class="form-input">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" style="display:flex;align-items:center;gap:.625rem;cursor:pointer;margin-top:0.5rem">
+          <input type="checkbox" id="campaign-active-input" style="width:18px;height:18px;accent-color:var(--accent)" checked>
+          Anúncio Ativo (Visível para visitantes se estiver na validade)
+        </label>
+      </div>
+
+      <div style="display:flex;gap:1rem;justify-content:flex-end;margin-top:1.5rem">
+        <button type="button" class="btn btn-outline" id="btn-cancel-campaign-modal">Cancelar</button>
+        <button type="submit" class="btn btn-primary">💾 Salvar Anúncio</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+
 <!-- Supabase CDN -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <script src="../js/supabase-config.js"></script>
 <script src="../js/supabase.js"></script>
 <script src="../js/config.js"></script>
 <script src="../js/posts.js"></script>
-<script src="../js/admin.js"></script>
+<script src="../js/admin.js?v=2"></script>
 </body>
 </html>

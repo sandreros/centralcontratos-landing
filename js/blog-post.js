@@ -2,6 +2,134 @@
    BLOG-POST.JS — Post Individual (async + Supabase)
    ================================================================ */
 
+/* ── Helpers AdSense ──────────────────────────────────────────── */
+
+/**
+ * Carrega o script do AdSense de forma segura e idempotente.
+ */
+function loadAdSenseScript(clientId) {
+  if (document.querySelector('script[src*="adsbygoogle.js"]')) return;
+  const script = document.createElement('script');
+  script.async = true;
+  script.src = `https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${clientId}`;
+  script.crossOrigin = 'anonymous';
+  document.head.appendChild(script);
+}
+
+/**
+ * Dispara .push({}) para N blocos do AdSense.
+ * Aguarda o script carregar (até 5s) se ainda não estiver disponível.
+ */
+function pushAdSense(count, context) {
+  const doPush = () => {
+    for (let i = 0; i < count; i++) {
+      try { (window.adsbygoogle = window.adsbygoogle || []).push({}); }
+      catch (e) { console.warn(`[AdSense] ${context} push erro:`, e.message); }
+    }
+  };
+  if (window.adsbygoogle) { doPush(); return; }
+  let waited = 0;
+  const poll = setInterval(() => {
+    waited += 100;
+    if (window.adsbygoogle) { clearInterval(poll); doPush(); }
+    else if (waited >= 5000) clearInterval(poll);
+  }, 100);
+}
+
+/* ── Sanitização de HTML ─────────────────────────────────────── */
+
+/**
+ * Sanitiza HTML de post: mantém tags seguras, remove scripts e event handlers.
+ * Não depende de DOMPurify — usa o DOM do navegador como parser.
+ */
+function sanitizePostHtml(html) {
+  const ALLOWED_TAGS = new Set([
+    'p','br','b','strong','i','em','u','s','del','ins','mark','small','sub','sup',
+    'h1','h2','h3','h4','h5','h6',
+    'ul','ol','li','dl','dt','dd',
+    'blockquote','q','cite','pre','code','kbd','samp',
+    'a','img','figure','figcaption','picture','source',
+    'table','thead','tbody','tfoot','tr','th','td','caption','colgroup','col',
+    'div','span','section','article','aside','header','footer','main','nav',
+    'details','summary',
+    'hr',
+  ]);
+
+  const ALLOWED_ATTRS = new Set([
+    'href','src','alt','title','class','id','style',
+    'target','rel','width','height','loading','decoding','srcset','sizes',
+    'rowspan','colspan','scope','headers',
+    'open','type','start','reversed',
+  ]);
+
+  // Tags completamente bloqueadas (remove junto com conteúdo)
+  const BLOCK_TAGS = new Set(['script','style','iframe','object','embed','applet','form','input','button','textarea','select','base','meta','link','noscript','template']);
+
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(`<div id="__root">${html}</div>`, 'text/html');
+  const root = doc.getElementById('__root');
+  if (!root) return '';
+
+  function walk(node) {
+    const toRemove = [];
+    node.childNodes.forEach(child => {
+      if (child.nodeType === Node.COMMENT_NODE) {
+        toRemove.push(child);
+        return;
+      }
+      if (child.nodeType !== Node.ELEMENT_NODE) return;
+
+      const tag = child.tagName.toLowerCase();
+
+      if (BLOCK_TAGS.has(tag)) {
+        toRemove.push(child);
+        return;
+      }
+
+      if (!ALLOWED_TAGS.has(tag)) {
+        // Substitui a tag pelo conteúdo (unwrap)
+        while (child.firstChild) child.parentNode.insertBefore(child.firstChild, child);
+        toRemove.push(child);
+        return;
+      }
+
+      // Remove atributos não permitidos e event handlers (on*)
+      const attrsToRemove = [];
+      Array.from(child.attributes).forEach(attr => {
+        const name = attr.name.toLowerCase();
+        if (name.startsWith('on') || !ALLOWED_ATTRS.has(name)) {
+          attrsToRemove.push(attr.name);
+        }
+      });
+      attrsToRemove.forEach(a => child.removeAttribute(a));
+
+      // Força rel seguro em links externos
+      if (tag === 'a') {
+        if (child.getAttribute('target') === '_blank') {
+          child.setAttribute('rel', 'noopener noreferrer');
+        }
+        const href = child.getAttribute('href') || '';
+        // Bloqueia javascript: URIs
+        if (/^javascript:/i.test(href.trim())) child.removeAttribute('href');
+      }
+
+      // Bloqueia data: URIs em src (exceto data: legítimos de imagem — não necessário aqui)
+      if (tag === 'img') {
+        const src = child.getAttribute('src') || '';
+        if (/^javascript:/i.test(src.trim())) child.removeAttribute('src');
+      }
+
+      walk(child);
+    });
+    toRemove.forEach(n => { if (n.parentNode) n.parentNode.removeChild(n); });
+  }
+
+  walk(root);
+  return root.innerHTML;
+}
+
+/* ── Init ────────────────────────────────────────────────────── */
+
 document.addEventListener('DOMContentLoaded', async () => {
   setupNavbar();
   setupMobileMenu();
@@ -31,6 +159,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   renderPost(post, cfg);
   updateMeta(post, cfg);
   renderSidebar(post);
+  applyAds(cfg, slug);
 });
 
 function setupNavbar() {
@@ -65,6 +194,7 @@ function applyCTA(cfg) {
       el.href = cfg.ctaUrl;
       el.target = '_blank';
     }
+    applyCtaStyle(el, cfg.ctaBgColor, cfg.ctaTextColor, cfg.ctaFormat);
   });
 }
 
@@ -94,8 +224,8 @@ function renderPost(post, cfg) {
     coverEl.style.display = 'none';
   }
 
-  // Content
-  document.getElementById('post-body').innerHTML = post.content || '';
+  // Content — sanitizado contra XSS
+  document.getElementById('post-body').innerHTML = sanitizePostHtml(post.content || '');
 }
 
 async function renderSidebar(currentPost) {
@@ -166,7 +296,13 @@ function applyPromoCTAs(cfg) {
   if (inlineSub && cfg.postInlineCtaSub) inlineSub.textContent = cfg.postInlineCtaSub;
 
   const inlineBtn = document.getElementById('post-inline-cta-btn');
-  if (inlineBtn && cfg.postInlineCtaBtnText) inlineBtn.innerHTML = cfg.postInlineCtaBtnText;
+  if (inlineBtn && cfg.postInlineCtaBtnText) {
+    inlineBtn.innerHTML = cfg.postInlineCtaBtnText;
+    const targetUrl = cfg.postInlineCtaUrl || cfg.ctaUrl || '#';
+    inlineBtn.href = targetUrl;
+    if (targetUrl !== '#') inlineBtn.target = '_blank';
+    applyCtaStyle(inlineBtn, cfg.postInlineCtaBgColor, cfg.postInlineCtaTextColor, cfg.postInlineCtaFormat);
+  }
 
   // Sidebar CTA
   const sidebarTitle = document.getElementById('post-sidebar-cta-title');
@@ -176,5 +312,148 @@ function applyPromoCTAs(cfg) {
   if (sidebarSub && cfg.postSidebarCtaSub) sidebarSub.textContent = cfg.postSidebarCtaSub;
 
   const sidebarBtn = document.getElementById('post-sidebar-cta-btn');
-  if (sidebarBtn && cfg.postSidebarCtaBtnText) sidebarBtn.innerHTML = cfg.postSidebarCtaBtnText;
+  if (sidebarBtn && cfg.postSidebarCtaBtnText) {
+    sidebarBtn.innerHTML = cfg.postSidebarCtaBtnText;
+    const targetUrl = cfg.postSidebarCtaUrl || cfg.ctaUrl || '#';
+    sidebarBtn.href = targetUrl;
+    if (targetUrl !== '#') sidebarBtn.target = '_blank';
+    applyCtaStyle(sidebarBtn, cfg.postSidebarCtaBgColor, cfg.postSidebarCtaTextColor, cfg.postSidebarCtaFormat);
+  }
+}
+
+function applyAds(cfg, slug) {
+  let campaigns = [];
+  try {
+    campaigns = typeof cfg.blogAdCampaigns === 'string' ? JSON.parse(cfg.blogAdCampaigns) : (cfg.blogAdCampaigns || []);
+  } catch {
+    campaigns = [];
+  }
+
+  const d = new Date();
+  const tzOffset = d.getTimezoneOffset();
+  const localDate = new Date(d.getTime() - (tzOffset * 60 * 1000));
+  const todayStr = localDate.toISOString().split('T')[0];
+
+  // Filtra as válidas e direcionadas a este post (ou a todos)
+  const activeValid = campaigns.filter(ad => {
+    if (!ad.active) return false;
+    if (ad.startDate && todayStr < ad.startDate) return false;
+    if (ad.endDate && todayStr > ad.endDate) return false;
+    // Segmentação por post: 'all' ou ausente = todos; valor específico = só naquele slug
+    if (ad.targetPost && ad.targetPost !== 'all' && ad.targetPost !== slug) return false;
+    return true;
+  });
+
+  // Carrega o script do AdSense se houver algum anúncio Google ativo
+  const hasGoogleAds = activeValid.some(ad => ad.type === 'google');
+  if (hasGoogleAds && cfg.googleAdClient) {
+    loadAdSenseScript(cfg.googleAdClient);
+  }
+
+  // Filtra por slots e ordena por sortOrder
+  const sidebarAds = activeValid.filter(ad => ad.slot === 'sidebar');
+  sidebarAds.sort((a, b) => (a.sortOrder || 99) - (b.sortOrder || 99));
+
+  const inlineAds = activeValid.filter(ad => ad.slot === 'inline');
+  inlineAds.sort((a, b) => (a.sortOrder || 99) - (b.sortOrder || 99));
+
+  // ── Sidebar Ads: exibe TODOS os anúncios válidos empilhados ──────
+  const sidebarAdEl = document.getElementById('post-sidebar-ad');
+  if (sidebarAdEl && sidebarAds.length > 0) {
+    sidebarAdEl.style.display = 'block';
+    let sidebarHtml = '';
+    let sidebarGoogleCount = 0;
+
+    sidebarAds.forEach(ad => {
+      if (ad.type === 'custom' && ad.customImg) {
+        sidebarHtml += `
+          <a href="${ad.customLink || '#'}" target="_blank" rel="noopener noreferrer" class="sidebar-ad-card" style="display:block;margin-bottom:1rem">
+            <div class="ad-badge">Anúncio</div>
+            <img src="${ad.customImg}" alt="${ad.name}" onerror="this.style.display='none'">
+          </a>
+        `;
+      } else if (ad.type === 'google' && cfg.googleAdClient && ad.googleSlot) {
+        sidebarHtml += `
+          <div class="google-ad-container" style="text-align:center;overflow:hidden;border:1px solid var(--outline);border-radius:var(--radius-lg);padding:1rem;background:var(--surface-low);margin-bottom:1rem">
+            <div style="font-size:10px;color:var(--text-muted);margin-bottom:8px;text-transform:uppercase;letter-spacing:0.05em">Patrocinado</div>
+            <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-client="${cfg.googleAdClient}"
+                 data-ad-slot="${ad.googleSlot}"
+                 data-ad-format="auto"
+                 data-full-width-responsive="true"></ins>
+          </div>
+        `;
+        sidebarGoogleCount++;
+      }
+    });
+
+    sidebarAdEl.innerHTML = sidebarHtml;
+    if (sidebarGoogleCount > 0) pushAdSense(sidebarGoogleCount, '[Ads Sidebar]');
+  }
+
+  // ── Inline Article Ads: distribui sequencialmente a cada 3 parágrafos ──
+  const bodyEl = document.getElementById('post-body');
+  if (bodyEl && inlineAds.length > 0) {
+
+    // Monta o HTML de cada anúncio
+    const adHtmlList = [];
+    inlineAds.forEach(ad => {
+      if (ad.type === 'custom' && ad.customImg) {
+        adHtmlList.push(`
+          <a href="${ad.customLink || '#'}" target="_blank" rel="noopener noreferrer" class="inline-ad-card" style="display:block;margin:2rem 0;">
+            <div class="ad-badge">Anúncio</div>
+            <img src="${ad.customImg}" alt="${ad.name}" style="width:100%;height:auto;display:block" onerror="this.style.display='none'">
+          </a>
+        `);
+      } else if (ad.type === 'google' && cfg.googleAdClient && ad.googleSlot) {
+        adHtmlList.push(`
+          <div class="google-ad-container" style="text-align:center;margin:2rem 0;overflow:hidden;border:1px solid var(--outline);border-radius:var(--radius-lg);padding:1rem;background:var(--surface-low)">
+            <div style="font-size:10px;color:var(--text-muted);margin-bottom:8px;text-transform:uppercase;letter-spacing:0.05em">Patrocinado</div>
+            <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-client="${cfg.googleAdClient}"
+                 data-ad-slot="${ad.googleSlot}"
+                 data-ad-format="auto"
+                 data-full-width-responsive="true"></ins>
+          </div>
+        `);
+      }
+    });
+
+    if (adHtmlList.length > 0) {
+      // Usa DOMParser para manipular o conteúdo como DOM real (não string split)
+      const parser = new DOMParser();
+      const doc = parser.parseFromString('<div id="root">' + bodyEl.innerHTML + '</div>', 'text/html');
+      const root = doc.getElementById('root');
+      const paragraphs = Array.from(root.querySelectorAll('p'));
+
+      // Anúncio 1 → após o 3º parágrafo (índice 2)
+      // Anúncio 2 → após o 6º parágrafo (índice 5)
+      // Anúncio 3 → após o 9º parágrafo (índice 8) ... etc.
+      let inlineGoogleCount = 0;
+      adHtmlList.forEach((html, idx) => {
+        const targetParaIdx = 2 + (idx * 3);
+        const targetPara = paragraphs[targetParaIdx];
+        const wrapper = doc.createElement('div');
+        wrapper.innerHTML = html.trim();
+        const node = wrapper.firstElementChild;
+        if (!node) return;
+
+        if (targetPara && targetPara.parentNode) {
+          targetPara.parentNode.insertBefore(node, targetPara.nextSibling);
+        } else {
+          root.appendChild(node);
+        }
+
+        if (html.includes('adsbygoogle')) inlineGoogleCount++;
+      });
+
+      // Serializa de volta para o DOM real da página
+      bodyEl.innerHTML = root.innerHTML;
+
+      // Dispara o AdSense para cada bloco inline inserido
+      if (inlineGoogleCount > 0) pushAdSense(inlineGoogleCount, '[Ads Inline]');
+    }
+  }
 }

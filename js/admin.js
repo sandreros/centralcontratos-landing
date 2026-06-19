@@ -21,29 +21,238 @@ if (document.readyState === 'loading') {
   });
 }
 
+const THEME_PRESETS = {
+  classic: {
+    label: '⚖️ Clássico',
+    themePrimaryColor: '#000f22',
+    themeAccentColor: '#EDB83D',
+    themeBgColor: '#f7f9fb',
+    themeTextColor: '#191c1e',
+    themeNavbarBgColor: '#ffffff',
+    themeNavbarTextColor: '#43474d',
+    themeNavbarTextTransparentColor: '#ffffff',
+    themeHeroBg: '#000f22',          themeHeroText: '#ffffff',
+    themeHowBg: '#f7f9fb',           themeHowText: '#191c1e',
+    themeBenefitsBg: '#000f22',      themeBenefitsText: '#ffffff',
+    themeCatalogBg: '#f7f9fb',       themeCatalogText: '#191c1e',
+    themePricingBg: '#ffffff',       themePricingText: '#191c1e',
+    themeTestimonialsBg: '#f7f9fb',  themeTestimonialsText: '#191c1e',
+    themeFaqBg: '#ffffff',           themeFaqText: '#191c1e',
+    themeFooterBg: '#000f22',        themeFooterText: '#ffffff'
+  },
+  cyberpunk: {
+    label: '⚡ Cyberpunk',
+    themePrimaryColor: '#0d0e15',
+    themeAccentColor: '#ff0055',
+    themeBgColor: '#0a0b10',
+    themeTextColor: '#e0e0e6',
+    themeNavbarBgColor: '#0d0e15',
+    themeNavbarTextColor: '#e0e0e6',
+    themeNavbarTextTransparentColor: '#ff0055',
+    themeHeroBg: '#0d0e15',          themeHeroText: '#e0e0e6',
+    themeHowBg: '#12131a',           themeHowText: '#e0e0e6',
+    themeBenefitsBg: '#0a0b10',      themeBenefitsText: '#e0e0e6',
+    themeCatalogBg: '#12131a',       themeCatalogText: '#e0e0e6',
+    themePricingBg: '#12131a',       themePricingText: '#ffffff',
+    themeTestimonialsBg: '#0a0b10',  themeTestimonialsText: '#e0e0e6',
+    themeFaqBg: '#12131a',           themeFaqText: '#e0e0e6',
+    themeFooterBg: '#0d0e15',        themeFooterText: '#e0e0e6'
+  },
+  emerald: {
+    label: '🌿 Esmeralda',
+    themePrimaryColor: '#0b2e24',
+    themeAccentColor: '#10b981',
+    themeBgColor: '#f4f7f6',
+    themeTextColor: '#111827',
+    themeNavbarBgColor: '#ffffff',
+    themeNavbarTextColor: '#374151',
+    themeNavbarTextTransparentColor: '#ffffff',
+    themeHeroBg: '#0b2e24',          themeHeroText: '#ffffff',
+    themeHowBg: '#f4f7f6',           themeHowText: '#111827',
+    themeBenefitsBg: '#0b2e24',      themeBenefitsText: '#ffffff',
+    themeCatalogBg: '#f4f7f6',       themeCatalogText: '#111827',
+    themePricingBg: '#ffffff',       themePricingText: '#111827',
+    themeTestimonialsBg: '#f4f7f6',  themeTestimonialsText: '#111827',
+    themeFaqBg: '#ffffff',           themeFaqText: '#111827',
+    themeFooterBg: '#0b2e24',        themeFooterText: '#ffffff'
+  },
+  sunset: {
+    label: '🌅 Pôr do Sol',
+    themePrimaryColor: '#2d1b4e',
+    themeAccentColor: '#f97316',
+    themeBgColor: '#fafaf9',
+    themeTextColor: '#1c1917',
+    themeNavbarBgColor: '#ffffff',
+    themeNavbarTextColor: '#44403c',
+    themeNavbarTextTransparentColor: '#ffffff',
+    themeHeroBg: '#2d1b4e',          themeHeroText: '#ffffff',
+    themeHowBg: '#fafaf9',           themeHowText: '#1c1917',
+    themeBenefitsBg: '#2d1b4e',      themeBenefitsText: '#ffffff',
+    themeCatalogBg: '#fafaf9',       themeCatalogText: '#1c1917',
+    themePricingBg: '#ffffff',       themePricingText: '#1c1917',
+    themeTestimonialsBg: '#fafaf9',  themeTestimonialsText: '#1c1917',
+    themeFaqBg: '#ffffff',           themeFaqText: '#1c1917',
+    themeFooterBg: '#2d1b4e',        themeFooterText: '#ffffff'
+  },
+  ocean: {
+    label: '🌊 Oceano',
+    themePrimaryColor: '#0f172a',
+    themeAccentColor: '#3b82f6',
+    themeBgColor: '#f8fafc',
+    themeTextColor: '#0f172a',
+    themeNavbarBgColor: '#ffffff',
+    themeNavbarTextColor: '#334155',
+    themeNavbarTextTransparentColor: '#ffffff',
+    themeHeroBg: '#0f172a',          themeHeroText: '#ffffff',
+    themeHowBg: '#f8fafc',           themeHowText: '#0f172a',
+    themeBenefitsBg: '#0f172a',      themeBenefitsText: '#ffffff',
+    themeCatalogBg: '#f8fafc',       themeCatalogText: '#0f172a',
+    themePricingBg: '#ffffff',       themePricingText: '#0f172a',
+    themeTestimonialsBg: '#f8fafc',  themeTestimonialsText: '#0f172a',
+    themeFaqBg: '#ffffff',           themeFaqText: '#0f172a',
+    themeFooterBg: '#0f172a',        themeFooterText: '#ffffff'
+  },
+  minimal: {
+    label: '⬜ Minimalista',
+    themePrimaryColor: '#18181b',
+    themeAccentColor: '#a855f7',
+    themeBgColor: '#fafafa',
+    themeTextColor: '#27272a',
+    themeNavbarBgColor: '#ffffff',
+    themeNavbarTextColor: '#27272a',
+    themeNavbarTextTransparentColor: '#18181b',
+    themeHeroBg: '#18181b',          themeHeroText: '#ffffff',
+    themeHowBg: '#fafafa',           themeHowText: '#27272a',
+    themeBenefitsBg: '#18181b',      themeBenefitsText: '#ffffff',
+    themeCatalogBg: '#fafafa',       themeCatalogText: '#27272a',
+    themePricingBg: '#ffffff',       themePricingText: '#27272a',
+    themeTestimonialsBg: '#fafafa',  themeTestimonialsText: '#27272a',
+    themeFaqBg: '#ffffff',           themeFaqText: '#27272a',
+    themeFooterBg: '#18181b',        themeFooterText: '#ffffff'
+  },
+  rose: {
+    label: '🌹 Rosa',
+    themePrimaryColor: '#881337',
+    themeAccentColor: '#f43f5e',
+    themeBgColor: '#fff1f2',
+    themeTextColor: '#1c0a0f',
+    themeNavbarBgColor: '#ffffff',
+    themeNavbarTextColor: '#4c0519',
+    themeNavbarTextTransparentColor: '#ffffff',
+    themeHeroBg: '#881337',          themeHeroText: '#ffffff',
+    themeHowBg: '#fff1f2',           themeHowText: '#1c0a0f',
+    themeBenefitsBg: '#881337',      themeBenefitsText: '#ffffff',
+    themeCatalogBg: '#fff1f2',       themeCatalogText: '#1c0a0f',
+    themePricingBg: '#ffffff',       themePricingText: '#1c0a0f',
+    themeTestimonialsBg: '#fff1f2',  themeTestimonialsText: '#1c0a0f',
+    themeFaqBg: '#ffffff',           themeFaqText: '#1c0a0f',
+    themeFooterBg: '#881337',        themeFooterText: '#ffffff'
+  }
+};
+
+/**
+ * Preenche todos os inputs de tema com os valores do preset.
+ */
+function applyThemePreset(presetKey) {
+  const colors = THEME_PRESETS[presetKey];
+  if (!colors) return;
+
+  // Cores globais
+  document.getElementById('cfg-theme-primary').value = colors.themePrimaryColor;
+  document.getElementById('cfg-theme-accent').value = colors.themeAccentColor;
+  document.getElementById('cfg-theme-bg').value = colors.themeBgColor;
+  document.getElementById('cfg-theme-text').value = colors.themeTextColor;
+  document.getElementById('cfg-theme-nav-bg').value = colors.themeNavbarBgColor;
+  document.getElementById('cfg-theme-nav-text').value = colors.themeNavbarTextColor;
+  document.getElementById('cfg-theme-nav-text-trans').value = colors.themeNavbarTextTransparentColor;
+  document.getElementById('cfg-theme-pricing-bg').value = colors.themePricingBg;
+  document.getElementById('cfg-theme-pricing-text').value = colors.themePricingText;
+
+  // Cores das dobras (existem apenas na aba de seções da home)
+  const setVal = (id, val) => { const el = document.getElementById(id); if (el && val) el.value = val; };
+  setVal('cfg-home-hero-bg',          colors.themeHeroBg);
+  setVal('cfg-home-hero-text',         colors.themeHeroText);
+  setVal('cfg-home-how-bg',            colors.themeHowBg);
+  setVal('cfg-home-how-text',          colors.themeHowText);
+  setVal('cfg-home-benefits-bg',       colors.themeBenefitsBg);
+  setVal('cfg-home-benefits-text',     colors.themeBenefitsText);
+  setVal('cfg-home-catalog-bg',        colors.themeCatalogBg);
+  setVal('cfg-home-catalog-text',      colors.themeCatalogText);
+  setVal('cfg-home-faq-bg',            colors.themeFaqBg);
+  setVal('cfg-home-faq-text',          colors.themeFaqText);
+  setVal('cfg-home-testimonials-bg',   colors.themeTestimonialsBg);
+  setVal('cfg-home-testimonials-text', colors.themeTestimonialsText);
+  setVal('cfg-home-footer-bg',         colors.themeFooterBg);
+  setVal('cfg-home-footer-text',       colors.themeFooterText);
+
+  // Marca o select de preset também
+  const sel = document.getElementById('cfg-theme-preset');
+  if (sel) sel.value = presetKey;
+}
+
+/**
+ * Aplica o preset nos inputs E salva imediatamente no Supabase.
+ */
+window.applyThemePresetAndSave = async function(presetKey) {
+  const colors = THEME_PRESETS[presetKey];
+  if (!colors) return;
+
+  applyThemePreset(presetKey);
+
+  const btn = document.getElementById(`preset-btn-${presetKey}`);
+  if (btn) { btn.disabled = true; btn.textContent = 'Aplicando...'; }
+
+  const themeData = {
+    themePrimaryColor: colors.themePrimaryColor,
+    themeAccentColor:  colors.themeAccentColor,
+    themeBgColor:      colors.themeBgColor,
+    themeTextColor:    colors.themeTextColor,
+    themeNavbarBgColor: colors.themeNavbarBgColor,
+    themeNavbarTextColor: colors.themeNavbarTextColor,
+    themeNavbarTextTransparentColor: colors.themeNavbarTextTransparentColor,
+    themeHeroBg:            colors.themeHeroBg,
+    themeHeroText:          colors.themeHeroText,
+    themeHowBg:             colors.themeHowBg,
+    themeHowText:           colors.themeHowText,
+    themeBenefitsBg:        colors.themeBenefitsBg,
+    themeBenefitsText:      colors.themeBenefitsText,
+    themeCatalogBg:         colors.themeCatalogBg,
+    themeCatalogText:       colors.themeCatalogText,
+    themePricingBg:         colors.themePricingBg,
+    themePricingText:       colors.themePricingText,
+    themeTestimonialsBg:    colors.themeTestimonialsBg,
+    themeTestimonialsText:  colors.themeTestimonialsText,
+    themeFaqBg:             colors.themeFaqBg,
+    themeFaqText:           colors.themeFaqText,
+    themeFooterBg:          colors.themeFooterBg,
+    themeFooterText:        colors.themeFooterText,
+  };
+
+  try {
+    await saveConfig(themeData);
+    clearConfigCache();
+    triggerDeployWebhook();
+    showToast(`✅ Tema "${colors.label}" aplicado e salvo!`, 'success');
+  } catch (err) {
+    showToast('❌ Erro ao salvar tema: ' + err.message, 'error');
+  } finally {
+    if (btn) { btn.disabled = false; btn.textContent = 'Aplicar'; }
+  }
+};
+
 let _plansList = []; // Array em memória para gerenciamento de planos
 let _editingPlanId = null; // ID do plano em edição (null = novo)
+
+let _campaignsList = []; // Array em memória para gerenciamento de campanhas
+let _editingCampaignId = null; // ID da campanha em edição (null = novo)
 
 /* ── Auth ──────────────────────────────────────────────────────── */
 
 async function initAuth() {
-  console.log('[Admin] showLoading(true) sendo chamado...');
   showLoading(true);
-  
-  console.log('[Admin] Buscando sessão no Supabase (sbGetSession)...');
   const session = await sbGetSession();
-  console.log('[Admin] Retorno de sbGetSession:', session);
-  
-  console.log('[Admin] showLoading(false) sendo chamado...');
   showLoading(false);
-
-  if (session) {
-    console.log('[Admin] Sessão ativa encontrada! Exibindo painel...');
-    showPanel();
-  } else {
-    console.log('[Admin] Nenhuma sessão ativa. Exibindo tela de login...');
-    showLogin();
-  }
+  if (session) { showPanel(); } else { showLogin(); }
 }
 
 function showLogin() {
@@ -109,7 +318,6 @@ function showLoading(show) {
 /* ── Panel Init ────────────────────────────────────────────────── */
 
 async function initPanel() {
-  console.log('[Admin] initPanel() iniciando...');
   setupNavItems();
   document.getElementById('btn-logout').addEventListener('click', handleLogout);
   document.getElementById('btn-download-sitemap').addEventListener('click', downloadSitemap);
@@ -118,6 +326,32 @@ async function initPanel() {
   document.getElementById('general-form').addEventListener('submit', saveGeneralForm);
   document.getElementById('cms-home-form').addEventListener('submit', saveCmsHomeForm);
   document.getElementById('cms-blog-form').addEventListener('submit', saveCmsBlogForm);
+
+  // Modais de Campanhas de Anúncios (Ads)
+  document.getElementById('btn-new-campaign').addEventListener('click', () => openCampaignModal(null));
+  document.getElementById('btn-close-campaign-modal').addEventListener('click', closeCampaignModal);
+  document.getElementById('btn-cancel-campaign-modal').addEventListener('click', closeCampaignModal);
+  document.getElementById('campaign-modal-overlay').addEventListener('click', (e) => {
+    if (e.target === document.getElementById('campaign-modal-overlay')) closeCampaignModal();
+  });
+  document.getElementById('campaign-form').addEventListener('submit', saveCampaign);
+
+  document.getElementById('campaign-type-input').addEventListener('change', (e) => {
+    const isGoogle = e.target.value === 'google';
+    document.getElementById('campaign-google-fields').style.display = isGoogle ? 'block' : 'none';
+    document.getElementById('campaign-custom-fields').style.display = isGoogle ? 'none' : 'block';
+    document.getElementById('campaign-slot-id-input').required = isGoogle;
+    document.getElementById('campaign-img-input').required = !isGoogle;
+    document.getElementById('campaign-link-input').required = !isGoogle;
+  });
+
+  // Tema Preset — Select legado (compatibilidade)
+  const presetSel = document.getElementById('cfg-theme-preset');
+  if (presetSel) {
+    presetSel.addEventListener('change', (e) => {
+      if (e.target.value && THEME_PRESETS[e.target.value]) applyThemePreset(e.target.value);
+    });
+  }
 
   // Modais de Planos
   document.getElementById('btn-new-plan').addEventListener('click', () => openPlanModal(null));
@@ -136,37 +370,22 @@ async function initPanel() {
   });
   document.getElementById('post-form').addEventListener('submit', savePost);
 
-  console.log('[Admin] showLoading(true) em initPanel...');
   showLoading(true);
-  
   try {
-    console.log('[Admin] Carregando loadGeneralForm()...');
     await loadGeneralForm();
-    console.log('[Admin] loadGeneralForm() OK');
-
-    console.log('[Admin] Carregando loadCmsHomeForm()...');
     await loadCmsHomeForm();
-    console.log('[Admin] loadCmsHomeForm() OK');
-
-    console.log('[Admin] Carregando loadPlans()...');
     await loadPlans();
-    console.log('[Admin] loadPlans() OK');
-
-    console.log('[Admin] Carregando loadCmsBlogForm()...');
+    await loadCampaigns();
     await loadCmsBlogForm();
-    console.log('[Admin] loadCmsBlogForm() OK');
-
-    console.log('[Admin] Carregando loadPosts()...');
     await loadPosts();
-    console.log('[Admin] loadPosts() OK');
   } catch (err) {
     console.error('[Admin] Erro ao carregar dados do painel:', err);
     alert('Erro ao carregar os dados: ' + err.message);
   }
-
-  console.log('[Admin] showLoading(false) em initPanel...');
   showLoading(false);
   document.getElementById('admin-main').style.display = 'flex';
+  setupSubtabs();
+  EmojiPicker.init();
 }
 
 function setupNavItems() {
@@ -196,6 +415,28 @@ async function loadGeneralForm() {
   document.getElementById('cfg-email').value      = cfg.contactEmail || '';
   document.getElementById('cfg-privacy-policy').value   = cfg.privacyPolicy || '';
   document.getElementById('cfg-deploy-webhook').value = cfg.deployWebhook || '';
+
+  // Customização do CTA Geral
+  const hasCustomCta = !!(cfg.ctaBgColor || cfg.ctaTextColor);
+  document.getElementById('cfg-cta-use-custom').checked = hasCustomCta;
+  document.getElementById('cfg-cta-bg-color').value = cfg.ctaBgColor || '#000f22';
+  document.getElementById('cfg-cta-text-color').value = cfg.ctaTextColor || '#ffffff';
+  document.getElementById('cfg-cta-format').value = cfg.ctaFormat || 'default';
+
+  // Tema & Cores
+  document.getElementById('cfg-theme-primary').value = cfg.themePrimaryColor || '#000f22';
+  document.getElementById('cfg-theme-accent').value = cfg.themeAccentColor || '#EDB83D';
+  document.getElementById('cfg-theme-bg').value = cfg.themeBgColor || '#f7f9fb';
+  document.getElementById('cfg-theme-text').value = cfg.themeTextColor || '#191c1e';
+  
+  document.getElementById('cfg-theme-nav-bg').value = cfg.themeNavbarBgColor || '#ffffff';
+  document.getElementById('cfg-theme-nav-text').value = cfg.themeNavbarTextColor || '#43474d';
+  document.getElementById('cfg-theme-nav-text-trans').value = cfg.themeNavbarTextTransparentColor || '#ffffff';
+
+  document.getElementById('cfg-theme-pricing-bg').value = cfg.themePricingBg || '#ffffff';
+  document.getElementById('cfg-theme-pricing-text').value = cfg.themePricingText || '#191c1e';
+  document.getElementById('cfg-theme-pricing-bg-image').value = cfg.themePricingBgImage || '';
+  document.getElementById('cfg-theme-pricing-bg-video').value = cfg.themePricingBgVideo || '';
 }
 
 async function saveGeneralForm(e) {
@@ -204,6 +445,8 @@ async function saveGeneralForm(e) {
   const originalText = btn.textContent;
   btn.disabled = true;
   btn.textContent = 'Salvando...';
+
+  const useCustomCta = document.getElementById('cfg-cta-use-custom').checked;
 
   const updated = {
     siteName:         document.getElementById('cfg-site-name').value.trim(),
@@ -217,6 +460,26 @@ async function saveGeneralForm(e) {
     contactEmail:     document.getElementById('cfg-email').value.trim(),
     privacyPolicy:    document.getElementById('cfg-privacy-policy').value.trim(),
     deployWebhook:    document.getElementById('cfg-deploy-webhook').value.trim(),
+    
+    // Customização do CTA Geral
+    ctaBgColor:       useCustomCta ? document.getElementById('cfg-cta-bg-color').value : '',
+    ctaTextColor:     useCustomCta ? document.getElementById('cfg-cta-text-color').value : '',
+    ctaFormat:        document.getElementById('cfg-cta-format').value,
+
+    // Tema & Cores
+    themePrimaryColor: document.getElementById('cfg-theme-primary').value,
+    themeAccentColor:  document.getElementById('cfg-theme-accent').value,
+    themeBgColor:      document.getElementById('cfg-theme-bg').value,
+    themeTextColor:    document.getElementById('cfg-theme-text').value,
+    
+    themeNavbarBgColor: document.getElementById('cfg-theme-nav-bg').value,
+    themeNavbarTextColor: document.getElementById('cfg-theme-nav-text').value,
+    themeNavbarTextTransparentColor: document.getElementById('cfg-theme-nav-text-trans').value,
+
+    themePricingBg:      document.getElementById('cfg-theme-pricing-bg').value,
+    themePricingText:    document.getElementById('cfg-theme-pricing-text').value,
+    themePricingBgImage: document.getElementById('cfg-theme-pricing-bg-image').value.trim(),
+    themePricingBgVideo: document.getElementById('cfg-theme-pricing-bg-video').value.trim(),
   };
 
   try {
@@ -243,6 +506,45 @@ async function loadCmsHomeForm() {
   document.getElementById('cfg-hero-headline').value = cfg.heroHeadline || '';
   document.getElementById('cfg-hero-sub').value = cfg.heroSub || '';
   document.getElementById('cfg-hero-sec-cta-text').value = cfg.heroSecCtaText || '';
+  document.getElementById('cfg-hero-sec-cta-url').value = cfg.heroSecCtaUrl || '';
+  
+  const hasCustomHeroSec = !!(cfg.heroSecCtaBgColor || cfg.heroSecCtaTextColor);
+  document.getElementById('cfg-hero-sec-cta-use-custom').checked = hasCustomHeroSec;
+  document.getElementById('cfg-hero-sec-cta-bg-color').value = cfg.heroSecCtaBgColor || '#ffffff';
+  document.getElementById('cfg-hero-sec-cta-text-color').value = cfg.heroSecCtaTextColor || '#000f22';
+  document.getElementById('cfg-hero-sec-cta-format').value = cfg.heroSecCtaFormat || 'default';
+
+  // Cores por Dobra
+  document.getElementById('cfg-home-hero-bg').value = cfg.themeHeroBg || '#000f22';
+  document.getElementById('cfg-home-hero-text').value = cfg.themeHeroText || '#ffffff';
+  document.getElementById('cfg-home-how-bg').value = cfg.themeHowBg || '#f7f9fb';
+  document.getElementById('cfg-home-how-text').value = cfg.themeHowText || '#191c1e';
+  document.getElementById('cfg-home-benefits-bg').value = cfg.themeBenefitsBg || '#000f22';
+  document.getElementById('cfg-home-benefits-text').value = cfg.themeBenefitsText || '#ffffff';
+  document.getElementById('cfg-home-catalog-bg').value = cfg.themeCatalogBg || '#f7f9fb';
+  document.getElementById('cfg-home-catalog-text').value = cfg.themeCatalogText || '#191c1e';
+  document.getElementById('cfg-home-faq-bg').value = cfg.themeFaqBg || '#ffffff';
+  document.getElementById('cfg-home-faq-text').value = cfg.themeFaqText || '#191c1e';
+  document.getElementById('cfg-home-testimonials-bg').value = cfg.themeTestimonialsBg || '#f7f9fb';
+  document.getElementById('cfg-home-testimonials-text').value = cfg.themeTestimonialsText || '#191c1e';
+  document.getElementById('cfg-home-footer-bg').value = cfg.themeFooterBg || '#000f22';
+  document.getElementById('cfg-home-footer-text').value = cfg.themeFooterText || '#ffffff';
+
+  // Mídias por Dobra
+  document.getElementById('cfg-home-hero-bg-image').value = cfg.themeHeroBgImage || '';
+  document.getElementById('cfg-home-hero-bg-video').value = cfg.themeHeroBgVideo || '';
+  document.getElementById('cfg-home-how-bg-image').value = cfg.themeHowBgImage || '';
+  document.getElementById('cfg-home-how-bg-video').value = cfg.themeHowBgVideo || '';
+  document.getElementById('cfg-home-benefits-bg-image').value = cfg.themeBenefitsBgImage || '';
+  document.getElementById('cfg-home-benefits-bg-video').value = cfg.themeBenefitsBgVideo || '';
+  document.getElementById('cfg-home-catalog-bg-image').value = cfg.themeCatalogBgImage || '';
+  document.getElementById('cfg-home-catalog-bg-video').value = cfg.themeCatalogBgVideo || '';
+  document.getElementById('cfg-home-faq-bg-image').value = cfg.themeFaqBgImage || '';
+  document.getElementById('cfg-home-faq-bg-video').value = cfg.themeFaqBgVideo || '';
+  document.getElementById('cfg-home-testimonials-bg-image').value = cfg.themeTestimonialsBgImage || '';
+  document.getElementById('cfg-home-testimonials-bg-video').value = cfg.themeTestimonialsBgVideo || '';
+  document.getElementById('cfg-home-footer-bg-image').value = cfg.themeFooterBgImage || '';
+  document.getElementById('cfg-home-footer-bg-video').value = cfg.themeFooterBgVideo || '';
 
   // Rodapé & Copyright
   document.getElementById('cfg-footer-desc').value = cfg.footerDesc || '';
@@ -516,13 +818,51 @@ async function saveCmsHomeForm(e) {
   });
 
   // Re-montando as configurações finais
+  const useCustomHeroSec = document.getElementById('cfg-hero-sec-cta-use-custom').checked;
+
   const updated = {
     heroBadge:      document.getElementById('cfg-hero-badge').value.trim(),
     heroHeadline:   document.getElementById('cfg-hero-headline').value.trim(),
     heroSub:        document.getElementById('cfg-hero-sub').value.trim(),
     heroSecCtaText: document.getElementById('cfg-hero-sec-cta-text').value.trim(),
+    heroSecCtaUrl:  document.getElementById('cfg-hero-sec-cta-url').value.trim(),
+    heroSecCtaBgColor: useCustomHeroSec ? document.getElementById('cfg-hero-sec-cta-bg-color').value : '',
+    heroSecCtaTextColor: useCustomHeroSec ? document.getElementById('cfg-hero-sec-cta-text-color').value : '',
+    heroSecCtaFormat: document.getElementById('cfg-hero-sec-cta-format').value,
     footerDesc:     document.getElementById('cfg-footer-desc').value.trim(),
     copyrightText:  document.getElementById('cfg-copyright-text').value.trim(),
+
+    // Cores por Dobra
+    themeHeroBg:          document.getElementById('cfg-home-hero-bg').value,
+    themeHeroText:        document.getElementById('cfg-home-hero-text').value,
+    themeHowBg:           document.getElementById('cfg-home-how-bg').value,
+    themeHowText:         document.getElementById('cfg-home-how-text').value,
+    themeBenefitsBg:      document.getElementById('cfg-home-benefits-bg').value,
+    themeBenefitsText:    document.getElementById('cfg-home-benefits-text').value,
+    themeCatalogBg:       document.getElementById('cfg-home-catalog-bg').value,
+    themeCatalogText:     document.getElementById('cfg-home-catalog-text').value,
+    themeFaqBg:           document.getElementById('cfg-home-faq-bg').value,
+    themeFaqText:         document.getElementById('cfg-home-faq-text').value,
+    themeTestimonialsBg:   document.getElementById('cfg-home-testimonials-bg').value,
+    themeTestimonialsText: document.getElementById('cfg-home-testimonials-text').value,
+    themeFooterBg:        document.getElementById('cfg-home-footer-bg').value,
+    themeFooterText:      document.getElementById('cfg-home-footer-text').value,
+
+    // Mídias por Dobra
+    themeHeroBgImage:          document.getElementById('cfg-home-hero-bg-image').value.trim(),
+    themeHeroBgVideo:          document.getElementById('cfg-home-hero-bg-video').value.trim(),
+    themeHowBgImage:           document.getElementById('cfg-home-how-bg-image').value.trim(),
+    themeHowBgVideo:           document.getElementById('cfg-home-how-bg-video').value.trim(),
+    themeBenefitsBgImage:      document.getElementById('cfg-home-benefits-bg-image').value.trim(),
+    themeBenefitsBgVideo:      document.getElementById('cfg-home-benefits-bg-video').value.trim(),
+    themeCatalogBgImage:       document.getElementById('cfg-home-catalog-bg-image').value.trim(),
+    themeCatalogBgVideo:       document.getElementById('cfg-home-catalog-bg-video').value.trim(),
+    themeFaqBgImage:           document.getElementById('cfg-home-faq-bg-image').value.trim(),
+    themeFaqBgVideo:           document.getElementById('cfg-home-faq-bg-video').value.trim(),
+    themeTestimonialsBgImage:   document.getElementById('cfg-home-testimonials-bg-image').value.trim(),
+    themeTestimonialsBgVideo:   document.getElementById('cfg-home-testimonials-bg-video').value.trim(),
+    themeFooterBgImage:        document.getElementById('cfg-home-footer-bg-image').value.trim(),
+    themeFooterBgVideo:        document.getElementById('cfg-home-footer-bg-video').value.trim(),
 
     heroStats:      JSON.stringify(stats),
     sectionHowWorks: JSON.stringify({
@@ -640,9 +980,20 @@ function openPlanModal(plan) {
     document.getElementById('plan-cta-url-input').value = plan.ctaUrl || '';
     document.getElementById('plan-sort-order-input').value = plan.sortOrder || 1;
     document.getElementById('plan-popular-input').checked = !!plan.popular;
+
+    // CTA styling fields
+    const hasCustomCta = !!(plan.ctaBgColor || plan.ctaTextColor);
+    document.getElementById('plan-cta-use-custom-input').checked = hasCustomCta;
+    document.getElementById('plan-cta-bg-color-input').value = plan.ctaBgColor || '#000f22';
+    document.getElementById('plan-cta-text-color-input').value = plan.ctaTextColor || '#ffffff';
+    document.getElementById('plan-cta-format-input').value = plan.ctaFormat || 'default';
   } else {
     form.reset();
     document.getElementById('plan-sort-order-input').value = _plansList.length + 1;
+    document.getElementById('plan-cta-use-custom-input').checked = false;
+    document.getElementById('plan-cta-bg-color-input').value = '#000f22';
+    document.getElementById('plan-cta-text-color-input').value = '#ffffff';
+    document.getElementById('plan-cta-format-input').value = 'default';
   }
 
   modal.classList.add('open');
@@ -668,6 +1019,8 @@ async function savePlan(e) {
   const featuresText = document.getElementById('plan-features-input').value;
   const features = featuresText.split('\n').map(f => f.trim()).filter(f => f.length > 0);
 
+  const useCustomCta = document.getElementById('plan-cta-use-custom-input').checked;
+
   const planData = {
     id: _editingPlanId || 'plan-' + Date.now(),
     name: document.getElementById('plan-name-input').value.trim(),
@@ -677,6 +1030,9 @@ async function savePlan(e) {
     features: features,
     ctaText: document.getElementById('plan-cta-text-input').value.trim() || 'Assinar',
     ctaUrl: document.getElementById('plan-cta-url-input').value.trim() || '#',
+    ctaBgColor: useCustomCta ? document.getElementById('plan-cta-bg-color-input').value : '',
+    ctaTextColor: useCustomCta ? document.getElementById('plan-cta-text-color-input').value : '',
+    ctaFormat: document.getElementById('plan-cta-format-input').value,
     sortOrder: parseInt(document.getElementById('plan-sort-order-input').value) || 1,
     popular: document.getElementById('plan-popular-input').checked
   };
@@ -736,15 +1092,40 @@ async function loadCmsBlogForm() {
   document.getElementById('cfg-blog-cta-title').value = cfg.blogCtaTitle || '';
   document.getElementById('cfg-blog-cta-sub').value = cfg.blogCtaSub || '';
   document.getElementById('cfg-blog-cta-btn').value = cfg.blogCtaBtnText || '';
+  
+  document.getElementById('cfg-blog-cta-url').value = cfg.blogCtaUrl || '';
+  const hasCustomBlogCta = !!(cfg.blogCtaBgColor || cfg.blogCtaTextColor);
+  document.getElementById('cfg-blog-cta-use-custom').checked = hasCustomBlogCta;
+  document.getElementById('cfg-blog-cta-bg-color').value = cfg.blogCtaBgColor || '#000f22';
+  document.getElementById('cfg-blog-cta-text-color').value = cfg.blogCtaTextColor || '#ffffff';
+  document.getElementById('cfg-blog-cta-format').value = cfg.blogCtaFormat || 'default';
 
-  // Leitura do Post (promocionais)
+  // Leitura do Post (promocionais) - Sidebar
   document.getElementById('cfg-post-side-title').value = cfg.postSidebarCtaTitle || '';
   document.getElementById('cfg-post-side-sub').value = cfg.postSidebarCtaSub || '';
   document.getElementById('cfg-post-side-btn').value = cfg.postSidebarCtaBtnText || '';
+  
+  document.getElementById('cfg-post-side-url').value = cfg.postSidebarCtaUrl || '';
+  const hasCustomPostSide = !!(cfg.postSidebarCtaBgColor || cfg.postSidebarCtaTextColor);
+  document.getElementById('cfg-post-side-use-custom').checked = hasCustomPostSide;
+  document.getElementById('cfg-post-side-bg-color').value = cfg.postSidebarCtaBgColor || '#000f22';
+  document.getElementById('cfg-post-side-text-color').value = cfg.postSidebarCtaTextColor || '#ffffff';
+  document.getElementById('cfg-post-side-format').value = cfg.postSidebarCtaFormat || 'default';
 
+  // Leitura do Post (promocionais) - Inline
   document.getElementById('cfg-post-inline-title').value = cfg.postInlineCtaTitle || '';
   document.getElementById('cfg-post-inline-sub').value = cfg.postInlineCtaSub || '';
   document.getElementById('cfg-post-inline-btn').value = cfg.postInlineCtaBtnText || '';
+  
+  document.getElementById('cfg-post-inline-url').value = cfg.postInlineCtaUrl || '';
+  const hasCustomPostInline = !!(cfg.postInlineCtaBgColor || cfg.postInlineCtaTextColor);
+  document.getElementById('cfg-post-inline-use-custom').checked = hasCustomPostInline;
+  document.getElementById('cfg-post-inline-bg-color').value = cfg.postInlineCtaBgColor || '#000f22';
+  document.getElementById('cfg-post-inline-text-color').value = cfg.postInlineCtaTextColor || '#ffffff';
+  document.getElementById('cfg-post-inline-format').value = cfg.postInlineCtaFormat || 'default';
+
+  // Configurações de Anúncios (Ads)
+  document.getElementById('cfg-google-ad-client').value = cfg.googleAdClient || '';
 }
 
 async function saveCmsBlogForm(e) {
@@ -754,6 +1135,10 @@ async function saveCmsBlogForm(e) {
   btn.disabled = true;
   btn.textContent = 'Salvando...';
 
+  const useCustomBlogCta = document.getElementById('cfg-blog-cta-use-custom').checked;
+  const useCustomPostSide = document.getElementById('cfg-post-side-use-custom').checked;
+  const useCustomPostInline = document.getElementById('cfg-post-inline-use-custom').checked;
+
   const updated = {
     blogHeroEyebrow:      document.getElementById('cfg-blog-eyebrow').value.trim(),
     blogHeroTitle:        document.getElementById('cfg-blog-title').value.trim(),
@@ -761,14 +1146,29 @@ async function saveCmsBlogForm(e) {
     blogCtaTitle:         document.getElementById('cfg-blog-cta-title').value.trim(),
     blogCtaSub:           document.getElementById('cfg-blog-cta-sub').value.trim(),
     blogCtaBtnText:       document.getElementById('cfg-blog-cta-btn').value.trim(),
+    blogCtaUrl:           document.getElementById('cfg-blog-cta-url').value.trim(),
+    blogCtaBgColor:       useCustomBlogCta ? document.getElementById('cfg-blog-cta-bg-color').value : '',
+    blogCtaTextColor:     useCustomBlogCta ? document.getElementById('cfg-blog-cta-text-color').value : '',
+    blogCtaFormat:        document.getElementById('cfg-blog-cta-format').value,
 
     postSidebarCtaTitle:   document.getElementById('cfg-post-side-title').value.trim(),
     postSidebarCtaSub:     document.getElementById('cfg-post-side-sub').value.trim(),
     postSidebarCtaBtnText: document.getElementById('cfg-post-side-btn').value.trim(),
+    postSidebarCtaUrl:     document.getElementById('cfg-post-side-url').value.trim(),
+    postSidebarCtaBgColor: useCustomPostSide ? document.getElementById('cfg-post-side-bg-color').value : '',
+    postSidebarCtaTextColor: useCustomPostSide ? document.getElementById('cfg-post-side-text-color').value : '',
+    postSidebarCtaFormat:  document.getElementById('cfg-post-side-format').value,
 
     postInlineCtaTitle:   document.getElementById('cfg-post-inline-title').value.trim(),
     postInlineCtaSub:     document.getElementById('cfg-post-inline-sub').value.trim(),
     postInlineCtaBtnText: document.getElementById('cfg-post-inline-btn').value.trim(),
+    postInlineCtaUrl:     document.getElementById('cfg-post-inline-url').value.trim(),
+    postInlineCtaBgColor: useCustomPostInline ? document.getElementById('cfg-post-inline-bg-color').value : '',
+    postInlineCtaTextColor: useCustomPostInline ? document.getElementById('cfg-post-inline-text-color').value : '',
+    postInlineCtaFormat:  document.getElementById('cfg-post-inline-format').value,
+
+    // Configurações de Ads no Blog
+    googleAdClient: document.getElementById('cfg-google-ad-client').value.trim()
   };
 
   try {
@@ -783,6 +1183,258 @@ async function saveCmsBlogForm(e) {
     btn.textContent = originalText;
   }
 }
+
+
+/* ── Gerenciador de Campanhas de Ads (CRUD) ── */
+
+async function loadCampaigns() {
+  const container = document.getElementById('campaigns-list');
+  if (!container) return;
+
+  container.innerHTML = `<div class="posts-loading"><div class="spinner"></div><p>Carregando campanhas...</p></div>`;
+
+  const cfg = await getConfig();
+  try {
+    _campaignsList = typeof cfg.blogAdCampaigns === 'string' ? JSON.parse(cfg.blogAdCampaigns) : (cfg.blogAdCampaigns || []);
+  } catch {
+    _campaignsList = [];
+  }
+
+  // Ordena as campanhas por ordem crescente de sortOrder
+  _campaignsList.sort((a, b) => (a.sortOrder || 99) - (b.sortOrder || 99));
+
+  if (!_campaignsList.length) {
+    container.innerHTML = `
+      <div style="text-align:center;padding:3rem;color:var(--text-muted)">
+        <div style="font-size:2.5rem;margin-bottom:1rem">🎯</div>
+        <p style="font-weight:600">Nenhum anúncio cadastrado</p>
+        <p style="font-size:.875rem;margin-top:.5rem">Clique em "Novo Anúncio" para começar.</p>
+      </div>`;
+    return;
+  }
+
+  const slotNames = {
+    grid: 'Grid (Entre Posts)',
+    sidebar: 'Lateral (Artigo)',
+    inline: 'Meio (Artigo)'
+  };
+
+  const typeNames = {
+    custom: 'Banner Customizado',
+    google: 'Google AdSense'
+  };
+
+  container.innerHTML = _campaignsList.map(ad => {
+    const validityText = (ad.startDate || ad.endDate)
+      ? `${ad.startDate ? formatDate(ad.startDate) : 'S/I'} até ${ad.endDate ? formatDate(ad.endDate) : 'S/F'}`
+      : 'Sempre ativo';
+    
+    // Botão de ativação rápida diretamente na linha
+    const statusBtn = ad.active 
+      ? `<button class="btn btn-sm" type="button" style="background:rgba(16,185,129,0.1);color:var(--green);border:1px solid var(--green)" onclick="toggleCampaignActive('${ad.id}')">🟢 ATIVO</button>`
+      : `<button class="btn btn-sm btn-outline" type="button" style="color:var(--text-muted);border:1px solid var(--outline)" onclick="toggleCampaignActive('${ad.id}')">🔴 INATIVO</button>`;
+
+    // Badge se houver artigo alvo específico
+    const targetText = (ad.targetPost && ad.targetPost !== 'all')
+      ? `<span style="background:var(--primary-muted);color:var(--accent);padding:2px 8px;border-radius:4px;font-size:0.75rem;font-weight:700">Artigo: ${ad.targetPost}</span>`
+      : '';
+
+    return `
+      <div class="post-admin-item" data-id="${ad.id}">
+        <div class="post-admin-cover" style="font-size:1.5rem;text-align:center;line-height:48px;background:rgba(255,255,255,0.05)">
+          🎯
+        </div>
+        <div class="post-admin-info">
+          <div class="post-admin-title" style="display:flex;align-items:center;gap:0.75rem">
+            <span>${ad.name}</span>
+            ${targetText}
+          </div>
+          <div class="post-admin-meta">
+            Espaço: <strong>${slotNames[ad.slot] || ad.slot}</strong> &nbsp;·&nbsp; Tipo: <strong>${typeNames[ad.type] || ad.type}</strong> &nbsp;·&nbsp; Ordem: <strong>${ad.sortOrder || 1}</strong> &nbsp;·&nbsp; Validade: ${validityText}
+          </div>
+        </div>
+        <div class="post-admin-actions" style="display:flex;align-items:center;gap:0.5rem">
+          ${statusBtn}
+          <button class="btn btn-sm btn-outline" type="button" onclick="openCampaignModalById('${ad.id}')">✏️ Editar</button>
+          <button class="btn btn-sm btn-outline" type="button" style="border-color:var(--outline)" onclick="duplicateCampaign('${ad.id}')" title="Duplicar">📋 Duplicar</button>
+          <button class="btn btn-sm" type="button" style="background:rgba(186,26,26,.1);color:var(--error);border:1px solid var(--error)" onclick="confirmDeleteCampaign('${ad.id}')">🗑</button>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+async function openCampaignModal(ad) {
+  _editingCampaignId = ad ? ad.id : null;
+  const modal = document.getElementById('campaign-modal-overlay');
+  const title = document.getElementById('campaign-modal-title');
+  const form  = document.getElementById('campaign-form');
+
+  title.textContent = ad ? 'Editar Anúncio' : 'Novo Anúncio';
+
+  // Preenche dinamicamente o select de artigos alvo
+  const posts = await getPosts();
+  const select = document.getElementById('campaign-target-post-input');
+  if (select) {
+    select.innerHTML = `
+      <option value="all">Exibir em Todos os Artigos</option>
+      ${posts.map(p => `<option value="${p.slug}">Apenas em: ${p.title}</option>`).join('')}
+    `;
+  }
+
+  if (ad) {
+    document.getElementById('campaign-name-input').value = ad.name || '';
+    document.getElementById('campaign-slot-input').value = ad.slot || 'grid';
+    document.getElementById('campaign-type-input').value = ad.type || 'custom';
+    document.getElementById('campaign-slot-id-input').value = ad.googleSlot || '';
+    document.getElementById('campaign-img-input').value = ad.customImg || '';
+    document.getElementById('campaign-link-input').value = ad.customLink || '';
+    document.getElementById('campaign-sort-order-input').value = ad.sortOrder || 1;
+    document.getElementById('campaign-target-post-input').value = ad.targetPost || 'all';
+    document.getElementById('campaign-start-date-input').value = ad.startDate || '';
+    document.getElementById('campaign-end-date-input').value = ad.endDate || '';
+    document.getElementById('campaign-active-input').checked = ad.active !== false;
+  } else {
+    form.reset();
+    document.getElementById('campaign-sort-order-input').value = _campaignsList.length + 1;
+    document.getElementById('campaign-target-post-input').value = 'all';
+    document.getElementById('campaign-active-input').checked = true;
+  }
+
+  // Trigger select change to update fields visibility
+  const typeInput = document.getElementById('campaign-type-input');
+  typeInput.dispatchEvent(new Event('change'));
+
+  modal.classList.add('open');
+}
+
+window.openCampaignModalById = function(id) {
+  const ad = _campaignsList.find(c => c.id === id);
+  if (ad) openCampaignModal(ad);
+};
+
+function closeCampaignModal() {
+  document.getElementById('campaign-modal-overlay').classList.remove('open');
+  _editingCampaignId = null;
+}
+
+async function saveCampaign(e) {
+  e.preventDefault();
+  const btn = e.target.querySelector('[type=submit]');
+  const originalText = btn.textContent;
+  btn.disabled = true;
+  btn.textContent = 'Salvando...';
+
+  const type = document.getElementById('campaign-type-input').value;
+  const isGoogle = type === 'google';
+
+  const adData = {
+    id: _editingCampaignId || 'ad-' + Date.now(),
+    name: document.getElementById('campaign-name-input').value.trim(),
+    slot: document.getElementById('campaign-slot-input').value,
+    type: type,
+    googleSlot: isGoogle ? document.getElementById('campaign-slot-id-input').value.trim() : '',
+    customImg: !isGoogle ? document.getElementById('campaign-img-input').value.trim() : '',
+    customLink: !isGoogle ? document.getElementById('campaign-link-input').value.trim() : '',
+    sortOrder: parseInt(document.getElementById('campaign-sort-order-input').value) || 1,
+    targetPost: document.getElementById('campaign-target-post-input').value,
+    startDate: document.getElementById('campaign-start-date-input').value,
+    endDate: document.getElementById('campaign-end-date-input').value,
+    active: document.getElementById('campaign-active-input').checked
+  };
+
+  const existingIdx = _campaignsList.findIndex(c => c.id === adData.id);
+  if (existingIdx !== -1) {
+    _campaignsList[existingIdx] = adData;
+  } else {
+    _campaignsList.push(adData);
+  }
+
+  try {
+    await saveConfig({ blogAdCampaigns: JSON.stringify(_campaignsList) });
+    clearConfigCache();
+    triggerDeployWebhook();
+    closeCampaignModal();
+    await loadCampaigns();
+    showToast(_editingCampaignId ? '✅ Anúncio atualizado!' : '✅ Novo anúncio criado!', 'success');
+  } catch (err) {
+    showToast('❌ Erro ao salvar anúncio: ' + err.message, 'error');
+  } finally {
+    btn.disabled = false;
+    btn.textContent = originalText;
+  }
+}
+
+window.toggleCampaignActive = async function(id) {
+  const ad = _campaignsList.find(c => c.id === id);
+  if (!ad) return;
+
+  ad.active = !ad.active;
+
+  try {
+    await saveConfig({ blogAdCampaigns: JSON.stringify(_campaignsList) });
+    clearConfigCache();
+    triggerDeployWebhook();
+    await loadCampaigns();
+    showToast(ad.active ? '🟢 Anúncio ativado com sucesso!' : '🔴 Anúncio desativado com sucesso!', 'success');
+  } catch (err) {
+    showToast('❌ Erro ao alterar status: ' + err.message, 'error');
+  }
+};
+
+window.duplicateCampaign = async function(id) {
+  const ad = _campaignsList.find(c => c.id === id);
+  if (!ad) return;
+
+  // Nomeia com sufixo numérico: "Banner A" → "Banner A 2", "Banner A 2" → "Banner A 3" etc.
+  const baseName = ad.name.replace(/\s+\d+$/, '').trim(); // Remove número existente no final
+  const siblingNums = _campaignsList
+    .filter(c => c.name === baseName || c.name.match(new RegExp('^' + baseName.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '\\s+\\d+$')))
+    .map(c => {
+      const m = c.name.match(/(\d+)$/);
+      return m ? parseInt(m[1]) : 1;
+    });
+  const nextNum = (siblingNums.length > 0 ? Math.max(...siblingNums) : 1) + 1;
+  const newName = baseName + ' ' + nextNum;
+
+  // sortOrder único: pega o maior existente + 1
+  const maxOrder = _campaignsList.reduce((m, c) => Math.max(m, c.sortOrder || 0), 0);
+
+  const clone = {
+    ...ad,
+    id: 'ad-' + Date.now(),
+    name: newName,
+    sortOrder: maxOrder + 1,
+    active: false
+  };
+
+  _campaignsList.push(clone);
+
+  try {
+    await saveConfig({ blogAdCampaigns: JSON.stringify(_campaignsList) });
+    clearConfigCache();
+    triggerDeployWebhook();
+    await loadCampaigns();
+    showToast(`📋 "${newName}" criado! (Inativo — ative quando estiver pronto)`, 'success');
+  } catch (err) {
+    showToast('❌ Erro ao duplicar: ' + err.message, 'error');
+  }
+};
+
+window.confirmDeleteCampaign = async function(id) {
+  if (!confirm('Tem certeza que deseja remover esta campanha de anúncio?')) return;
+
+  _campaignsList = _campaignsList.filter(c => c.id !== id);
+  try {
+    await saveConfig({ blogAdCampaigns: JSON.stringify(_campaignsList) });
+    clearConfigCache();
+    triggerDeployWebhook();
+    await loadCampaigns();
+    showToast('🗑️ Campanha de anúncio removida.', 'success');
+  } catch (err) {
+    showToast('❌ Erro ao remover anúncio: ' + err.message, 'error');
+  }
+};
 
 
 /* ── 5. GERENCIAR POSTS (CRUD) ── */
@@ -1056,3 +1708,91 @@ async function triggerDeployWebhook() {
     console.error('[Webhook] Erro ao buscar configuração do webhook:', err);
   }
 }
+
+/* ── Subtabs e EmojiPicker ── */
+
+function setupSubtabs() {
+  document.querySelectorAll('.admin-subtab-btn[data-subtab]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const parent = btn.closest('.admin-section');
+      parent.querySelectorAll('.admin-subtab-btn').forEach(b => b.classList.remove('active'));
+      parent.querySelectorAll('.admin-subcard').forEach(c => c.classList.remove('active'));
+      
+      btn.classList.add('active');
+      const targetId = btn.dataset.subtab;
+      const targetCard = document.getElementById(targetId);
+      if (targetCard) targetCard.classList.add('active');
+    });
+  });
+}
+
+const EmojiPicker = {
+  activeInput: null,
+  popover: null,
+  emojis: [
+    '📄','📋','🤝','🏠','🏢','🚗','💼','💑','📜','🏡','🛠️','👔','🤲','➕',
+    '🔑','🔐','🔓','⚖️','💳','📈','🔒','📱','🎯','⚡','📖','✨','📁','💬',
+    '❓','👣','📧','🔍','💡','💻','📅','⏱️','👤','💰','✉️','✏️','🗑️','⚙️',
+    '👑','🏆','⭐','✅','❌','📚','🖊️','🖋️','🏛️','🌍','🔔','📦','📤','📥'
+  ],
+  init() {
+    document.addEventListener('focusin', (e) => {
+      const target = e.target;
+      if (target && target.matches && target.matches('.step-icon, .feat-icon, .doc-emoji')) {
+        this.show(target);
+      }
+    });
+
+    document.addEventListener('mousedown', (e) => {
+      if (this.popover && !this.popover.contains(e.target) && e.target !== this.activeInput) {
+        this.hide();
+      }
+    });
+  },
+  show(input) {
+    this.activeInput = input;
+    if (!this.popover) {
+      this.popover = document.createElement('div');
+      this.popover.className = 'emoji-picker-popover';
+      this.popover.innerHTML = this.emojis.map(emoji => `
+        <button type="button" class="emoji-picker-btn" data-emoji="${emoji}">${emoji}</button>
+      `).join('');
+
+      this.popover.addEventListener('click', (e) => {
+        const btn = e.target.closest('.emoji-picker-btn');
+        if (btn && this.activeInput) {
+          const emoji = btn.dataset.emoji;
+          this.activeInput.value = emoji;
+          this.activeInput.dispatchEvent(new Event('input', { bubbles: true }));
+          this.activeInput.dispatchEvent(new Event('change', { bubbles: true }));
+          this.hide();
+        }
+      });
+    }
+
+    document.body.appendChild(this.popover);
+    
+    const rect = input.getBoundingClientRect();
+    const scrollX = window.scrollX;
+    const scrollY = window.scrollY;
+
+    let top = rect.bottom + scrollY + 5;
+    let left = rect.left + scrollX;
+
+    if (left + 280 > window.innerWidth) {
+      left = window.innerWidth - 290;
+    }
+    if (rect.bottom + 220 > window.innerHeight) {
+      top = rect.top + scrollY - 225;
+    }
+
+    this.popover.style.top = `${top}px`;
+    this.popover.style.left = `${left}px`;
+  },
+  hide() {
+    if (this.popover && this.popover.parentNode) {
+      this.popover.parentNode.removeChild(this.popover);
+    }
+    this.activeInput = null;
+  }
+};
