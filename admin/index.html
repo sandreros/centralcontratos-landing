@@ -39,6 +39,11 @@
       margin: 0 auto .75rem;
     }
     @keyframes spin { to { transform: rotate(360deg); } }
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(20px) scale(.97); }
+      to   { opacity: 1; transform: translateY(0)    scale(1);   }
+    }
+
 
     #admin-loading {
       position: fixed; inset: 0;
@@ -1641,7 +1646,35 @@
 </div>
 
 
-<!-- Supabase CDN -->
+<!-- MODAL: AVISO DE INATIVIDADE -->
+<div id="inactivity-modal" style="display:none;position:fixed;inset:0;z-index:99999;background:rgba(0,0,0,.7);backdrop-filter:blur(6px);align-items:center;justify-content:center;flex-direction:column;gap:0">
+  <div style="background:#050d18;border:1px solid #132742;border-radius:1.25rem;padding:2.5rem 2rem;max-width:400px;width:90%;text-align:center;box-shadow:0 24px 64px rgba(0,0,0,.6);animation:fadeInUp .3s ease">
+    <div style="font-size:3rem;margin-bottom:1rem">⏱️</div>
+    <h2 style="color:#f7f9fb;font-size:1.375rem;margin-bottom:.625rem">Ainda está aí?</h2>
+    <p style="color:#8fa0b5;font-size:.9375rem;margin-bottom:1.5rem;line-height:1.6">
+      Por segurança, você será deslogado automaticamente em
+    </p>
+    <div style="font-size:3.5rem;font-weight:800;color:#EDB83D;letter-spacing:.05em;margin-bottom:1.5rem;font-variant-numeric:tabular-nums" id="inactivity-countdown">5:00</div>
+    <div style="display:flex;gap:.75rem;justify-content:center">
+      <button
+        onclick="inactivityReset()"
+        class="btn btn-primary"
+        style="flex:1;max-width:180px"
+      >
+        ✅ Continuar
+      </button>
+      <button
+        onclick="handleLogout()"
+        class="btn btn-outline"
+        style="flex:1;max-width:180px;color:#8fa0b5;border-color:#132742"
+      >
+        Sair agora
+      </button>
+    </div>
+  </div>
+</div>
+
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <script src="../js/supabase-config.js"></script>
 <script src="../js/supabase.js"></script>

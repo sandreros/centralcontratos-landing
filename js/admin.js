@@ -328,14 +328,95 @@ async function handleLogin(e) {
 }
 
 async function handleLogout() {
+  inactivityStop();
   await sbSignOut();
   location.reload();
+}
+
+/* ── Auto-Logout por Inatividade ───────────────────────────────── */
+
+const INACTIVITY_TIMEOUT_MS = 30 * 60 * 1000; // 30 minutos
+const INACTIVITY_WARN_MS    =  5 * 60 * 1000; // avisa 5 min antes
+
+let _inactivityTimer  = null;
+let _inactivityWarn   = null;
+let _countdownTimer   = null;
+let _inactivityActive = false;
+
+/** Reinicia o timer a cada interação do usuário */
+function inactivityReset() {
+  if (!_inactivityActive) return;
+
+  // Fecha o aviso se estiver aberto (usuário voltou a tempo)
+  const modal = document.getElementById('inactivity-modal');
+  if (modal && modal.style.display !== 'none') {
+    modal.style.display = 'none';
+    clearInterval(_countdownTimer);
+  }
+
+  clearTimeout(_inactivityTimer);
+  clearTimeout(_inactivityWarn);
+
+  // Agenda aviso
+  _inactivityWarn = setTimeout(() => {
+    inactivityShowWarning();
+  }, INACTIVITY_TIMEOUT_MS - INACTIVITY_WARN_MS);
+
+  // Agenda logout
+  _inactivityTimer = setTimeout(async () => {
+    inactivityStop();
+    await sbSignOut();
+    location.reload();
+  }, INACTIVITY_TIMEOUT_MS);
+}
+
+/** Exibe o modal de aviso com contagem regressiva */
+function inactivityShowWarning() {
+  const modal = document.getElementById('inactivity-modal');
+  if (!modal) return;
+  modal.style.display = 'flex';
+
+  let secs = Math.floor(INACTIVITY_WARN_MS / 1000);
+  const countEl = document.getElementById('inactivity-countdown');
+  const updateCount = () => {
+    const m = Math.floor(secs / 60);
+    const s = secs % 60;
+    if (countEl) countEl.textContent = `${m}:${String(s).padStart(2, '0')}`;
+  };
+  updateCount();
+
+  clearInterval(_countdownTimer);
+  _countdownTimer = setInterval(() => {
+    secs--;
+    updateCount();
+    if (secs <= 0) clearInterval(_countdownTimer);
+  }, 1000);
+}
+
+/** Inicia o monitoramento de inatividade */
+function inactivityStart() {
+  _inactivityActive = true;
+  const events = ['mousemove', 'mousedown', 'keydown', 'touchstart', 'scroll', 'click'];
+  events.forEach(evt => document.addEventListener(evt, inactivityReset, { passive: true }));
+  inactivityReset();
+  console.log('[Admin] Auto-logout por inatividade ativado (30 min).');
+}
+
+/** Para o monitoramento */
+function inactivityStop() {
+  _inactivityActive = false;
+  clearTimeout(_inactivityTimer);
+  clearTimeout(_inactivityWarn);
+  clearInterval(_countdownTimer);
+  const events = ['mousemove', 'mousedown', 'keydown', 'touchstart', 'scroll', 'click'];
+  events.forEach(evt => document.removeEventListener(evt, inactivityReset));
 }
 
 function showPanel() {
   document.getElementById('admin-login').style.display = 'none';
   document.getElementById('admin-loading').style.display = 'none';
   document.getElementById('admin-main').style.display  = 'flex';
+  inactivityStart();
   initPanel();
 }
 
