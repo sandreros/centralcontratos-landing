@@ -260,6 +260,20 @@ function showLogin() {
   document.getElementById('admin-main').style.display  = 'none';
   document.getElementById('admin-loading').style.display = 'none';
 
+  // Diagnóstico de conexão Supabase — aparece abaixo do botão
+  const sbOk = (typeof SUPABASE_URL !== 'undefined' && SUPABASE_URL && !SUPABASE_URL.includes('SEU-PROJETO'));
+  const diagEl = document.getElementById('login-supabase-diag');
+  if (diagEl) {
+    if (sbOk) {
+      const shortUrl = SUPABASE_URL.replace('https://', '').split('.')[0];
+      diagEl.innerHTML = `🟢 Supabase conectado <code style="font-size:.7rem;opacity:.6">${shortUrl}</code>`;
+      diagEl.style.color = '#4caf50';
+    } else {
+      diagEl.innerHTML = '🔴 Supabase <strong>NÃO configurado</strong> — variáveis de ambiente ausentes.';
+      diagEl.style.color = '#f44336';
+    }
+  }
+
   document.getElementById('login-form').addEventListener('submit', handleLogin, { once: true });
 }
 
@@ -274,13 +288,37 @@ async function handleLogin(e) {
   btn.disabled = true;
   btn.textContent = 'Entrando...';
 
+  // Verifica se o cliente Supabase foi inicializado
+  if (typeof SUPABASE_URL === 'undefined' || !SUPABASE_URL || SUPABASE_URL.includes('SEU-PROJETO')) {
+    btn.disabled = false;
+    btn.textContent = 'Entrar →';
+    errorEl.innerHTML = '⚠️ Supabase não configurado.<br><small style="font-weight:400">Adicione SUPABASE_URL e SUPABASE_ANON_KEY nas variáveis de ambiente do Vercel e faça um novo deploy.</small>';
+    errorEl.style.display = 'block';
+    document.getElementById('login-form').addEventListener('submit', handleLogin, { once: true });
+    return;
+  }
+
   const { error } = await sbSignIn(email, password);
 
   btn.disabled = false;
   btn.textContent = 'Entrar →';
 
   if (error) {
-    errorEl.textContent = 'E-mail ou senha incorretos. Tente novamente.';
+    console.error('[Admin Login] Erro do Supabase:', error);
+    // Mostra o erro real para facilitar diagnóstico
+    let msg = 'E-mail ou senha incorretos. Tente novamente.';
+    if (error.message) {
+      if (error.message.includes('Invalid login credentials')) {
+        msg = 'Credenciais inválidas. Verifique o e-mail e a senha.';
+      } else if (error.message.includes('Email not confirmed')) {
+        msg = 'E-mail não confirmado. Confirme o e-mail no Supabase → Authentication → Users → clique no usuário → "Send confirmation email".';
+      } else if (error.message.includes('fetch') || error.message.includes('network') || error.message.includes('Failed')) {
+        msg = '❌ Erro de rede ao conectar ao Supabase. Verifique se a URL e a chave estão corretas nas variáveis de ambiente.';
+      } else {
+        msg = `Erro: ${error.message}`;
+      }
+    }
+    errorEl.innerHTML = msg;
     errorEl.style.display = 'block';
     document.getElementById('login-form').addEventListener('submit', handleLogin, { once: true });
     return;
