@@ -3,8 +3,9 @@
 # .gitignore
 # ─────────────────────────────────────────────────────────────────
 
-# ⚠️  Credenciais do Supabase — NUNCA commitar este arquivo
-js/supabase-config.js
+# ℹ️  supabase-config.js contém apenas a ANON KEY (pública por design).
+#    A segurança dos dados é feita pelo Row Level Security (RLS) do Supabase.
+#    Nunca commite a SERVICE ROLE KEY.
 
 # Sistemas operacionais
 .DS_Store
