@@ -335,8 +335,8 @@ async function handleLogout() {
 
 /* ── Auto-Logout por Inatividade ───────────────────────────────── */
 
-const INACTIVITY_TIMEOUT_MS = 30 * 60 * 1000; // 30 minutos
-const INACTIVITY_WARN_MS    =  5 * 60 * 1000; // avisa 5 min antes
+const INACTIVITY_TIMEOUT_MS = 15 * 60 * 1000; // 15 minutos
+const INACTIVITY_WARN_MS    =  2 * 60 * 1000; // avisa 2 min antes
 
 let _inactivityTimer  = null;
 let _inactivityWarn   = null;
@@ -399,7 +399,7 @@ function inactivityStart() {
   const events = ['mousemove', 'mousedown', 'keydown', 'touchstart', 'scroll', 'click'];
   events.forEach(evt => document.addEventListener(evt, inactivityReset, { passive: true }));
   inactivityReset();
-  console.log('[Admin] Auto-logout por inatividade ativado (30 min).');
+  console.log('[Admin] Auto-logout por inatividade ativado (15 min).');
 }
 
 /** Para o monitoramento */
